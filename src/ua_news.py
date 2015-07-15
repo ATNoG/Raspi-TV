@@ -10,6 +10,6 @@ def deti_news():
 
     return feed_object
 
-    
+
 if __name__ == '__main__':
     deti_news()

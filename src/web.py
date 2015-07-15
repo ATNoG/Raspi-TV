@@ -1,4 +1,4 @@
-#encoding=utf-8
+# encoding=utf-8
 
 import cherrypy
 import os
@@ -7,7 +7,6 @@ from idp import Login
 
 
 class Root:
-
     def __init__(self):
         self.idp = Login()
         self.api = Api()

@@ -1,26 +1,20 @@
 import cherrypy
 import json
-from md5 import md5
+import Crypto.Hash
+import sqlite3 as sql
 
 
-class Login :
+class Login:
+    def __init__(self):
+        self.conn = sql.connect('../db/raspi-tv.sqlite')
+        self.c = self.conn.cursor()
 
-    users=["Diogo","Daniela","Ricardo","Pedro"]
-    def get_users(self):
-        #db =
-        #curs = db.cursor()
-        #curs.execute('select username,password from users')
-        #return dict(curs.fetchall())
-        pass
+    def encrypt_password(self, password):
+        return Crypto.Hash.SHA256.new(password).hexdigest()
 
-    def encrypt_password(pw):
-        return md5(pw).hexdigest()
-
-    def check_credentials(self,user,pw):
-        if user in self.users and pw!=None:
-            return True
-        else:
-            return False
+    def check_credentials(self, user, password):
+        password = self.encrypt_password(password)
+        return self.c.execute('SELECT COUNT(*) FROM Users WHERE UserId=? AND Password=?', (user, password)).fetchone()[0]
 
     @cherrypy.expose
     def index(self):
@@ -29,11 +23,11 @@ class Login :
     @cherrypy.expose
     @cherrypy.tools.allow(methods=['POST'])
     def login(self, user, pw):
-        if  self.check_credentials(user,pw):
-            #cherrypy.session[SESSION_KEY] = cherrypy.request.login = user
-            response = {'status': 200, 'response': 'Wellcome','location':'/admin'}
+        if self.check_credentials(user, pw):
+            # cherrypy.session[SESSION_KEY] = cherrypy.request.login = user
+            response = {'status': 200, 'response': 'Welcome', 'location': '/admin'}
         else:
-            response = {'status': 400, 'response': 'Wrong Username','location':'/idp'}
+            response = {'status': 400, 'response': 'Wrong Username', 'location': '/idp'}
 
         return json.dumps(response)
 
