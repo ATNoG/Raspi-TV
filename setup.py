@@ -34,6 +34,7 @@ def create(action):
             user = ask('Username: ')
             while db.execute('SELECT COUNT(*) FROM Users WHERE UserId=?', (user,)).fetchone()[0]:
                 print('User already exists. Please try again.')
+                user = ask('Username: ')
             password = ''
             while True:
                 password = ask('Password: ')
