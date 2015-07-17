@@ -6,7 +6,7 @@ import sqlite3 as sql
 
 class Login:
     def __init__(self):
-        self.db = sql.connect('../db/raspi-tv.sqlite')
+        self.db = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
 
     def encrypt_password(self, password):
         # return SHA256.new(password).hexdigest()
