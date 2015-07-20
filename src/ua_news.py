@@ -9,11 +9,11 @@ def deti_news():
     news = {"title": feed_content.feed.title, "news": []}
 
     for entry in feed_content.entries:
+        print entry["author"]
         news["news"] += [{"author": entry.author,
                           "summary": entry.summary,
                           "title": entry.title,
                           "date": str(entry.updated)}]
-
 
     return news
 

@@ -8,11 +8,10 @@ $(document).ready(function(){
 
     function get_news_success(data){
 		for(var j=0; j<data.content.news.length; j++) {
-			queue.push({'type' : 'noticia' , 'content' : data.feed.news[j]});
-			console.log(data.feed.news[j]);
+			queue.push({'type' : 'noticia' , 'content' : data.content.news[j]});
 		}
 
-		//explode();
+		explode();
     }
 
     var explode = function(){
@@ -21,14 +20,12 @@ $(document).ready(function(){
 		}else{
 			$("#content").hide().html(queue[i].content.title + queue[i].content.date + queue[i].content.author + queue[i].content.summary).fadeIn('slow');
 			}
-		}
 		console.log(i);
 		i = (i+1);
 		if (i==queue.length) {
 			i = 0;
 		}
 		setTimeout(explode, 20000);
-
 	};
 
 	get_news();
