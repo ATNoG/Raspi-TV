@@ -13,16 +13,12 @@ class Root:
 
     @cherrypy.expose
     def index(self):
-        return open("static/html/index.html", "r").read()
+        return open('static/index.html', 'r').read()
 
     @cherrypy.expose
     def admin(self):
-        return open("static/html/admin.html", "r").read()
+        return open('static/admin.html', 'r').read()
 
 
 if __name__ == '__main__':
-    conf = {'/static': {'tools.staticdir.on': True,
-                        'tools.staticdir.dir': os.path.realpath("static")}}
-
-    cherrypy.tree.mount(Root(), "/", config=conf)
-    cherrypy.server.start()
+    cherrypy.quickstart(Root(), '/', 'app.config')

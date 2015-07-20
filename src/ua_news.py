@@ -2,6 +2,7 @@ import xmltodict
 import urllib2
 import feedparser
 
+
 def deti_news():
     # obter atraves do url
     feed_content = feedparser.parse('http://services.web.ua.pt/deti/news/')
@@ -16,6 +17,7 @@ def deti_news():
                           "date": str(entry.updated)}]
 
     return news
+
 
 if __name__ == '__main__':
     resp = deti_news()
