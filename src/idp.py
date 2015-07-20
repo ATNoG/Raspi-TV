@@ -9,10 +9,7 @@ class Login:
         self.db = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
 
     def encrypt_password(self, password):
-        # return SHA256.new(password).hexdigest()
-        sha256 = SHA256.new()
-        sha256 = sha256.update(password)
-        return sha256.hexdigest()
+        return SHA256.new(password).hexdigest()
 
     def check_credentials(self, user, password):
         password = self.encrypt_password(password)
