@@ -6,7 +6,17 @@ def deti_news():
     # obter atraves do url
     feed_content = feedparser.parse('http://services.web.ua.pt/deti/news/')
 
-    return feed_content
+    news = {"title": feed_content.feed.title, "news": []}
+
+    for entry in feed_content.entries:
+        news["news"] += [{"author": entry.author,
+                          "summary": entry.summary,
+                          "title": entry.title,
+                          "date": str(entry.updated)}]
+
+
+    return news
 
 if __name__ == '__main__':
-    deti_news()
+    resp = deti_news()
+    resp
