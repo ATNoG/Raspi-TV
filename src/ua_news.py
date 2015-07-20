@@ -7,8 +7,9 @@ def deti_news():
     # fazer o parse do xml para um dicionario
     feed_object = xmltodict.parse(feed_content.read())
 
-    return feed_object
+    print feed_object
 
+    return feed_object
 
 if __name__ == '__main__':
     deti_news()

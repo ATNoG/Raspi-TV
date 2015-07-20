@@ -10,6 +10,9 @@ class Api:
         feed_news = deti_news()
         print feed_news
         news = {"title": feed_news["feed"]["title"], "news": []}
+        news = {}
+        news["title"] = feed_news["feed"]["title"]
+        news["news"] = []
 
         for entry in feed_news["feed"]["entry"]:
             news["news"] += [{"author": entry["author"],

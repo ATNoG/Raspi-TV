@@ -18,14 +18,7 @@ $(document).ready(function(){
 		if(queue[i].type=="video"){
 			$("#content").hide().html(queue[i]).fadeIn('slow');
 		}else{
-			console.log(queue[i]);
-			var teste = unescape(encodeURIComponent(queue[i].content.author));
-			if(queue[i].content.author.indexOf('iso') >= 0){
-				$("#content").hide().html(queue[i].content.title + queue[i].content.date + teste + queue[i].content.summary).fadeIn('slow').text();
-
-			}else{
 			$("#content").hide().html(queue[i].content.title + queue[i].content.date + queue[i].content.author + queue[i].content.summary).fadeIn('slow');
-
 			}
 		}
 		console.log(i);
