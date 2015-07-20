@@ -8,10 +8,11 @@ $(document).ready(function(){
 
     function get_news_success(data){
 		for(var j=0; j<data.content.news.length; j++) {
-			queue.push({'type' : 'noticia' , 'content' : data.content.news[j]});
+			queue.push({'type' : 'noticia' , 'content' : data.feed.news[j]});
+			console.log(data.feed.news[j]);
 		}
 
-		explode();
+		//explode();
     }
 
     var explode = function(){

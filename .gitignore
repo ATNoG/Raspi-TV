@@ -117,3 +117,5 @@ target/
 
 .DS_Store
 db/raspi-tv.sqlite
+
+environment
