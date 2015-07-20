@@ -1,7 +1,6 @@
 import xmltodict
 import urllib2
 
-
 def deti_news():
     # obter atraves do url
     feed_content = urllib2.urlopen('http://services.web.ua.pt/deti/news/')
