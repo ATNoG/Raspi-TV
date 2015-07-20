@@ -27,13 +27,13 @@ class Login:
 
     @cherrypy.expose
     def index(self):
-        return open("static/html/login.html", "r").read()
+        return open('static/login.html', 'r').read()
 
     @cherrypy.expose
     @cherrypy.tools.allow(methods=['POST'])
     def login(self, user, pw):
         if self.check_credentials(user, pw) == 1:
-            response = {'status': 200, 'response': 'Redirecting...', 'location': '/admin'}
+            response = {'status': 200, 'response': 'Redirecting...', 'location': '/admin.html'}
         elif self.check_credentials(user, pw) == 0:
             response = {'status': 400, 'response': 'Wrong Password', 'location': '/idp'}
         else:
