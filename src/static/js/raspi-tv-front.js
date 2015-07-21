@@ -28,5 +28,14 @@ $(document).ready(function(){
 		setTimeout(explode, 20000);
 	};
 
+	function get_weather(){
+        $.getJSON("/api/get_weather").then(get_weather_success);
+    };
+
+    function get_weather_success(data){
+    	console.log(data);
+    }
+
 	get_news();
+	get_weather();
 });
