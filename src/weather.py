@@ -13,12 +13,11 @@ def get_weather():
     # Search for current weather
     observation = owm.weather_at_place('Aveiro,pt')
     weather = observation.get_weather()
-    return {'weather': {"clouds": weather.get_clouds(),
-                        'wind': weather.get_wind(),
+    return {'weather': {'wind': weather.get_wind(),
                         'humidity': weather.get_humidity(),
                         'temperature': weather.get_temperature('celsius'),
-                        'rain': weather.get_rain(),
-                        'status': weather.get_status()
+                        # http://openweathermap.org/weather-conditions
+                        'weather_code': weather.get_weather_code()
                         }
             }
 

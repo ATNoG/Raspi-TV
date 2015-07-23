@@ -34,7 +34,10 @@ $(document).ready(function(){
 
     function get_weather_success(data){
     	console.log(data);
-    }
+    	if(data.content.weather.weather_code == 800){
+			$("#weather").html('<img src="img/img_met/sun.png" width="100%"/>');
+    	}
+    };
 
 	get_news();
 	get_weather();
