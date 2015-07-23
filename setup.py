@@ -1,20 +1,26 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
 import os
 import sys
 import sqlite3 as sql
 from Crypto.Hash import SHA256
 from subprocess import call
+import getpass
 
 db_path = 'db/'
 db_sql = db_path + 'raspi-tv.sql'
 db_sqlite = db_path + 'raspi-tv.sqlite'
 
 
-def ask(text):
+def ask(text, opt=0):
     answer = None
-    while not answer:
-        answer = raw_input(text)
+    if not opt:
+        while not answer:
+            answer = raw_input(text)
+    elif opt == 1:
+        while not answer:
+            answer = getpass.getpass(text)
     return answer
 
 
@@ -22,23 +28,35 @@ def sha256(data):
     return SHA256.new(data).hexdigest()
 
 
-def create(action):
-    assert len(action) == 1, 'Expecting only one argument.'
-    action = action[0]
-    actions = ['user', 'database']
-    if action in actions:
-        if action == actions[0]:
-            assert os.path.isfile(db_sqlite), 'SQLite database not yet created.\n' \
-                                              'Try executing: python setup.py create database'
+def verify_db():
+    assert os.path.isfile(db_sqlite), 'SQLite database not yet created.\n' \
+                                      'Try executing: python setup.py create database'
+
+
+def create(predicate):
+    available_actions = ['user', 'database']
+    assert len(predicate), 'Expecting a predicate:\n ' \
+                           '' + repr(available_actions)
+    action = predicate[0]
+    if action in available_actions:
+        if action == 'user':
+            verify_db()
             db = sql.connect(db_sqlite)
-            user = ask('Username: ')
+            user = ''
+            if len(predicate) == 2:
+                user = predicate[1]
+            elif len(predicate) > 2:
+                print(' '.join(predicate[1:]) + ' is not a valid username. Consider quoting it.', file=sys.stderr)
+                exit()
+            else:
+                user = ask('Username: ')
             while db.execute('SELECT COUNT(*) FROM Users WHERE UserId=?', (user,)).fetchone()[0]:
                 print('User already exists. Please try again.')
                 user = ask('Username: ')
             password = ''
             while True:
-                password = ask('Password: ')
-                if password == ask('Repeat the password: '):
+                password = ask('Password: ', opt=1)
+                if password == ask('Repeat the password: ', opt=1):
                     break
                 else:
                     print('Passwords don\' match. Please try again.')
@@ -49,11 +67,31 @@ def create(action):
             db.execute('INSERT INTO Users VALUES (?, ?, ?, ?, ?)', (user, password, first_name, last_name, email))
             db.commit()
             db.close()
-        elif action == actions[1]:
+        elif action == available_actions[1]:
             call('cat ' + db_sql + ' | sqlite3 ' + db_sqlite, shell=True)
 
 
+def delete(user):
+    verify_db()
+    if len(user) == 1:
+        user = user[0]
+    elif len(user) > 1:
+        print(user + ' is not a valid username. Consider quoting it.', file=sys.stderr)
+        exit()
+    else:
+        user = ask('Username: ')
+    conn = sql.connect(db_sqlite)
+    c = conn.cursor()
+    c.execute('DELETE FROM Users WHERE UserId=?', (user,))
+    if c.rowcount:
+        conn.commit()
+        conn.close()
+        print('Successfully deleted user: ' + user)
+    else:
+        print(user + ' was not found.', file=sys.stderr)
+
+
 if __name__ == '__main__':
-    functions = {'create': create}
+    functions = {'create': create, 'delete': delete}
     if sys.argv[1] in functions.keys():
         functions[sys.argv[1]](sys.argv[2:])
