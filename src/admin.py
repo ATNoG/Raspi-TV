@@ -35,8 +35,7 @@ class Create:
         date = datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")
         service = 'twitter'
         rtn = ''
-        if conn.execute('SELECT COUNT(*) FROM Accounts WHERE AccountId=? AND Service=?', (account, service)).fetchone()[
-            0]:
+        if conn.execute('SELECT COUNT(*) FROM Accounts WHERE AccountId=? AND Service=?', (account, service)).fetchone()[0]:
             rtn = 'Unsuccessful. Account already exists.'
         else:
             if conn.execute('SELECT COUNT(*) FROM Accounts WHERE Service=?', (service,)).fetchone()[0]:
@@ -44,3 +43,4 @@ class Create:
             conn.execute('INSERT INTO Accounts VALUES (?, ?, ?, ?, ?)', (account, token, date, note, service))
             conn.commit()
             rtn += 'Successful.'
+        return rtn
