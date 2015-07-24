@@ -28,9 +28,12 @@ def sha256(data):
     return SHA256.new(data).hexdigest()
 
 
-def verify_db():
-    assert os.path.isfile(db_sqlite), 'SQLite database not yet created.\n' \
-                                      'Try executing: python setup.py create database'
+def verify_db(rtn=False):
+    if not rtn:
+        assert os.path.isfile(db_sqlite), 'SQLite database not yet created.\n' \
+                                          'Try executing: python setup.py create database'
+    else:
+        return os.path.isfile(db_sqlite)
 
 
 def create(predicate):
@@ -39,7 +42,7 @@ def create(predicate):
                            '' + repr(available_actions)
     action = predicate[0]
     if action in available_actions:
-        if action == 'user':
+        if action == available_actions[0]:
             verify_db()
             db = sql.connect(db_sqlite)
             user = ''
@@ -68,6 +71,15 @@ def create(predicate):
             db.commit()
             db.close()
         elif action == available_actions[1]:
+            if verify_db(rtn=True):
+                print('This action will clear all the records currently on the database.')
+                print('Continue?', end=' ')
+                answer = ask('(Y/N) ').lower()
+                while answer != 'y' and answer != 'n':
+                    answer = ask('(Y/N) ').lower()
+                if answer == 'n':
+                    print('No changes were made.')
+                    exit(0)
             call('cat ' + db_sql + ' | sqlite3 ' + db_sqlite, shell=True)
 
 
@@ -77,7 +89,7 @@ def delete(user):
         user = user[0]
     elif len(user) > 1:
         print(user + ' is not a valid username. Consider quoting it.', file=sys.stderr)
-        exit()
+        exit(1)
     else:
         user = ask('Username: ')
     conn = sql.connect(db_sqlite)

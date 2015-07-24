@@ -17,6 +17,8 @@ CREATE TABLE [Users] (
 CREATE TABLE [Accounts] (
   [AccountId] TEXT PRIMARY KEY  NOT NULL, -- Account Id to authenticate with
   [AuthToken] TEXT              NOT NULL, -- Authentication Token used
+  [DateAdded] TEXT              NOT NULL, -- When account was added to the database
+  [Note]      TEXT              NOT NULL, -- Note on account
   [Service]   TEXT              NOT NULL   -- Name of the related service (e.g.: 'dropbox', 'twitter', ...)
 );
 
