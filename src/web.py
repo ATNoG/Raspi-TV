@@ -17,10 +17,6 @@ class Root:
     def index(self):
         return open('static/index.html', 'r').read()
 
-    @cherrypy.expose
-    def admin(self):
-        return open('static/admin.html', 'r').read()
-
 
 if __name__ == '__main__':
     cherrypy.quickstart(Root(), '/', 'app.conf')

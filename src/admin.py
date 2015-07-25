@@ -1,15 +1,22 @@
-import cherrypy
 import datetime
 import sqlite3 as sql
 import json
+
+import cherrypy
+
+from auth import member_of
 
 conn = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
 
 
 class Admin:
-    def __init__(self):
-        self.create = Create()
-        self.get = Get()
+    # def __init__(self):
+    #     self.create = Create()
+    #     self.get = Get()
+
+    _cp_config = {
+        'auth.require': [member_of('admin')]
+    }
 
     @cherrypy.expose
     def index(self):
