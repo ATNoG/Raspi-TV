@@ -1,25 +1,20 @@
-import cherrypy
 import datetime
 import sqlite3 as sql
 import json
 import dropbox_conn
 
+import cherrypy
+
+from auth import require
+
 conn = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
 
 
+@require()
 class Admin:
     def __init__(self):
         self.create = Create()
         self.get = Get()
-
-    @cherrypy.expose
-    def index(self):
-        return open('static/admin/index.html').read()
-
-    @cherrypy.expose
-    def logout(self):
-        self.create = None
-        self.get = None
 
 
 class Create:
