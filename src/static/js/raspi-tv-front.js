@@ -18,7 +18,7 @@ $(document).ready(function(){
 		if(queue[i].type=="video"){
 			$("#content").hide().html(queue[i]).fadeIn('slow');
 		}else{
-			$("#content").hide().html(queue[i].content.title + queue[i].content.date + queue[i].content.author + queue[i].content.summary).fadeIn('slow');
+			$("#content").hide().html('<h1 style="color:#003399">' + queue[i].content.title + '</h1>' + '<span style="color:#003399">' + queue[i].content.date + '</span>' + '<br>' + queue[i].content.author + queue[i].content.summary).fadeIn('slow');
 			}
 		console.log(i);
 		i = (i+1);
