@@ -31,12 +31,9 @@ class Create:
         else:
             conn.execute('INSERT INTO Accounts VALUES (?, ?, ?, ?, ?)', (account, token, date, note, service))
             conn.commit()
-            download_dropbox_files(token)
+            dropbox_conn.copy_dropbox_folder(token)
             rtn = 'Successful.'
         return rtn
-
-    def download_dropbox_files(self, access_token):
-        files = dropbox_conn.list_files(access_token)
 
     @cherrypy.expose
     def twitter(self, account, token, note):
@@ -81,5 +78,6 @@ class Get:
         all_files = []
         for account in dropbox_accounts:
             files = conn.execute('SELECT * FROM Files Where AccountId=?', (account['account'],)).fetchall()
+            all_files.append({'accountid': account['account'], 'files': files})
 
-
+        return json.dumps(all_files, separators=(',', ':'))
