@@ -4,28 +4,16 @@ import json
 
 import cherrypy
 
-from auth import member_of
+from auth import require
 
 conn = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
 
 
+@require()
 class Admin:
-    # def __init__(self):
-    #     self.create = Create()
-    #     self.get = Get()
-
-    _cp_config = {
-        'auth.require': [member_of('admin')]
-    }
-
-    @cherrypy.expose
-    def index(self):
-        return open('static/admin/index.html').read()
-
-    @cherrypy.expose
-    def logout(self):
-        self.create = None
-        self.get = None
+    def __init__(self):
+        self.create = Create()
+        self.get = Get()
 
 
 class Create:

@@ -28,11 +28,11 @@ $(document).ready(function(){
             $("#message").show("slow");
 
             setTimeout(function(){
-                $("#message").hide("slow")
+                $("#message").hide("slow");
                 if (data.location!="/idp")
             	    window.location.href = data.location;
             }, 2000);
 
         })
     })
-})
+});
