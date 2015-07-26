@@ -68,7 +68,7 @@ class Get:
         return self.get_service('twitter')
 
     def get_service(self, service):
-        accounts = conn.execute('SELECT * FROM Accounts WHERE Service=?', (service,)) # Não falta aqui um fetchall(), Ricardo?
+        accounts = conn.execute('SELECT * FROM Accounts WHERE Service=?', (service,)) # Nao falta aqui um fetchall(), Ricardo?
         rtn = []
         for account in accounts:
             rtn.append({'account': account[0], 'token': 'X' * len(account[1][:-4]) + account[1][-4:],
