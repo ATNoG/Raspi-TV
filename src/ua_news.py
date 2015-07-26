@@ -11,7 +11,8 @@ def deti_news():
         news["news"] += [{"author": parse_author(entry.author),
                           "summary": entry.summary,
                           "title": entry.title,
-                          "date": str(entry.updated)}]
+                          "date": parse_date(str(entry.updated))}]
+
     return news
 
 
@@ -22,6 +23,14 @@ def parse_author(author):
         for slice in slices:
             author += slice.strip().replace("_", " ")
     return author
+
+def parse_date(date):
+
+    date_time = date.split("T")
+    tmp = date_time[1].split("+")
+    print date_time
+    print tmp
+    return " Date: " + date_time[0] + " Hour: " + tmp[0]
 
 
 if __name__ == '__main__':
