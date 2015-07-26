@@ -2,6 +2,7 @@ import cherrypy
 import datetime
 import sqlite3 as sql
 import json
+import dropbox_conn
 
 conn = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
 
@@ -35,8 +36,12 @@ class Create:
         else:
             conn.execute('INSERT INTO Accounts VALUES (?, ?, ?, ?, ?)', (account, token, date, note, service))
             conn.commit()
+            download_dropbox_files(token)
             rtn = 'Successful.'
         return rtn
+
+    def download_dropbox_files(self, access_token):
+        files = dropbox_conn.list_files(access_token)
 
     @cherrypy.expose
     def twitter(self, account, token, note):
@@ -68,9 +73,18 @@ class Get:
         return self.get_service('twitter')
 
     def get_service(self, service):
-        accounts = conn.execute('SELECT * FROM Accounts WHERE Service=?', (service,))
+        accounts = conn.execute('SELECT * FROM Accounts WHERE Service=?', (service,)) # Não falta aqui um fetchall(), Ricardo?
         rtn = []
         for account in accounts:
             rtn.append({'account': account[0], 'token': 'X' * len(account[1][:-4]) + account[1][-4:],
                         'date': account[2], 'note': account[3]})
         return json.dumps(rtn, separators=(',', ':'))
+
+    def get_dropbox_files(self):
+        dropbox_accounts = self.dropbox()
+
+        all_files = []
+        for account in dropbox_accounts:
+            files = conn.execute('SELECT * FROM Files Where AccountId=?', (account['account'],)).fetchall()
+
+

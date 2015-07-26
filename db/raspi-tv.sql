@@ -31,7 +31,9 @@ CREATE TABLE [Tweets] (
 
 CREATE TABLE [Files] (
   [FilePath]  TEXT PRIMARY KEY  NOT NULL, -- Absolute path to file
-  [ToDisplay] INTEGER           NOT NULL   -- 'Boolean value' determining whether to use the file or not
+  [ToDisplay] INTEGER           NOT NULL,  -- 'Boolean value' determining whether to use the file or not
+  FOREIGN KEY ([AccountId]) REFERENCES [Accounts] ([AccountId])  -- Refers which dropbox account the file belongs
+  ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
 INSERT INTO [Users] ([UserId], [Password], [FirstName], [LastName], [Email]) VALUES (
