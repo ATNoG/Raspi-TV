@@ -44,5 +44,5 @@ INSERT INTO [Users] VALUES (
   'Ricardo',
   'Jesus',
   'ricardojesus@ua.pt',
-  '00:00AM on January 1, 2015'
+  'January 1, 2015'
 );

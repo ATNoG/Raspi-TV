@@ -68,7 +68,7 @@ def create(predicate):
             first_name = ask('First name: ')
             last_name = ask('Last name: ')
             email = ask('Email: ')
-            date = datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")
+            date = datetime.datetime.now().strftime("%B %d, %Y")
             db.execute('INSERT INTO Users VALUES (?, ?, ?, ?, ?, ?)',
                        (user, password, first_name, last_name, email, date))
             db.commit()
