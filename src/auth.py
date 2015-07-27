@@ -145,4 +145,4 @@ class AuthController(object):
         if username:
             cherrypy.request.login = None
             self.on_logout(username)
-        raise cherrypy.HTTPRedirect(from_page or '/admin')
+        raise cherrypy.HTTPRedirect(from_page or '/')

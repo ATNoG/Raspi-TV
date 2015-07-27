@@ -5,7 +5,7 @@ import cherrypy
 from api import Api
 from idp import Login
 from admin import Admin
-from auth import AuthController
+from auth import AuthController, SESSION_KEY
 
 
 class Root:
@@ -19,6 +19,10 @@ class Root:
         'tools.sessions.on': True,
         'tools.auth.on': True
     }
+
+    @cherrypy.expose
+    def user(self):
+        return cherrypy.session[SESSION_KEY] or 'Unidentified User'
 
 
 if __name__ == '__main__':
