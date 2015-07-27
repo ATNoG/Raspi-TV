@@ -11,7 +11,8 @@ CREATE TABLE [Users] (
   [Password]  TEXT              NOT NULL, -- Password
   [FirstName] TEXT              NOT NULL, -- User's first name
   [LastName]  TEXT              NOT NULL, -- User's last name
-  [Email]     TEXT              NOT NULL   -- User's email
+  [Email]     TEXT              NOT NULL, -- User's email
+  [Date]      TEXT              NOT NULL   -- Date when account was created
 );
 
 CREATE TABLE [Accounts] (
@@ -37,10 +38,11 @@ CREATE TABLE [Files] (
     ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
-INSERT INTO [Users] ([UserId], [Password], [FirstName], [LastName], [Email]) VALUES (
+INSERT INTO [Users] VALUES (
   'RJJ',
-  'dd8d27869a119250722d213a5c1572b411f18d136e6f8587de6cf99045ca4d1e', -- "RJJ"
+  '65304dac3823069673aa9d3b90dcb9f44938e2d12f58509addc915d08922b64b', -- "ricardo"
   'Ricardo',
   'Jesus',
-  'ricardojesus@ua.pt'
+  'ricardojesus@ua.pt',
+  '00:00AM on January 1, 2015'
 );

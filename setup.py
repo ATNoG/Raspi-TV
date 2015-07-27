@@ -7,6 +7,7 @@ import sqlite3 as sql
 from Crypto.Hash import SHA256
 from subprocess import call
 import getpass
+import datetime
 
 db_path = 'db/'
 db_sql = db_path + 'raspi-tv.sql'
@@ -67,7 +68,9 @@ def create(predicate):
             first_name = ask('First name: ')
             last_name = ask('Last name: ')
             email = ask('Email: ')
-            db.execute('INSERT INTO Users VALUES (?, ?, ?, ?, ?)', (user, password, first_name, last_name, email))
+            date = datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")
+            db.execute('INSERT INTO Users VALUES (?, ?, ?, ?, ?, ?)',
+                       (user, password, first_name, last_name, email, date))
             db.commit()
             db.close()
         elif action == available_actions[1]:
