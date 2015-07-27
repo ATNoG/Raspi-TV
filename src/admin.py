@@ -2,21 +2,32 @@ import datetime
 import sqlite3 as sql
 import json
 import dropbox_conn
-
 import cherrypy
-
-from auth import require
+from auth import require, SESSION_KEY
 
 conn = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
 
 
-@require()
 class Admin:
     def __init__(self):
         self.create = Create()
         self.get = Get()
 
+    @cherrypy.expose
+    def user(self):
+        try:
+            user_dict = {'user_id': cherrypy.session[SESSION_KEY]}
+            user = conn.execute('SELECT * FROM Users WHERE UserId=?', (user_dict['user_id'],)).fetchone()[2:]
+            user_dict['user_first'] = user[0]
+            user_dict['user_last'] = user[1]
+            user_dict['user_email'] = user[2]
+            user_dict['user_date'] = user[3]
+        except KeyError:
+            user_dict = {'user_id': None}
+        return json.dumps(user_dict, separators=(',', ':'))
 
+
+@require()
 class Create:
     def __init__(self):
         pass
@@ -52,32 +63,35 @@ class Create:
         return rtn
 
 
+@require()
 class Get:
     def __init__(self):
         pass
 
     @cherrypy.expose
     def dropbox(self):
-        return self.get_service('dropbox')
+        return self.get('dropbox')
 
     @cherrypy.expose
     def twitter(self):
-        return self.get_service('twitter')
+        return self.get('twitter')
 
-    def get_service(self, service):
-        accounts = conn.execute('SELECT * FROM Accounts WHERE Service=?', (service,)) # Nao falta aqui um fetchall(), Ricardo?
+    def get(self, service):
         rtn = []
+        accounts = conn.execute('SELECT * FROM Accounts WHERE Service=?',
+                                (service,))  # Nao falta aqui um fetchall(), Ricardo?
+        # Repara no ciclo for a baixo. Itera-se por todos os resultados
         for account in accounts:
             rtn.append({'account': account[0], 'token': 'X' * len(account[1][:-4]) + account[1][-4:],
                         'date': account[2], 'note': account[3]})
         return json.dumps(rtn, separators=(',', ':'))
 
-    def get_dropbox_files(self):
+    def get_dropbox_files(self):  # Talvez get_dropbox_files -> dropbox_files (vai ser .../get/dropbox_files)
         dropbox_accounts = self.dropbox()
 
         all_files = []
         for account in dropbox_accounts:
-            files = conn.execute('SELECT * FROM Files Where AccountId=?', (account['account'],)).fetchall()
+            files = conn.execute('SELECT * FROM Files WHERE AccountId=?', (account['account'],)).fetchall()
             all_files.append({'accountid': account['account'], 'files': files})
 
         return json.dumps(all_files, separators=(',', ':'))

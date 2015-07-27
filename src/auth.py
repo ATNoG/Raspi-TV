@@ -122,7 +122,7 @@ class AuthController(object):
         username = escape(username, True)
         msg = escape(msg, True)
         from_page = escape(from_page, True)
-        return open('static/login.html').read() % {'msg': msg, 'username': username}
+        return open('static/admin/login.html').read() % {'msg': msg, 'username': username}
 
     @cherrypy.expose
     def login(self, username=None, password=None, from_page='/admin'):

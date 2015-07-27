@@ -20,10 +20,6 @@ class Root:
         'tools.auth.on': True
     }
 
-    @cherrypy.expose
-    def user(self):
-        return cherrypy.session[SESSION_KEY] or 'Unidentified User'
-
 
 if __name__ == '__main__':
     cherrypy.quickstart(Root(), '/', 'app.conf')
