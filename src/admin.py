@@ -4,6 +4,7 @@ import json
 import dropbox_conn
 import cherrypy
 from auth import require, SESSION_KEY
+from Crypto.Hash import SHA256
 
 conn = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
 
@@ -12,6 +13,7 @@ class Admin:
     def __init__(self):
         self.create = Create()
         self.get = Get()
+        self.update = Update()
 
     @cherrypy.expose
     def user(self):
@@ -22,7 +24,7 @@ class Admin:
             user_dict['user_last'] = user[1]
             user_dict['user_email'] = user[2]
             user_dict['user_date'] = user[3]
-        except KeyError:
+        except (KeyError, TypeError) as e:
             user_dict = {'user_id': None}
         return json.dumps(user_dict, separators=(',', ':'))
 
@@ -95,3 +97,40 @@ class Get:
             all_files.append({'accountid': account['account'], 'files': files})
 
         return json.dumps(all_files, separators=(',', ':'))
+
+
+@require()
+class Update:
+    def __init__(self):
+        pass
+
+    @cherrypy.expose
+    def user(self, current_password=None, new_password=None, first_name=None, last_name=None, email=None):
+        username = cherrypy.session[SESSION_KEY]
+        date = datetime.datetime.now().strftime("%B %d, %Y")
+        if current_password and new_password:
+            current_password = self.encrypt_password(current_password)
+            if current_password == conn.execute('SELECT Password FROM Users WHERE UserId=?', (username,)).fetchone()[0]:
+                conn.execute('UPDATE Users SET Password=?, Date=? WHERE UserId=?',
+                             (self.encrypt_password(new_password), date, username))
+                conn.commit()
+                raise cherrypy.HTTPRedirect("/admin/profile.html")
+            else:
+                raise cherrypy.HTTPRedirect("/admin/profile.html#error=Wrong password")
+        if first_name:
+            conn.execute('UPDATE Users SET FirstName=?, Date=? WHERE UserId=?', (first_name, date, username))
+            conn.commit()
+            raise cherrypy.HTTPRedirect("/admin/profile.html")
+        if last_name:
+            conn.execute('UPDATE Users SET LastName=?, Date=? WHERE UserId=?', (last_name, date, username))
+            conn.commit()
+            raise cherrypy.HTTPRedirect("/admin/profile.html")
+        if email:
+            conn.execute('UPDATE Users SET Email=?, Date=? WHERE UserId=?', (email, date, username))
+            conn.commit()
+            raise cherrypy.HTTPRedirect("/admin/profile.html")
+        raise cherrypy.HTTPRedirect("/admin/profile.html#error=No parameters received")
+
+    @staticmethod
+    def encrypt_password(password):
+        return SHA256.new(password).hexdigest()

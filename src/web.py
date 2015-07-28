@@ -5,7 +5,7 @@ import cherrypy
 from api import Api
 from idp import Login
 from admin import Admin
-from auth import AuthController, SESSION_KEY
+from auth import AuthController
 
 
 class Root:
