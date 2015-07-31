@@ -83,20 +83,26 @@ class Get:
         accounts = conn.execute('SELECT * FROM Accounts WHERE Service=?',
                                 (service,))  # Nao falta aqui um fetchall(), Ricardo?
         # Repara no ciclo for a baixo. Itera-se por todos os resultados
+        # Nao sei se itera, ja testei isso uma vez e deu mal...
         for account in accounts:
             rtn.append({'account': account[0], 'token': 'X' * len(account[1][:-4]) + account[1][-4:],
                         'date': account[2], 'note': account[3]})
         return json.dumps(rtn, separators=(',', ':'))
 
-    def get_dropbox_files(self):  # Talvez get_dropbox_files -> dropbox_files (vai ser .../get/dropbox_files)
-        dropbox_accounts = self.dropbox()
-
+    def dropbox_files(self):
         all_files = []
-        for account in dropbox_accounts:
-            files = conn.execute('SELECT * FROM Files WHERE AccountId=?', (account['account'],)).fetchall()
-            all_files.append({'accountid': account['account'], 'files': files})
+        for f in conn.execute('SELECT * FROM Files').fetchall():
+            all_files.append({'accountid': f['AccountId'], 'filepath': f['FilePath'], 'todisplay': f['ToDisplay']})
 
         return json.dumps(all_files, separators=(',', ':'))
+
+    def tweets(self):
+        all_tweets = []
+        for tweet in conn.execute('SELECT * FROM Tweets').fetchall():
+            all_tweets.append({'tweetid': tweet['TweetId'], 'author': tweet['Author'],
+                               'tweet': tweet['Tweet'], 'todisplay': tweet['ToDisplay']})
+
+        return json.dumps(all_tweets, separators=(',', ':'))
 
 
 @require()
@@ -134,3 +140,11 @@ class Update:
     @staticmethod
     def encrypt_password(password):
         return SHA256.new(password).hexdigest()
+
+    # def dropbox_files(self, files):
+    #     outdated_files = self.get.dropbox_files()['']
+    #     i = 0
+    #     while True:
+    #         if not files[i] or not outdated_files[i]:
+    #             break
+    #         if not files[i]['todisplay'] == outdated_files[i]['']
