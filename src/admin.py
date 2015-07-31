@@ -81,9 +81,11 @@ class Get:
     def get(self, service):
         rtn = []
         accounts = conn.execute('SELECT * FROM Accounts WHERE Service=?',
-                                (service,))  # Nao falta aqui um fetchall(), Ricardo?
+                                (service,))
+        # Nao falta aqui um fetchall(), Ricardo?
         # Repara no ciclo for a baixo. Itera-se por todos os resultados
         # Nao sei se itera, ja testei isso uma vez e deu mal...
+        # Quando criava as contas da forma antiga (e errada) experimentei assim. Lembro-me do que falas mas faziamos .fetchone()
         for account in accounts:
             rtn.append({'account': account[0], 'token': 'X' * len(account[1][:-4]) + account[1][-4:],
                         'date': account[2], 'note': account[3]})
@@ -91,14 +93,14 @@ class Get:
 
     def dropbox_files(self):
         all_files = []
-        for f in conn.execute('SELECT * FROM Files').fetchall():
+        for f in conn.execute('SELECT * FROM Files').fetchall():  # se puderes experimenta retirar o .fetchall()
             all_files.append({'accountid': f['AccountId'], 'filepath': f['FilePath'], 'todisplay': f['ToDisplay']})
 
         return json.dumps(all_files, separators=(',', ':'))
 
     def tweets(self):
         all_tweets = []
-        for tweet in conn.execute('SELECT * FROM Tweets').fetchall():
+        for tweet in conn.execute('SELECT * FROM Tweets').fetchall():  # Idem caso acima resulte
             all_tweets.append({'tweetid': tweet['TweetId'], 'author': tweet['Author'],
                                'tweet': tweet['Tweet'], 'todisplay': tweet['ToDisplay']})
 
