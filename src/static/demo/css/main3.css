@@ -1,0 +1,36 @@
+/* Reset */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Essentials */
+.container {
+    display: table;
+}
+
+.content {
+    display: table-row;
+    height: 100%;
+}
+
+.content-body {
+    display: table-cell;
+}
+
+/* Aestetics */
+.container {
+    width: 100%;
+    height: 100%;
+}
+
+.header, .footer {
+    padding: 10px 20px;
+    background: #434A54;
+}
+
+.content-body {
+    padding: 20px;
+    background: #F1F2F6;
+}

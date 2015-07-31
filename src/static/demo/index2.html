@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/site.min.css">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,800,700,400italic,600italic,700italic,800italic,300italic"
+          rel="stylesheet" type="text/css">
+    <!-- Mine -->
+    <link rel="stylesheet" href="css/main2.css">
+    <!-- <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'> -->
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="js/site.min.js"></script>
+    <script>
+        function startTime() {
+            var months = {1: 'Jan.'};
+            var today = new Date();
+            var date = today.toString().split(' ');
+            document.getElementById('date').innerHTML = date[0] + ', ' + date.slice(1, 5).join(' ');
+            var t = setTimeout(function () {
+                startTime()
+            }, 500);
+        }
+    </script>
+</head>
+<body style="background-color: #f1f2f6;" onload="startTime();">
+<div class="docs-header" style="padding: 0;">
+    <div class="topic" style="padding: 0 0 50px;">
+        <div class="container">
+            <div class="col-md-8">
+                <h3>DETI - Departamento de Eletrónica, Telecomunicações e Informática</h3>
+            </div>
+        </div>
+        <div class="topic__infos">
+            <div class="container">
+                Raspi-TV
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container documents">
+    <div class="example">
+        <div class="row">
+            <div class="col-md-6">
+
+            </div>
+            <div class="col-md-4">
+                <div class="example-typography" style="padding: 0">
+                    <p class="lead">Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus
+                        mus.</p>
+                </div>
+                <div class="example-typography" style="padding: 0">
+                    <blockquote>
+                        <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec
+                            ullamcorper nulla non metus auctor fringilla. Duis mollis, est non commodo luctus.</p>
+                        <small>Steve Jobs, CEO Apple</small>
+                    </blockquote>
+                </div>
+                <div class="example-typography" style="padding: 0">
+                    <p>
+                        <small>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+                            Donec ullamcorper nulla non metus auctor fringilla. Duis mollis, est non commodo luctus,
+                            nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+                        </small>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="calendar">
+                    <div class="years clearfix">
+                        <div id="date" style="text-align: center"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="footer main-footer">
+            <div class="container">
+                <div class="clearfix">
+                    kjhdjkashdaksjdhaksdasd
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

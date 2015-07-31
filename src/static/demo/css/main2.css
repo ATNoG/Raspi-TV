@@ -1,0 +1,22 @@
+.main-footer {
+    padding: 0;
+    color: #AAB2BD;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Here it starts to matter */
+
+.header {
+    background: transparent url("../img/wild_flowers.png") repeat scroll 0 0;
+    color: #FFF;
+}
+
+body {
+    background-color: #F1F2F6;
+}
+
+footer {
+    color: #AAB2BD;
+}
