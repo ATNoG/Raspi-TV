@@ -8,13 +8,17 @@ conn = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
 class Updating:
 
     def retrieveUpdates(self):
-        #images
+        response=[]
+
         background= conn.execute('SELECT * FROM Mods WHERE idName=?', ('background',)).fetchone()[0].decode('base64')
+        response.append({id:'background','type':'image', 'content':background})
 
-        #text
         title= conn.execute('SELECT * FROM Mods WHERE idName=?', ('title',)).fetchone()[0]
-        description= conn.execute('SELECT * FROM Mods WHERE idName=?', ('description',)).fetchone()[0]
+        response.append({id:'title','type':'text', 'content':title})
 
-        return [{'background':background,'title':title,'description':description}]
+        description= conn.execute('SELECT * FROM Mods WHERE idName=?', ('description',)).fetchone()[0]
+        response.append({id:'background','type':'text', 'content':description})
+
+        return json.dumps(response)
 
 
