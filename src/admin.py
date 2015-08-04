@@ -1,3 +1,4 @@
+# coding=utf-8
 import datetime
 import sqlite3 as sql
 import json
@@ -36,7 +37,7 @@ class Create:
 
     @cherrypy.expose
     def dropbox(self, account, token, note):
-        date = datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")
+        date = datetime.datetime.now().strftime('%I:%M%p on %B %d, %Y')
         service = 'dropbox'
         if conn.execute('SELECT COUNT(*) FROM Accounts WHERE AccountId=? AND Service=?', (account, service)).fetchone()[
             0]:
@@ -50,7 +51,7 @@ class Create:
 
     @cherrypy.expose
     def twitter(self, account, token, note):
-        date = datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")
+        date = datetime.datetime.now().strftime('%I:%M%p on %B %d, %Y')
         service = 'twitter'
         rtn = ''
         if conn.execute('SELECT COUNT(*) FROM Accounts WHERE AccountId=? AND Service=?', (account, service)).fetchone()[
@@ -94,15 +95,17 @@ class Get:
     def dropbox_files(self):
         all_files = []
         for f in conn.execute('SELECT * FROM Files').fetchall():  # se puderes experimenta retirar o .fetchall()
-            all_files.append({'accountid': f['AccountId'], 'filepath': f['FilePath'], 'todisplay': f['ToDisplay']})
+            # Revê o código que tinhas antes. Acho que o que querias era isto
+            all_files.append({'accountid': f[2], 'filepath': f[0], 'todisplay': f[1]})
 
         return json.dumps(all_files, separators=(',', ':'))
 
     def tweets(self):
         all_tweets = []
         for tweet in conn.execute('SELECT * FROM Tweets').fetchall():  # Idem caso acima resulte
-            all_tweets.append({'tweetid': tweet['TweetId'], 'author': tweet['Author'],
-                               'tweet': tweet['Tweet'], 'todisplay': tweet['ToDisplay']})
+            # Por favor revê também esta parte. Mais uma vez suponho que querias isto
+            all_tweets.append({'tweetid': tweet[0], 'author': tweet[1],
+                               'tweet': tweet[2], 'todisplay': tweet[3]})
 
         return json.dumps(all_tweets, separators=(',', ':'))
 
@@ -115,38 +118,38 @@ class Update:
     @cherrypy.expose
     def user(self, current_password=None, new_password=None, first_name=None, last_name=None, email=None):
         username = cherrypy.session[SESSION_KEY]
-        date = datetime.datetime.now().strftime("%B %d, %Y")
+        date = datetime.datetime.now().strftime('%B %d, %Y')
         if current_password and new_password:
             current_password = self.encrypt_password(current_password)
             if current_password == conn.execute('SELECT Password FROM Users WHERE UserId=?', (username,)).fetchone()[0]:
                 conn.execute('UPDATE Users SET Password=?, Date=? WHERE UserId=?',
                              (self.encrypt_password(new_password), date, username))
                 conn.commit()
-                raise cherrypy.HTTPRedirect("/admin/profile.html")
+                raise cherrypy.HTTPRedirect('/admin/profile.html')
             else:
-                raise cherrypy.HTTPRedirect("/admin/profile.html#error=Wrong password")
+                raise cherrypy.HTTPRedirect('/admin/profile.html#error=Wrong password')
         if first_name:
             conn.execute('UPDATE Users SET FirstName=?, Date=? WHERE UserId=?', (first_name, date, username))
             conn.commit()
-            raise cherrypy.HTTPRedirect("/admin/profile.html")
+            raise cherrypy.HTTPRedirect('/admin/profile.html')
         if last_name:
             conn.execute('UPDATE Users SET LastName=?, Date=? WHERE UserId=?', (last_name, date, username))
             conn.commit()
-            raise cherrypy.HTTPRedirect("/admin/profile.html")
+            raise cherrypy.HTTPRedirect('/admin/profile.html')
         if email:
             conn.execute('UPDATE Users SET Email=?, Date=? WHERE UserId=?', (email, date, username))
             conn.commit()
-            raise cherrypy.HTTPRedirect("/admin/profile.html")
-        raise cherrypy.HTTPRedirect("/admin/profile.html#error=No parameters received")
+            raise cherrypy.HTTPRedirect('/admin/profile.html')
+        raise cherrypy.HTTPRedirect('/admin/profile.html#error=No parameters received')
 
     @staticmethod
     def encrypt_password(password):
         return SHA256.new(password).hexdigest()
 
-    # def dropbox_files(self, files):
-    #     outdated_files = self.get.dropbox_files()['']
-    #     i = 0
-    #     while True:
-    #         if not files[i] or not outdated_files[i]:
-    #             break
-    #         if not files[i]['todisplay'] == outdated_files[i]['']
+        # def dropbox_files(self, files):
+        #     outdated_files = self.get.dropbox_files()['']
+        #     i = 0
+        #     while True:
+        #         if not files[i] or not outdated_files[i]:
+        #             break
+        #         if not files[i]['todisplay'] == outdated_files[i]['']
