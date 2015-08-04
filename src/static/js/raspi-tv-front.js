@@ -18,7 +18,7 @@ $(document).ready(function(){
 		if(queue[i].type=="video"){
 			$("#content").hide().html(queue[i]).fadeIn('slow');
 		}else{
-			$("#content").hide().html('<h1 style="color:#003399">' + queue[i].content.title + '</h1>' + '<span style="color:#003399">' + queue[i].content.date + '</span>' + '<br>' + queue[i].content.author + queue[i].content.summary).fadeIn('slow');
+			$("#content").hide().html('<h2 style="color:#33B3D1">' + queue[i].content.title + '</h2>' + '<span style="color:#003399">' + queue[i].content.date + '</span>' + '<br>' + '<span style="color:#003399">' + queue[i].content.author + '</span>' + queue[i].content.summary).fadeIn('slow');
 			}
 		console.log(i);
 		i = (i+1);
@@ -52,9 +52,9 @@ $(document).ready(function(){
 
 		// icons from http://www.flaticon.com/search/haw-weather-fill
 
-    	$("#hum").html('<img src="img/img_met/hum.png" width="15%"/>' + " " + '<big style="color:#003399" "font-size:3%">' +  data.content.weather.humidity + "%" + '</big>');
-    	$("#temp").html('<img src="img/img_met/temp.png" width=15%"/>' + " " + '<big style="color:#003399" "font-size:3%">'+ data.content.weather.temperature.temp + " ºC" + '</big>');
-    	$("#wind").html('<img src="img/img_met/wind.png" width="15%"/>'+ " " + '<big style="color:#003399" "font-size:3%">' + data.content.weather.wind.speed + " km/h" + '</big>');
+    	$("#hum").html('<img src="img/img_met/hum.png" width="15%"/>' + " " + '<big style="color:#33B3D1" "font-size:3%">' +  data.content.weather.humidity + "%" + '</big>');
+    	$("#temp").html('<img src="img/img_met/temp.png" width=15%"/>' + " " + '<big style="color:#33B3D1" "font-size:3%">'+ data.content.weather.temperature.temp + " ºC" + '</big>');
+    	$("#wind").html('<img src="img/img_met/wind.png" width="15%"/>'+ " " + '<big style="color:#33B3D1" "font-size:3%">' + data.content.weather.wind.speed + " km/h" + '</big>');
     };
 
 	get_news();
