@@ -2,6 +2,8 @@ DROP TABLE IF EXISTS [Users];
 
 DROP TABLE IF EXISTS [Accounts];
 
+DROP TABLE IF EXISTS [Twitter];
+
 DROP TABLE IF EXISTS [Tweets];
 
 DROP TABLE IF EXISTS [Files];
@@ -23,11 +25,20 @@ CREATE TABLE [Accounts] (
   [Service]   TEXT              NOT NULL   -- Name of the related service (e.g.: 'dropbox', 'twitter', ...)
 );
 
+CREATE TABLE [Twitter] (
+  [ConsumerKey]    TEXT PRIMARY KEY NOT NULL,  -- Consumer Key - Not to display     |   These need to be manually set
+  [ConsumerSecret] TEXT             NOT NULL,  -- Consumer Secret - Not to display  | over SSH or similar.
+  [AccessKey]      TEXT             NOT NULL,  -- Client's key
+  [AccessSecret]   TEXT             NOT NULL,  -- Client's Secret
+  [Note]           TEXT             NOT NULL,  -- Note on account
+  [DateAdded]      TEXT             NOT NULL    -- When the account was added to the database
+);
+
 CREATE TABLE [Tweets] (
-  [TweetId]   TEXT PRIMARY KEY  NOT NULL, -- Tweet Id
-  [Author]    TEXT              NOT NULL, -- Tweet's author
-  [Tweet]     TEXT              NOT NULL, -- Tweet's text (actual tweet)
-  [ToDisplay] INTEGER           NOT NULL   -- 'Boolean value' determining whether to display the tweet or not
+  [TweetId]   INTEGER PRIMARY KEY NOT NULL, -- Tweet Id
+  [Author]    TEXT                NOT NULL, -- Tweet's author
+  [Tweet]     TEXT                NOT NULL, -- Tweet's text (actual tweet)
+  [ToDisplay] INTEGER DEFAULT 0   NOT NULL   -- 'Boolean value' determining whether to display the tweet or not
 );
 
 CREATE TABLE [Files] (
@@ -35,7 +46,7 @@ CREATE TABLE [Files] (
   [ToDisplay] INTEGER           NOT NULL, -- 'Boolean value' determining whether to use the file or not
   [AccountId] TEXT              NOT NULL, -- Refers which dropbox account the file belongs to
   FOREIGN KEY ([AccountId]) REFERENCES [Accounts] ([AccountId])
-    ON DELETE NO ACTION ON UPDATE NO ACTION
+  ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
 INSERT INTO [Users] VALUES (
