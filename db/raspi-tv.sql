@@ -8,6 +8,8 @@ DROP TABLE IF EXISTS [Tweets];
 
 DROP TABLE IF EXISTS [Files];
 
+DROP TABLE IF EXISTS [HTMLSettings];
+
 CREATE TABLE [Users] (
   [UserId]    TEXT PRIMARY KEY  NOT NULL, -- Username
   [Password]  TEXT              NOT NULL, -- Password
@@ -47,6 +49,11 @@ CREATE TABLE [Files] (
   [AccountId] TEXT              NOT NULL, -- Refers which dropbox account the file belongs to
   FOREIGN KEY ([AccountId]) REFERENCES [Accounts] ([AccountId])
   ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE TABLE [HTMLSettings] (
+  [IdName]  TEXT PRIMARY KEY NOT NULL, -- To be added
+  [Content] TEXT             NOT NULL   -- To be added
 );
 
 INSERT INTO [Users] VALUES (
