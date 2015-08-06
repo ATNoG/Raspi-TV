@@ -1,6 +1,15 @@
 $(document).ready(function () {
     admin_get('dropbox');
-    admin_get('twitter');
+    /* Twitter */
+    $.get('/admin/get/twitter', function (data) {
+        data = JSON.parse(data);
+        $('#twitter-table').append(
+            '<tr><th>Access Key</th><td>' + data['AccessKey'] + '</td></tr>' +
+            '<tr><th>Access Secret</th><td>' + data['AccessSecret'] + '</td></tr>' +
+            '<tr><th>Note</th><td>' + data['Note'] + '</td></tr>' +
+            '<tr><th>Date</th><td>' + data['DateAdded'] + '</td></tr>'
+        );
+    });
 
     // If there are any hash arguments on the URL, save the token
     if (window.location.hash.length != 0) {
@@ -26,7 +35,7 @@ function save_access_token() {
         token: access_token,
         note: ""
     };
-    $.post('/admin/create/dropbox', data, function(data) {
+    $.post('/admin/create/dropbox', data, function (data) {
         if (data == 'Successful.') {
             // Show success message
         } else {

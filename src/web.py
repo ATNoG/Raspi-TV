@@ -6,6 +6,7 @@ from api import Api
 from idp import Login
 from admin import Admin
 from auth import AuthController
+import webbrowser
 
 
 class Root:
@@ -22,4 +23,5 @@ class Root:
 
 
 if __name__ == '__main__':
+    # webbrowser.get('firefox').open('localhost:8080/')  # Useful when auto starting on the Raspberry Pi
     cherrypy.quickstart(Root(), '/', 'app.conf')

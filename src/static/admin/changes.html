@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Raspi-TV | Accounts</title>
+    <title>Raspi-TV | Change Page</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- bootstrap 3.0.2 -->
     <link href="/admin/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
@@ -57,7 +57,7 @@
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="/admin/profile.html" class="btn btn-default btn-flat">Profile</a>
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
                             </div>
                             <div class="pull-right">
                                 <a href="/auth/logout" class="btn btn-default btn-flat">Sign out</a>
@@ -88,8 +88,10 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="#dropbox"><i class="fa fa-angle-double-right"></i> Dropbox</a></li>
-                        <li><a href="#twitter"><i class="fa fa-angle-double-right"></i> Twitter</a></li>
+                        <li><a href="/admin/pages/accounts/accounts.html#dropbox"><i
+                                class="fa fa-angle-double-right"></i> Dropbox</a></li>
+                        <li><a href="/admin/pages/accounts/accounts.html#twitter"><i
+                                class="fa fa-angle-double-right"></i> Twitter</a></li>
                     </ul>
                 </li>
                 <li>
@@ -219,7 +221,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Accounts
+                Profile
                 <small>Control panel</small>
             </h1>
             <ol class="breadcrumb">
@@ -230,24 +232,86 @@
 
         <!-- Main content -->
         <section class="content">
-            <!-- Dropbox -->
-            <div id="dropbox" class="row">
+            <div class="alert alert-warning alert-dismissable hide error_box">
+                <i class="fa fa-warning"></i>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <b>Error!</b> <span class="error_message"></span>.
+            </div>
+            <div class="row">
                 <div class="col-xs-12">
                     <div class="box">
-                        <div class="box-header">
-                            <h3 class="box-title">Dropbox</h3>
-
-                            <div class="box-tools">
-                                <div class="pull-right">
-                                    <a href="https://www.dropbox.com/1/oauth2/authorize?response_type=token&client_id=rbfnah947b3iobb&redirect_uri=http://localhost:63342/Raspi-TV/src/static/admin/pages/accounts/accounts.html"><i
-                                            class="fa fa-plus"></i> New account</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.box-header -->
                         <div class="box-body table-responsive no-padding">
                             <table id="dropbox-table" class="table table-hover">
-                                <!-- Content goes here -->
+                                <tr>
+                                    <th>Location</th>
+                                    <td id="title">
+
+                                        <a href="#" id="popover_location"></a>
+
+                                        <div id="pop_location-content" class="hide">
+                                            <form action="/admin/update/user" method="post">
+                                                <div class="body">
+                                                    <div class="form-group">
+                                                        <input type="text" id="new_location"
+                                                               class="form-control"
+                                                               placeholder="New Location"/>
+                                                    </div>
+                                                    <div class="footer">
+                                                    <button id="location_btn" type="submit"
+                                                            class="btn bg-blue btn-block">Change Location
+                                                    </button>
+                                                </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Location Description</th>
+                                    <td>
+                                        <a href="#" id="popover_location_description"></a>
+
+                                        <div id="pop_location_description-content" class="hide">
+                                            <form action="/admin/update/user" method="post">
+                                                <div class="body">
+                                                    <div class="form-group">
+                                                        <input type="text" id="new_location_description"
+                                                               class="form-control"
+                                                               placeholder="New Location Description"/>
+                                                    </div>
+                                                    <div class="footer">
+                                                    <button id="location_description_btn" type="submit"
+                                                            class="btn bg-blue btn-block">Change Location Description
+                                                    </button>
+                                                </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>    
+                                <tr>
+                                    <th>Background</th>
+                                    <td>
+                                        <a href="#" id="popover_background"></a>
+
+                                        <div id="pop_background-content" class="hide">
+                                            <form action="/admin/update/user" method="post">
+                                                <div class="body">
+                                                    <div class="form-group">
+                                                        <input type="text" id="new_background"
+                                                               class="form-control"
+                                                               placeholder="New Background"/>
+                                                    </div>
+                                                    <div class="footer">
+                                                    <button id="background_btn" type="submit"
+                                                            class="btn bg-blue btn-block">Change Background
+                                                    </button>
+                                                </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>                            
                             </table>
                         </div>
                         <!-- /.box-body -->
@@ -255,96 +319,6 @@
                     <!-- /.box -->
                 </div>
             </div>
-            <!-- /.Dropbox -->
-            <!-- Twitter -->
-            <div id="twitter" class="row">
-                <div class="col-xs-12">
-                    <div class="box">
-                        <div class="box-header">
-                            <h3 class="box-title">Twitter</h3>
-
-                            <div class="box-tools">
-                                <div class="pull-right">
-                                    <a href="register_twitter.html"><i class="fa fa-plus"></i> New account</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body table-responsive no-padding">
-                            <table id="twitter-table" class="table table-hover">
-                                <!-- Content goes here -->
-                            </table>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                    <!-- /.box -->
-                </div>
-            </div>
-            <!-- /.Twitter -->
-            <!-- Twitter -->
-            <div id="twitter.old" class="row">
-                <div class="col-xs-12">
-                    <div class="box">
-                        <div class="box-header">
-                            <h3 class="box-title">Twitter</h3>
-
-                            <div class="box-tools">
-                                <div class="input-group">
-                                    <input type="text" name="table_search" class="form-control input-sm pull-right"
-                                           style="width: 150px;" placeholder="Search"/>
-
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body table-responsive no-padding">
-                            <table class="table table-hover">
-                                <tr>
-                                    <th>Account ID</th>
-                                    <th>Auth Token</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
-                                    <th>Notes</th>
-                                </tr>
-                                <tr>
-                                    <td>183</td>
-                                    <td>John Doe</td>
-                                    <td>11-7-2014</td>
-                                    <td><span class="label label-success">Approved</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                    <td>219</td>
-                                    <td>Jane Doe</td>
-                                    <td>11-7-2014</td>
-                                    <td><span class="label label-warning">Pending</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                    <td>657</td>
-                                    <td>Bob Doe</td>
-                                    <td>11-7-2014</td>
-                                    <td><span class="label label-primary">Approved</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                                <tr>
-                                    <td>175</td>
-                                    <td>Mike Doe</td>
-                                    <td>11-7-2014</td>
-                                    <td><span class="label label-danger">Denied</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                </tr>
-                            </table>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                    <!-- /.box -->
-                </div>
-            </div>
-            <!-- /.Twitter -->
         </section>
         <!-- /.content -->
     </aside>
@@ -361,6 +335,6 @@
 <script src="/admin/js/AdminLTE/app.js" type="text/javascript"></script>
 <!-- Mine -->
 <script src="/admin/js/admin.js" type="text/javascript"></script>
-<script src="/admin/js/accounts.js" type="text/javascript"></script>
+<script src="/admin/js/profile.js" type="text/javascript"></script>
 </body>
 </html>

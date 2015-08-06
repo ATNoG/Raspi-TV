@@ -1,3 +1,4 @@
+# coding=utf-8
 import datetime
 import sqlite3 as sql
 import json
@@ -5,6 +6,7 @@ import dropbox_conn
 import cherrypy
 from auth import require, SESSION_KEY
 from Crypto.Hash import SHA256
+from requests_oauthlib import OAuth1Session
 
 conn = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
 
@@ -32,11 +34,16 @@ class Admin:
 @require()
 class Create:
     def __init__(self):
-        pass
+        # Twitter #
+        self.REQUEST_TOKEN_URL = 'https://api.twitter.com/oauth/request_token'
+        self.ACCESS_TOKEN_URL = 'https://api.twitter.com/oauth/access_token'
+        self.AUTHORIZATION_URL = 'https://api.twitter.com/oauth/authorize'
+        self.SIGNIN_URL = 'https://api.twitter.com/oauth/authenticate'
+        self.resp = None
 
     @cherrypy.expose
     def dropbox(self, account, token, note):
-        date = datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")
+        date = datetime.datetime.now().strftime('%I:%M%p on %B %d, %Y')
         service = 'dropbox'
         if conn.execute('SELECT COUNT(*) FROM Accounts WHERE AccountId=? AND Service=?', (account, service)).fetchone()[
             0]:
@@ -49,20 +56,45 @@ class Create:
         return rtn
 
     @cherrypy.expose
-    def twitter(self, account, token, note):
-        date = datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")
-        service = 'twitter'
-        rtn = ''
-        if conn.execute('SELECT COUNT(*) FROM Accounts WHERE AccountId=? AND Service=?', (account, service)).fetchone()[
-            0]:
-            rtn = 'Unsuccessful. Account already exists.'
-        else:
-            if conn.execute('SELECT COUNT(*) FROM Accounts WHERE Service=?', (service,)).fetchone()[0]:
-                rtn = 'Warning: Only the first Twitter account of the database will be used for authentication.\n'
-            conn.execute('INSERT INTO Accounts VALUES (?, ?, ?, ?, ?)', (account, token, date, note, service))
+    def twitter(self, clear=0, pincode=None, note=None):
+        date = datetime.datetime.now().strftime('%I:%M%p on %B %d, %Y')
+
+        if clear:
+            self.resp = None
+            return 'Successful'
+
+        (consumer_key, consumer_secret) = conn.execute('SELECT ConsumerKey, ConsumerSecret FROM Twitter').fetchone()
+        oauth_client = OAuth1Session(consumer_key, client_secret=consumer_secret)
+
+        if not self.resp:  # Else a temp token was already generated
+            # Requesting a temp token from Twitter
+            try:
+                self.resp = oauth_client.fetch_request_token(self.REQUEST_TOKEN_URL)
+            except ValueError, e:
+                raise cherrypy.HTTPRedirect(
+                    '/admin/accounts.html#error=Invalid response from Twitter requesting temp token: %s' % e)
+
+        if not pincode:  # Else pin code is already known
+            # URL to the pin code page (used to obtain an Authentication Token)
+
+            return oauth_client.authorization_url(self.AUTHORIZATION_URL)
+
+        # Generating and signing request for an access token
+
+        oauth_client = OAuth1Session(consumer_key, client_secret=consumer_secret,
+                                     resource_owner_key=self.resp.get('oauth_token'),
+                                     resource_owner_secret=self.resp.get('oauth_token_secret'),
+                                     verifier=pincode)
+        try:
+            resp = oauth_client.fetch_access_token(self.ACCESS_TOKEN_URL)
+            conn.execute('UPDATE Twitter SET AccessKey=?, AccessSecret=?, Note=?, DateAdded=? WHERE ConsumerKey=?',
+                         (resp.get('oauth_token'), resp.get('oauth_token_secret'), note, date, consumer_key))
             conn.commit()
-            rtn += 'Successful.'
-        return rtn
+        except ValueError, e:
+            raise cherrypy.HTTPRedirect(
+                '/admin/accounts.html#error=Invalid respond from Twitter requesting access token: %s' % e)
+
+        return 'Successful'
 
 
 @require()
@@ -76,12 +108,14 @@ class Get:
 
     @cherrypy.expose
     def twitter(self):
-        return self.get('twitter')
+        twitter = conn.execute('SELECT AccessKey, AccessSecret, Note, DateAdded FROM Twitter').fetchone()
+        return json.dumps({'AccessKey': 'X' * len(twitter[0][:-4]) + twitter[0][-4:],
+                           'AccessSecret': 'X' * len(twitter[1][:-4]) + twitter[1][-4:], 'Note': twitter[2],
+                           'DateAdded': twitter[3]}, separators=(',', ':'))
 
     def get(self, service):
         rtn = []
-        accounts = conn.execute('SELECT * FROM Accounts WHERE Service=?',
-                                (service,))
+        accounts = conn.execute('SELECT * FROM Accounts WHERE Service=?', (service,))
         # Nao falta aqui um fetchall(), Ricardo?
         # Repara no ciclo for a baixo. Itera-se por todos os resultados
         # Nao sei se itera, ja testei isso uma vez e deu mal...
@@ -94,15 +128,17 @@ class Get:
     def dropbox_files(self):
         all_files = []
         for f in conn.execute('SELECT * FROM Files').fetchall():  # se puderes experimenta retirar o .fetchall()
-            all_files.append({'accountid': f['AccountId'], 'filepath': f['FilePath'], 'todisplay': f['ToDisplay']})
+            # Revê o código que tinhas antes. Acho que o que querias era isto
+            all_files.append({'accountid': f[2], 'filepath': f[0], 'todisplay': f[1]})
 
         return json.dumps(all_files, separators=(',', ':'))
 
     def tweets(self):
         all_tweets = []
         for tweet in conn.execute('SELECT * FROM Tweets').fetchall():  # Idem caso acima resulte
-            all_tweets.append({'tweetid': tweet['TweetId'], 'author': tweet['Author'],
-                               'tweet': tweet['Tweet'], 'todisplay': tweet['ToDisplay']})
+            # Por favor revê também esta parte. Mais uma vez suponho que querias isto
+            all_tweets.append({'tweetid': tweet[0], 'author': tweet[1],
+                               'tweet': tweet[2], 'todisplay': tweet[3]})
 
         return json.dumps(all_tweets, separators=(',', ':'))
 
@@ -115,38 +151,38 @@ class Update:
     @cherrypy.expose
     def user(self, current_password=None, new_password=None, first_name=None, last_name=None, email=None):
         username = cherrypy.session[SESSION_KEY]
-        date = datetime.datetime.now().strftime("%B %d, %Y")
+        date = datetime.datetime.now().strftime('%B %d, %Y')
         if current_password and new_password:
             current_password = self.encrypt_password(current_password)
             if current_password == conn.execute('SELECT Password FROM Users WHERE UserId=?', (username,)).fetchone()[0]:
                 conn.execute('UPDATE Users SET Password=?, Date=? WHERE UserId=?',
                              (self.encrypt_password(new_password), date, username))
                 conn.commit()
-                raise cherrypy.HTTPRedirect("/admin/profile.html")
+                raise cherrypy.HTTPRedirect('/admin/profile.html')
             else:
-                raise cherrypy.HTTPRedirect("/admin/profile.html#error=Wrong password")
+                raise cherrypy.HTTPRedirect('/admin/profile.html#error=Wrong password')
         if first_name:
             conn.execute('UPDATE Users SET FirstName=?, Date=? WHERE UserId=?', (first_name, date, username))
             conn.commit()
-            raise cherrypy.HTTPRedirect("/admin/profile.html")
+            raise cherrypy.HTTPRedirect('/admin/profile.html')
         if last_name:
             conn.execute('UPDATE Users SET LastName=?, Date=? WHERE UserId=?', (last_name, date, username))
             conn.commit()
-            raise cherrypy.HTTPRedirect("/admin/profile.html")
+            raise cherrypy.HTTPRedirect('/admin/profile.html')
         if email:
             conn.execute('UPDATE Users SET Email=?, Date=? WHERE UserId=?', (email, date, username))
             conn.commit()
-            raise cherrypy.HTTPRedirect("/admin/profile.html")
-        raise cherrypy.HTTPRedirect("/admin/profile.html#error=No parameters received")
+            raise cherrypy.HTTPRedirect('/admin/profile.html')
+        raise cherrypy.HTTPRedirect('/admin/profile.html#error=No parameters received')
 
     @staticmethod
     def encrypt_password(password):
         return SHA256.new(password).hexdigest()
 
-    # def dropbox_files(self, files):
-    #     outdated_files = self.get.dropbox_files()['']
-    #     i = 0
-    #     while True:
-    #         if not files[i] or not outdated_files[i]:
-    #             break
-    #         if not files[i]['todisplay'] == outdated_files[i]['']
+        # def dropbox_files(self, files):
+        #     outdated_files = self.get.dropbox_files()['']
+        #     i = 0
+        #     while True:
+        #         if not files[i] or not outdated_files[i]:
+        #             break
+        #         if not files[i]['todisplay'] == outdated_files[i]['']
