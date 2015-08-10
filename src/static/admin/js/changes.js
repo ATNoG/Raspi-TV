@@ -1,11 +1,17 @@
-// Password Popover
-$('#popover_title').popover({
+//Location Popover
+$('#popover_location').popover({
     html: true,
     content: function () {
-        return $("#pop_title-content").html();
+        return $("#pop_location-content").html();
     }
 });
-// First Name Popover
+//Location Descrition Popover
+$('#popover_location_description').popover({
+    html: true,
+    content: function () {
+        return $("#pop_location_description-content").html();
+    }
+//Background Popover
 $('#popover_background').popover({
     html: true,
     content: function () {

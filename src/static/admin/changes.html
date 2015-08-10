@@ -57,7 +57,7 @@
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                <a href="#" class="btn btn-default btn-flat">Page Changes</a>
                             </div>
                             <div class="pull-right">
                                 <a href="/auth/logout" class="btn btn-default btn-flat">Sign out</a>
@@ -92,6 +92,9 @@
                                 class="fa fa-angle-double-right"></i> Dropbox</a></li>
                         <li><a href="/admin/pages/accounts/accounts.html#twitter"><i
                                 class="fa fa-angle-double-right"></i> Twitter</a></li>
+                        <li><a href="/admin/changes.html"><i
+                                class="fa fa-angle-double-right"></i>
+                            Changes</a></li>
                     </ul>
                 </li>
                 <li>
@@ -221,7 +224,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Profile
+                Page Changes
                 <small>Control panel</small>
             </h1>
             <ol class="breadcrumb">
@@ -249,7 +252,7 @@
                                         <a href="#" id="popover_location"></a>
 
                                         <div id="pop_location-content" class="hide">
-                                            <form action="/admin/update/user" method="post">
+                                            <form >
                                                 <div class="body">
                                                     <div class="form-group">
                                                         <input type="text" id="new_location"
@@ -272,7 +275,7 @@
                                         <a href="#" id="popover_location_description"></a>
 
                                         <div id="pop_location_description-content" class="hide">
-                                            <form action="/admin/update/user" method="post">
+                                            <form >
                                                 <div class="body">
                                                     <div class="form-group">
                                                         <input type="text" id="new_location_description"
@@ -295,7 +298,7 @@
                                         <a href="#" id="popover_background"></a>
 
                                         <div id="pop_background-content" class="hide">
-                                            <form action="/admin/update/user" method="post">
+                                            <form >
                                                 <div class="body">
                                                     <div class="form-group">
                                                         <input type="text" id="new_background"
@@ -336,5 +339,7 @@
 <!-- Mine -->
 <script src="/admin/js/admin.js" type="text/javascript"></script>
 <script src="/admin/js/profile.js" type="text/javascript"></script>
+<script src="/admin/js/changes.js" type="text/javascript"></script>
+
 </body>
 </html>
