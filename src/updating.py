@@ -26,8 +26,11 @@ class Updating:
     @cherrypy.expose
     @cherrypy.tools.allow(methods=['POST'])
     def updateDB (self, location, locationDescription,background):
-    	conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ',(location,'location',))
-        conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ',(locationDescription,'locationDescription',))
-        conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ',(background,'background',))
+        if (location != "NaN"):
+    	    conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ',(location,'location',))
+        if (locationDescription != "NaN"):
+            conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ',(locationDescription,'locationDescription',))
+        if (background != "NaN"):
+            conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ',(background,'background',))
 
 

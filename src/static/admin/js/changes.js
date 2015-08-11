@@ -2,6 +2,7 @@
 $('#popover_location').popover({
     html: true,
     content: function () {
+        console.log("LEEL");
         return $("#pop_location-content").html();
     }
 });
@@ -11,6 +12,7 @@ $('#popover_location_description').popover({
     content: function () {
         return $("#pop_location_description-content").html();
     }
+});
 //Background Popover
 $('#popover_background').popover({
     html: true,
@@ -21,8 +23,8 @@ $('#popover_background').popover({
 
 
 $(document).ready(function () {
-    
-    $.get( "/retrieveUpdates", function( data ) {
+
+    $.get( "/updating/retrieveUpdates", function( data ) {
             for(var i =0 ;i<data.length;i++){
                 if(data[i].type.localeCompare('text') == 0){
                     $('#'+data[i].id).html(data[i].content);
@@ -47,6 +49,6 @@ $(document).ready(function () {
         newBackground= $('#new_background').val();
     });  
 
-    $.post("/updateDB", {'location': newLocation, 'locationDescription': newLocationDescription},'background':newBackground);
+    $.post("/updating/updateDB", {'location': newLocation, 'locationDescription': newLocationDescription,'background':newBackground});
 
 });
