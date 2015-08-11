@@ -64,3 +64,18 @@ INSERT INTO [Users] VALUES (
   'ricardojesus@ua.pt',
   'January 1, 2015'
 );
+
+INSERT INTO [HTMLSettings] VALUES (
+    'location',
+    'DETI'
+);
+
+INSERT INTO [HTMLSettings] VALUES (
+    'locationDescription',
+    'Departamento de Electrónica, Telecomunicações e Informática'
+);
+
+INSERT INTO [HTMLSettings] VALUES (
+    'background',
+    'To be added'
+);
