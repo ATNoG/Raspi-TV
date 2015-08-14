@@ -2,24 +2,24 @@ $(document).ready(function(){
     var next = 1;
     $(".add-more").click(function(e){
         e.preventDefault();
-        var addto = "#field" + next;
-        var addRemove = "#field" + (next);
+        var addto = "#field1";
         next = next + 1;
-        var newIn = '<input autocomplete="off" class="input form-control" id="field' + next + '" name="field' + next + '" type="text">';
+        var addRemove = "#field_input" + (next);
+        var newIn = '<div class="input-group" id="field' + next + '"><input id="field_input' + next + '" class="form-control" placeholder="Your YouTube URL" type="text">';
         var newInput = $(newIn);
-        var removeBtn = '<button id="remove' + (next - 1) + '" class="btn btn-danger remove-me" >-</button></div><div id="field">';
+        var removeBtn = '<span class="input-group-btn"><button id="remove' + next + '" class="btn btn-danger remove-me" >-</button></span></div>';
         var removeButton = $(removeBtn);
-        $(addto).after(newInput);
+        $(addto).before(newInput);
         $(addRemove).after(removeButton);
         $("#field" + next).attr('data-source',$(addto).attr('data-source'));
 
             $('.remove-me').click(function(e){
                 e.preventDefault();
-                var fieldNum = this.id.charAt(this.id.length-1);
-                var fieldID = "#field" + fieldNum;
-                $(this).remove();
+                var fieldID = "#field" + this.id.replace("remove", "");
                 $(fieldID).remove();
+                console.log(fieldID);
             });
+
     });
     
 
