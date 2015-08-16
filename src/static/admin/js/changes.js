@@ -23,7 +23,34 @@ $('#popover_background').popover({
 
 $(document).ready(function () {
 
-    $.get('/updating/retrieveUpdates', function (data) {
+    get_Updates();
+});
+
+    // I don't think this should be run on document.ready
+
+var newLocation = "";
+var newLocationDescription = "";
+var newBackground = "";
+
+
+function sendTo(){
+    newLocation = $('#new_location').val();
+    newLocationDescription = $('#new_location_description').val();
+    newBackground = $('#new_background').val();
+
+    $.post('/updating/updateDB', {
+        'location': newLocation,
+        'locationDescription': newLocationDescription,
+        'background': newBackground
+    });
+
+    get_Updates();
+}
+
+
+function get_Updates(){
+    
+    $.get('/api/get_HTMLChanges', function (data) {
         for (var i = 0; i < data.length; i++) {
             if (!data[i].type.localeCompare('text')) {
                 $('#popover_' + data[i].id).html(data[i].content);
@@ -34,27 +61,6 @@ $(document).ready(function () {
             }
         }
     });
+}
 
-    // I don't think this should be run on document.ready
 
-    var newLocation = NaN;
-    var newLocationDescription = NaN;
-    var newBackground = NaN;
-
-    $('#location_btn').click(function () {
-        newLocation = $('#new_location').val();
-    });
-    $('#location_description_btn').click(function () {
-        newLocationDescription = $('#new_location_description').val();
-    });
-    $('#background_btn').click(function () {
-        newBackground = $('#new_background').val();
-    });
-
-    $.post('/updating/updateDB', {
-        'location': newLocation,
-        'locationDescription': newLocationDescription,
-        'background': newBackground
-    });
-
-});

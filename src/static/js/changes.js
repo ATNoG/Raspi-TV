@@ -1,7 +1,7 @@
 
 $(document).ready(function () {
     
-    $.get( "/updating/retrieveUpdates", function( data ) {
+    $.get( "/api/get_HTMLChanges", function( data ) {
         console.log(data);
             for(var i =0 ;i<data.length;i++){
                 if(data[i].type.localeCompare('text') == 0){
