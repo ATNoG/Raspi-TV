@@ -9,11 +9,11 @@ class Updating:
 
     @cherrypy.expose
     @cherrypy.tools.allow(methods=['POST'])
-    def updateDB(self, location, locationDescription, background):
-        if (len(location)>0):
-            print "ZEEEEEEEEEEEEEEEEEEEEEEE"+str(location)
+    def updateDB(self, location= None, locationDescription= None, background= None):
+        if location:
             conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ', (location, 'location',))
-        if (len(locationDescription)>0):
+        if locationDescription:
             conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ',(locationDescription, 'locationDescription',))
-        if (len(background)>0):
+        if background:
             conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ', (background, 'background',))
+        conn.commit()
