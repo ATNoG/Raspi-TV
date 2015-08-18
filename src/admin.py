@@ -179,10 +179,38 @@ class Update:
     def encrypt_password(password):
         return SHA256.new(password).hexdigest()
 
-        # def dropbox_files(self, files):
-        #     outdated_files = self.get.dropbox_files()['']
-        #     i = 0
-        #     while True:
-        #         if not files[i] or not outdated_files[i]:
-        #             break
-        #         if not files[i]['todisplay'] == outdated_files[i]['']
+    @cherrypy.expose
+    def dropbox_files(self, files):
+        outdated_files = self.get.dropbox_files()
+        i = 0
+        while True:
+            if not files[i] or not outdated_files[i]:
+                break
+            if not files[i]['todisplay'] == outdated_files[i]['todisplay']:
+                try:
+                    conn.execute('UPDATE Files SET ToDisplay = ? WHERE FilePath = ?',
+                                (outdated_files[i]['todisplay'], outdated_files[i]['filepath']))
+                    conn.commit()
+                except sql.Error:
+                    return 'Unsuccessful.'
+            i += 1
+
+        return 'Successful.'
+
+    @cherrypy.expose
+    def tweets(self, files):
+        outdated_tweets = self.get.tweets()
+        i = 0
+        while True:
+            if not files[i] or not outdated_tweets[i]:
+                break
+            if not files[i]['todisplay'] == outdated_tweets[i]['todisplay']:
+                try:
+                    conn.execute('UPDATE Tweets SET ToDisplay = ? WHERE TweetId = ?',
+                                (outdated_tweets[i]['todisplay'], outdated_tweets[i]['tweetid']))
+                    conn.commit()
+                except sql.Error:
+                    return 'Unsuccessful.'
+            i += 1
+
+        return 'Successful.'

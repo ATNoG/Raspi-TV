@@ -1,34 +1,56 @@
 $(document).ready(function(){
-    var twitter_code = "<tr><td class='tweetid'>" + data[i]['tweetid'] + "</td><td class='author'>" + data[i]['author'] + "</td><td class='tweet'>" + data[i]['tweet'] + "</td>";
-    var dropbox_code = "<tr><td class='filepath'>" + data[i]['filepath'] + "</td><td class='accountid'>" + data[i]['accountid'] + "</td>";
+    get_info_dropbox();
+    get_info_twitter();
 
-    get_info('tweets', twitter_code);
-    get_info('dropbox_files', dropbox_code);
+    $("#tweets-table").tableDnD();
+
+    $("#dropbox_files-table").tableDnD();
 
     $('#btn-update').click(function(){
        update_info();
     });
 });
 
-function get_info(query, input_code) {
-    $.get('/admin/get/' + query, function(data) {
+function get_info_twitter() {
+    $.get('/admin/get/tweets', function(data) {
         var html = "";
         for (var i = 0; i < data.length; i++) {
-            html += input_code;
+            html += "<tr><td class='tweetid'>" + data[i]['tweetid'] + "</td><td class='author'>" + data[i]['author'] + "</td><td class='tweet'>" + data[i]['tweet'] + "</td>";
             if (data[i]['todisplay'] != 0) {
                 html += "<td class='todisplay'><input type='checkbox' checked></td></tr>";
             } else {
                 html += "<td class='todisplay'><input type='checkbox'></td></tr>";
             }
         }
-        $('#' + query + '-table').find('tbody').html(html);
+        $('#tweets-table').find('tbody').html(html);
+    });
+}
+
+
+
+function get_info_dropbox() {
+    $.get('/admin/get/dropbox_files', function(data) {
+        var html = "";
+        for (var i = 0; i < data.length; i++) {
+            html += "<tr><td class='filepath'>" + data[i]['filepath'] + "</td><td class='accountid'>" + data[i]['accountid'] + "</td>";
+            if (data[i]['todisplay'] != 0) {
+                html += "<td class='todisplay'><input type='checkbox' checked></td></tr>";
+            } else {
+                html += "<td class='todisplay'><input type='checkbox'></td></tr>";
+            }
+        }
+        $('#dropbox_files-table').find('tbody').html(html);
     });
 }
 
 
 function update_info() {
-    var dropbox = get_dropbox_table();
-    var twitter = get_tweets_table();
+    var dropbox = {
+        files: get_dropbox_table()
+    };
+    var twitter = {
+        tweetlist: get_tweets_table()
+    };
 
     $.push('/admin/update/dropbox_files', dropbox, function(data) {
        if (data == 'Successful.') {
@@ -57,7 +79,7 @@ function get_dropbox_table() {
         var accountid = $elems.find('.accountid').html();
         var todisplay;
 
-        if ($elems.find('.todisplay').attr('checked')) {
+        if ($elems.find('.todisplay').is(":checked")) {
             todisplay = 1;
         } else {
             todisplay = 0;
@@ -84,7 +106,7 @@ function get_tweets_table() {
         var tweet = $elems.find('.tweet').html();
         var todisplay;
 
-        if ($elems.find('.todisplay').attr('checked')) {
+        if ($elems.find('.todisplay').is(":checked")) {
             todisplay = 1;
         } else {
             todisplay = 0;
