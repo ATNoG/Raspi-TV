@@ -24,7 +24,6 @@ class Api:
 
         background = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('background',)).fetchone()[1]
         response.append({'id': 'background', 'type': 'image', 'content': background})
-
         location = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('location',)).fetchone()[1]
         response.append({'id': 'location', 'type': 'text', 'content': location})
 

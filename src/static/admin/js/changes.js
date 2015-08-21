@@ -22,27 +22,39 @@ $('#popover_background').popover({
 
 
 $(document).ready(function () {
-
     get_Updates();
 });
 
-    // I don't think this should be run on document.ready
 
 var newLocation = "";
 var newLocationDescription = "";
 var newBackground = "";
 
 
-function sendTo(){
-    newLocation = $('#new_location').val();
-    newLocationDescription = $('#new_location_description').val();
-    newBackground = $('#new_background').val();
+function sendTo(id){
+    
+    if ($("#"+id).val().length <= 0 ){
 
-    $.post('/updating/updateDB', {
-        'location': newLocation,
-        'locationDescription': newLocationDescription,
-        'background': newBackground
-    });
+        $('.error_box').removeClass('hide');
+        $('.error_message').html("Enter Something");
+
+    }else{
+
+        $('.error_box').addClass('hide');
+
+        newLocation = $('#new_location').val();
+        newLocationDescription = $('#new_location_description').val();
+        newBackground = $('#new_background').val();
+
+        $.post('/admin/update/updateDB', {
+            'location': newLocation,
+            'locationDescription': newLocationDescription,
+            'background': newBackground
+        });
+        
+        location.reload();
+    }
+
 
     get_Updates();
 }

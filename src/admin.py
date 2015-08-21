@@ -214,3 +214,14 @@ class Update:
             i += 1
 
         return 'Successful.'
+
+    @cherrypy.expose
+    @cherrypy.tools.allow(methods=['POST'])
+    def updateDB(self, location= None, locationDescription= None, background= None):
+        if location:
+            conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ', (location, 'location',))
+        if locationDescription:
+            conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ',(locationDescription, 'locationDescription',))
+        if background:
+            conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ', (background, 'background',))
+        conn.commit()
