@@ -5,6 +5,7 @@ import cherrypy
 from api import Api
 from idp import Login
 from admin import Admin
+from youtube import Youtube
 from auth import AuthController
 from updating import Updating
 import webbrowser
@@ -17,6 +18,8 @@ class Root:
         self.admin = Admin()
         self.auth = AuthController()
         self.updating = Updating()
+        self.youtube = Youtube()
+
         
     _cp_config = {
         'tools.sessions.on': True,
