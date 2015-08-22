@@ -1,4 +1,3 @@
-
 $(document).ready(function () {
     
     $.get( "/api/get_HTMLChanges", function( data ) {

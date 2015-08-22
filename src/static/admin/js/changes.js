@@ -40,6 +40,14 @@ function sendTo(id){
 
     }else{
 
+        console.log($("#"+id).val());
+        var control = $("#new_background");
+
+        $("#background_btn").click(function () {
+            console.log("HELLLO");
+            control.replaceWith( control = control.clone( true ) );
+        });
+
         $('.error_box').addClass('hide');
 
         newLocation = $('#new_location').val();

@@ -296,23 +296,10 @@
                                     <th>Background</th>
                                     <td>
                                         <a href="#" id="popover_background"></a>
-
-                                        <div id="pop_background-content" class="hide">
-                                            <form>
-                                                <div class="body">
-                                                    <div class="form-group">
-                                                        <input type="text" id="new_background"
-                                                               class="form-control"
-                                                               placeholder="New Background"/>
-                                                    </div>
-                                                    <div class="footer">
-                                                        <button id="background_btn" type="submit"
-                                                                class="btn bg-blue btn-block" onclick='sendTo("new_background")'>Change Background
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
+                                        <input type="file" id="new_background">
+                                        <button id="background_btn" type="submit"
+                                                                class="btn-sm bg-blue" onclick='sendTo("new_background")'>Change Background
+                                        </button>
                                     </td>
                                 </tr>
                             </table>
