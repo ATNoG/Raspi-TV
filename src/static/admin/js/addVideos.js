@@ -3,13 +3,8 @@ $(document).ready(function(){
 
     function remove(btn){
         var fieldID = "#field_input" + btn.id.replace("remove", "");
-        console.log(fieldID);
         var num = fieldID.split("#field_input");
-        console.log("NUM");
-        console.log(num);
         var link = $(fieldID).val();
-        console.log("LINK");
-        console.log(link);
         if(typeof link === 'undefined'){
             return;
         };
@@ -19,8 +14,7 @@ $(document).ready(function(){
         });
     }
 
-    $.getJSON("/api/list_of_ids", function( data ){
-            console.log(data);
+    $.getJSON("/api/list_of_links", function( data ){
             for(var i=0; i<data.content.length; i++){
                  $("#field").after('<div class="input-group" id="field' + next + '"><input disabled id="field_input' + next + '" class="form-control" type="text">' + '<span class="input-group-btn"><button id="remove' + next + '" class="btn btn-danger remove-me" type="button">-</button></span></div>');
                  $('#field_input' + next).val(data.content[i]);
@@ -31,34 +25,53 @@ $(document).ready(function(){
             $(".remove-me").click(function(){
                 remove(this);
             });
-
     });
 
     $(".add-more").click(function(e){
         e.preventDefault();
-        var addto = "#field";
-        var addRemove = "#field_input" + next;
         var link = $("#field_input").val();
-        var newIn = '<div class="input-group" id="field' + next + '"><input disabled id="field_input' + next + '" class="form-control" type="text">';
-        var newInput = $(newIn);
-
-        var removeBtn = '<span class="input-group-btn"><button id="remove' + next + '" class="btn btn-danger remove-me" >-</button></span></div>';
-        var removeButton = $(removeBtn);
-        $(addto).after(newInput);
-        $('#field_input' + next).val(link);
-        $(addRemove).after(removeButton);
-        $("#field" + next).attr('data-source',$(addto).attr('data-source'));
-        next = next + 1;
-
 
         $.post( "/youtube/save_link", {link: link}, function( data ) {
+            data = JSON.parse(data);
+            if(data.status!=200){
+                $.alert({
+                title: 'Atention!',
+                content: 'Your video is not valid!',
+                });
+            } else {
+                $.alert({
+                title: 'Success!',
+                content: 'Video added!',
+                });
+
+
+                var addto = "#field";
+                var addRemove = "#field_input" + next;
+                if(link.length<1){
+                    $.alert({
+                    title: 'Atention!',
+                    content: 'The input box cannot be empty!',
+                    });
+                    return;
+                }
+                var newIn = '<div class="input-group" id="field' + next + '"><input disabled id="field_input' + next + '" class="form-control" type="text">';
+                var newInput = $(newIn);
+
+                var removeBtn = '<span class="input-group-btn"><button id="remove' + next + '" class="btn btn-danger remove-me" >-</button></span></div>';
+                var removeButton = $(removeBtn);
+                $(addto).after(newInput);
+                $('#field_input' + next).val(link);
+                $(addRemove).after(removeButton);
+                $("#field" + next).attr('data-source',$(addto).attr('data-source'));
+                next = next + 1;
+
+                $('#field_input').val('');
+
+                $(".remove-me").click(function(){
+                    remove(this);
+                });
+
+            }
         });
-
-        $('#field_input').val('');
-
-        $(".remove-me").click(function(){
-            remove(this);
-        });
-
     });
 });
