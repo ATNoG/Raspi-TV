@@ -1,6 +1,17 @@
 $(document).ready(function(){
     var next = 1;
 
+    function remove(btn){
+        var fieldID = "#field_input" + btn.id.replace("remove", "");
+        var num = fieldID.split("#field_input");
+        console.log(fieldID);
+        var tmp = $(fieldID).val();
+        $(fieldID).remove();
+        $("#remove" + num[1]).remove();
+        $.post( "/youtube/deleteId", {id :tmp}, function( data ) {
+        });
+    }
+
     $.getJSON("/api/list_of_ids", function( data ){
             console.log(data);
             for(var i=0; i<data.content.length; i++){
@@ -10,15 +21,7 @@ $(document).ready(function(){
             }
 
         $(".remove-me").click(function(){
-                    var fieldID = "#field_input" + this.id.replace("remove", "");
-                    var num = fieldID.split("#field_input");
-                    console.log(fieldID);
-                    var tmp = $(fieldID).val();
-                    console.log(tmp);
-                    $(fieldID).remove();
-                    $("#remove" + num[1]).remove();
-                    //$.post( "/youtube/deleteId", link, function( data ) {
-                    //});
+            remove(this);
         });
 
     });
@@ -44,17 +47,9 @@ $(document).ready(function(){
 
         $('#field_input').val('');
 
+        $(".remove-me").click(function(){
+            remove(this);
+        });
+
     });
-
-
-
-    //$("#remove" + 1).click(function(){
-    //    console.log("passou");
-    //    var link = $("#field_input").val();
-
-//        $.post( "/youtube/deleteId", link, function( data ) {
-  //          console.log(data);
-    //    });
-    //});
-
 });

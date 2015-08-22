@@ -18,11 +18,12 @@ class Youtube:
     @cherrypy.expose
     @cherrypy.tools.allow(methods=['POST'])
     def deleteId(self, id):
-        db = sql.connect("raspi-tv.db")
-        find_id = db.execute("SELECT * FROM YouTube WHERE VideoId = (?);", (id,)).fetchall()
+        db = sql.connect('../db/raspi-tv.sqlite')
+        find_id = db.execute("SELECT * FROM YouTube WHERE VideoId = (?);", (id,)).fetchone()
 
-        if find_id:
-            db.execute("DELETE FROM YouTube WHERE VideoId = (?);", (id,))
+        db.execute("DELETE FROM YouTube WHERE VideoId = (?);", (find_id[0],))
+        db.commit()
+        db.close()
 
 
 
