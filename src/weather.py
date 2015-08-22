@@ -1,4 +1,7 @@
 import pyowm
+import sqlite3 as sql
+
+conn = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
 
 # sign in at http://home.openweathermap.org/users/sign_up
 # and get the API Key and paste bellow:
@@ -10,8 +13,14 @@ owm = pyowm.OWM('9a1dd6da7dec9485cacbe5ea25ed40de')
 
 
 def get_weather():
+    try:
+        location = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('weather',)).fetchone()[1]
+        observation = owm.weather_at_place(location+',pt')
+    except:
+        observation = owm.weather_at_place('Aveiro,pt')
+
     # Search for current weather
-    observation = owm.weather_at_place('Aveiro,pt')
+
     weather = observation.get_weather()
     return {'weather': {'wind': weather.get_wind(),
                         'humidity': weather.get_humidity(),

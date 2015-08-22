@@ -79,3 +79,8 @@ INSERT INTO [HTMLSettings] VALUES (
     'background',
     'To be added'
 );
+
+INSERT INTO [HTMLSettings] VALUES (
+    'weather',
+    'Aveiro'
+);

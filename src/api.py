@@ -24,11 +24,14 @@ class Api:
 
         background = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('background',)).fetchone()[1]
         response.append({'id': 'background', 'type': 'image', 'content': background})
+
         location = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('location',)).fetchone()[1]
         response.append({'id': 'location', 'type': 'text', 'content': location})
 
-        locationDescription = \
-        conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('locationDescription',)).fetchone()[1]
+        locationDescription = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('locationDescription',)).fetchone()[1]
         response.append({'id': 'location_description', 'type': 'text', 'content': locationDescription})
+
+        weather = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('weather',)).fetchone()[1]
+        response.append({'id': 'weather', 'type': 'text', 'content': weather})
 
         return json.dumps(response)
