@@ -59,7 +59,8 @@ CREATE TABLE [HTMLSettings] (
 );
 
 CREATE TABLE [YouTube] (
-    [VideoId] TEXT PRIMARY KEY NOT NULL
+    [VideoId] TEXT PRIMARY KEY NOT NULL,
+    [VideoName] TEXT
 );
 
 INSERT INTO [Users] VALUES (

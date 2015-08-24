@@ -33,18 +33,13 @@ $(document).ready(function(){
 
         $.post( "/youtube/save_link", {link: link}, function( data ) {
             data = JSON.parse(data);
+
             if(data.status!=200){
                 $.alert({
                 title: 'Atention!',
-                content: 'Your video is not valid!',
+                content: 'Your video couldn\'t be added! Verify if the URL is valid or if the video have already been added.',
                 });
-            } else {
-                $.alert({
-                title: 'Success!',
-                content: 'Video added!',
-                });
-
-
+            }else{
                 var addto = "#field";
                 var addRemove = "#field_input" + next;
                 if(link.length<1){
@@ -66,6 +61,11 @@ $(document).ready(function(){
                 next = next + 1;
 
                 $('#field_input').val('');
+
+                $.alert({
+                    title: 'Success!',
+                    content: 'Video added and downloaded!',
+                });
 
                 $(".remove-me").click(function(){
                     remove(this);
