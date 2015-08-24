@@ -3,6 +3,8 @@ import sqlite3 as sql
 # not necessary, just for demo purposes
 from pprint import pprint
 import json
+import os
+import glob
 
 # from https://github.com/nficano/pytube
 def download(link):
@@ -36,7 +38,7 @@ def download(link):
     find_id = db.execute("SELECT * FROM YouTube WHERE VideoId = (?);", (link,)).fetchall()
 
     #check if the URL haven't been added
-    if find_id:
+    if len(find_id)>0:
         return json.dumps({'status': 500})
 
     if not find_id:
@@ -119,3 +121,18 @@ def download(link):
     # Note: If you wanted to choose the output directory, simply pass it as an
     # argument to the download method.
     # video.download('/tmp/')
+
+    return json.dumps({'status': 200})
+
+
+def delete_video(name):
+
+    #in case of mp4
+    files = glob.glob('static/videos/' + name + '.mp4')
+    for f in files:
+        os.remove(f)
+
+    #in case of webm
+    files = glob.glob('static/videos/' + name + '.webm')
+    for f in files:
+        os.remove(f)
