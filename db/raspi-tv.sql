@@ -12,6 +12,8 @@ DROP TABLE IF EXISTS [HTMLSettings];
 
 DROP TABLE IF EXISTS [YouTube];
 
+DROP TABLE IF EXISTS [News];
+
 CREATE TABLE [Users] (
   [UserId]    TEXT PRIMARY KEY  NOT NULL, -- Username
   [Password]  TEXT              NOT NULL, -- Password
@@ -61,6 +63,13 @@ CREATE TABLE [HTMLSettings] (
 CREATE TABLE [YouTube] (
     [VideoId] TEXT PRIMARY KEY NOT NULL,
     [VideoName] TEXT
+);
+
+CREATE TABLE [News] (
+    [Title] TEXT PRIMARY KEY NOT NULL,
+    [Date_Updated] TEXT,
+    [Author] TEXT,
+    [Content] TEXT
 );
 
 INSERT INTO [Users] VALUES (
