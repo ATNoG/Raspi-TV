@@ -37,16 +37,18 @@ CREATE TABLE [Twitter] (
 );
 
 CREATE TABLE [Tweets] (
-  [TweetId]   INTEGER PRIMARY KEY NOT NULL, -- Tweet Id
-  [Author]    TEXT                NOT NULL, -- Tweet's author
-  [Tweet]     TEXT                NOT NULL, -- Tweet's text (actual tweet)
-  [ToDisplay] INTEGER DEFAULT 0   NOT NULL   -- 'Boolean value' determining whether to display the tweet or not
+  [TweetId]    INTEGER PRIMARY KEY NOT NULL, -- Tweet Id
+  [Author]     TEXT                NOT NULL, -- Tweet's author
+  [Tweet]      TEXT                NOT NULL, -- Tweet's text (actual tweet)
+  [ToDisplay]  INTEGER DEFAULT 0   NOT NULL,   -- 'Boolean value' determining whether to display the tweet or not
+  [TweetOrder] INTEGER DEFAULT -1  NOT NULL   -- Order in main page presentation
 );
 
 CREATE TABLE [Files] (
-  [FilePath]  TEXT PRIMARY KEY  NOT NULL, -- Absolute path to file
-  [ToDisplay] INTEGER           NOT NULL, -- 'Boolean value' determining whether to use the file or not
-  [AccountId] TEXT              NOT NULL, -- Refers which dropbox account the file belongs to
+  [FilePath]  TEXT PRIMARY KEY    NOT NULL, -- Absolute path to file
+  [ToDisplay] INTEGER             NOT NULL, -- 'Boolean value' determining whether to use the file or not
+  [FileOrder] INTEGER DEFAULT -1  NOT NULL,   -- Order in main page presentation
+  [AccountId] TEXT                NOT NULL, -- Refers which dropbox account the file belongs to
   FOREIGN KEY ([AccountId]) REFERENCES [Accounts] ([AccountId])
   ON DELETE NO ACTION ON UPDATE NO ACTION
 );

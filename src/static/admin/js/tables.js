@@ -2,10 +2,6 @@ $(document).ready(function(){
     get_info_dropbox();
     get_info_twitter();
 
-    $("#tweets-table").tableDnD();
-
-    $("#dropbox_files-table").tableDnD();
-
     $('#btn-update').click(function(){
        update_info();
     });

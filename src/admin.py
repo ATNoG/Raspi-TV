@@ -127,18 +127,18 @@ class Get:
 
     def dropbox_files(self):
         all_files = []
-        for f in conn.execute('SELECT * FROM Files').fetchall():  # se puderes experimenta retirar o .fetchall()
+        for f in conn.execute('SELECT * FROM Files ORDER BY FileOrder DESC').fetchall():  # se puderes experimenta retirar o .fetchall()
             # Revê o código que tinhas antes. Acho que o que querias era isto
-            all_files.append({'accountid': f[2], 'filepath': f[0], 'todisplay': f[1]})
+            all_files.append({'accountid': f[3], 'filepath': f[0], 'todisplay': f[1], 'order': f[2]})
 
         return json.dumps(all_files, separators=(',', ':'))
 
     def tweets(self):
         all_tweets = []
-        for tweet in conn.execute('SELECT * FROM Tweets').fetchall():  # Idem caso acima resulte
+        for tweet in conn.execute('SELECT * FROM Tweets ORDER BY TweetOrder DESC').fetchall():  # Idem caso acima resulte
             # Por favor revê também esta parte. Mais uma vez suponho que querias isto
             all_tweets.append({'tweetid': tweet[0], 'author': tweet[1],
-                               'tweet': tweet[2], 'todisplay': tweet[3]})
+                               'tweet': tweet[2], 'todisplay': tweet[3], 'order': tweet[4]})
 
         return json.dumps(all_tweets, separators=(',', ':'))
 
@@ -189,7 +189,14 @@ class Update:
             if not files[i]['todisplay'] == outdated_files[i]['todisplay']:
                 try:
                     conn.execute('UPDATE Files SET ToDisplay = ? WHERE FilePath = ?',
-                                (outdated_files[i]['todisplay'], outdated_files[i]['filepath']))
+                                 (files[i]['todisplay'], files[i]['filepath']))
+                    conn.commit()
+                except sql.Error:
+                    return 'Unsuccessful.'
+            if not files[i]['order'] == outdated_files[i]['order']:
+                try:
+                    conn.execute('UPDATE Files SET FileOrder = ? WHERE FilePath = ?',
+                                 (files[i]['order'], files[i]['filepath']))
                     conn.commit()
                 except sql.Error:
                     return 'Unsuccessful.'
@@ -198,16 +205,23 @@ class Update:
         return 'Successful.'
 
     @cherrypy.expose
-    def tweets(self, files):
+    def tweets(self, tweets):
         outdated_tweets = self.get.tweets()
         i = 0
         while True:
-            if not files[i] or not outdated_tweets[i]:
+            if not tweets[i] or not outdated_tweets[i]:
                 break
-            if not files[i]['todisplay'] == outdated_tweets[i]['todisplay']:
+            if not tweets[i]['todisplay'] == outdated_tweets[i]['todisplay']:
                 try:
                     conn.execute('UPDATE Tweets SET ToDisplay = ? WHERE TweetId = ?',
-                                (outdated_tweets[i]['todisplay'], outdated_tweets[i]['tweetid']))
+                                 (tweets[i]['todisplay'], tweets[i]['tweetid']))
+                    conn.commit()
+                except sql.Error:
+                    return 'Unsuccessful.'
+            if not tweets[i]['order'] == outdated_tweets[i]['order']:
+                try:
+                    conn.execute('UPDATE Tweets SET TweetOrder = ? WHERE TweetId = ?',
+                                 (tweets[i]['order'], tweets[i]['tweetid']))
                     conn.commit()
                 except sql.Error:
                     return 'Unsuccessful.'
@@ -217,11 +231,11 @@ class Update:
 
     @cherrypy.expose
     @cherrypy.tools.allow(methods=['POST'])
-    def updateDB(self, location= None, locationDescription= None, background= None, weather=None):
+    def updateDB(self, location=None, locationDescription=None, background=None, weather=None):
         if location:
             conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ', (location, 'location',))
         if locationDescription:
-            conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ',(locationDescription, 'locationDescription',))
+            conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ', (locationDescription, 'locationDescription',))
         if background:
             conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ', (background, 'background',))
         if weather:

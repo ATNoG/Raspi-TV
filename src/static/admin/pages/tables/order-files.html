@@ -392,7 +392,7 @@
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        Data Tables
+                        Order presentation
                         <small>advanced tables</small>
                     </h1>
                     <ol class="breadcrumb">
@@ -407,60 +407,17 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <!-- Twitter -->
-                            <div class="box">
-                                <div class="box-header">
-                                    <h3 class="box-title">Data Table With Full Features</h3>                                    
-                                </div><!-- /.box-header -->
-                                <div class="box-body table-responsive">
-                                    <table id="tweets-table" class="table table-bordered table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Account</th>
-                                                <th>File Path</th>
-                                                <th>To Display</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Account</th>
-                                                <th>File Path</th>
-                                                <th>To Display</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div><!-- /.box-body -->
-                            </div><!-- /.box -->
+                            Twitter
+                            <ul class="list-group" id="tweets-table">
+                                <li class='list-group-item'>tweet1 | <span class='author'>autor</span> | <span class='tweet'>Olá</span>
+                                <li class='list-group-item'>tweet2 | <span class='author'>autor</span> | <span class='tweet'>Olá</span>
+                            </ul>
 
                             <!-- Dropbox -->
-                            <div class="box">
-                                <div class="box-header">
-                                    <h3 class="box-title">Data Table With Full Features</h3>
-                                </div><!-- /.box-header -->
-                                <div class="box-body table-responsive">
-                                    <table id="dropbox_files-table" class="table table-bordered table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Account</th>
-                                                <th>File Path</th>
-                                                <th>To Display</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                            Dropbox Files
+                            <ul class="list-group" id="dropbox-table">
 
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Account</th>
-                                                <th>File Path</th>
-                                                <th>To Display</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div><!-- /.box-body -->
-                            </div><!-- /.box -->
+                            </ul>
                         </div>
                     </div>
                 <div class="row">
@@ -482,7 +439,7 @@
 
         <script src="/admin/js/jquery-ui-1.10.3.js"></script>
 
-        <script src="/admin/js/tables.js"></script>
+        <script src="/admin/js/order-tables.js"></script>
 
     </body>
 </html>
