@@ -34,17 +34,17 @@ $(document).ready(function(){
 
     function get_weather_success(data){
     	console.log(data);
-    	if(data.content.weather.weather_code == 800){
+    	if(data.content.weather.status == 800){
 			$("#weather").html('<img src="img/img_met/sun.png" width="100%"/>');
-    	}else if(data.content.weather.weather_code == 801){
+    	}else if(data.content.weather.status == 801){
     		$("#weather").html('<img src="img/img_met/sun_simple_cloudy.png" width="100%"/>');
-    	}else if(data.content.weather.weather_code >= 802 && data.content.weather.weather_code <= 804 ){
+    	}else if(data.content.weather.status >= 802 && data.content.weather.status <= 804 ){
     		$("#weather").html('<img src="img/img_met/cloud.png" width="100%"/>');
-    	}else if((data.content.weather.weather_code >= 501 && data.content.weather.weather_code <= 531) || (data.content.weather.weather_code >= 300 && data.content.weather.weather_code >= 321)){
+    	}else if((data.content.weather.status >= 501 && data.content.weather.status <= 531) || (data.content.weather.status >= 300 && data.content.weather.status >= 321)){
     		$("#weather").html('<img src="img/img_met/rain.png" width="100%"/>');
-    	}else if(data.content.weather.weather_code == 500){
+    	}else if(data.content.weather.status == 500){
     		$("#weather").html('<img src="img/img_met/sun_simple_rain.png" width="100%"/>');
-    	}else if(data.content.weather.weather_code >= 600 && data.content.weather.weather_code <= 622){
+    	}else if(data.content.weather.status >= 600 && data.content.weather.status <= 622){
     		$("#weather").html('<img src="img/img_met/cloud_snow.png" width="100%"/>');
     	}else{
     		$("#weather").html('<img src="img/img_met/default.png" width="100%"/>');
@@ -53,8 +53,8 @@ $(document).ready(function(){
 		// icons from http://www.flaticon.com/search/haw-weather-fill
 
     	$("#hum").html('<img src="img/img_met/hum.png" width="15%"/>' + " " + '<big style="color:#33B3D1" "font-size:3%">' +  data.content.weather.humidity + "%" + '</big>');
-    	$("#temp").html('<img src="img/img_met/temp.png" width=15%"/>' + " " + '<big style="color:#33B3D1" "font-size:3%">'+ data.content.weather.temperature.temp + " ºC" + '</big>');
-    	$("#wind").html('<img src="img/img_met/wind.png" width="15%"/>'+ " " + '<big style="color:#33B3D1" "font-size:3%">' + data.content.weather.wind.speed*10 + " km/h" + '</big>');
+    	$("#temp").html('<img src="img/img_met/temp.png" width=15%"/>' + " " + '<big style="color:#33B3D1" "font-size:3%">'+ data.content.weather.temperature + " ºC" + '</big>');
+    	$("#wind").html('<img src="img/img_met/wind.png" width="15%"/>'+ " " + '<big style="color:#33B3D1" "font-size:3%">' + data.content.weather.wind + " km/h" + '</big>');
     };
 
 	get_news();

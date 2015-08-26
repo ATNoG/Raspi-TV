@@ -1,27 +1,44 @@
 import feedparser
 import urllib
 import sqlite3 as sql
+import requests
 
 def deti_news():
-    feed_content = feedparser.parse('http://services.web.ua.pt/deti/news/')
 
-    news = {"title": feed_content.feed.title, "news": []}
-    db = sql.connect('../db/raspi-tv.sqlite')
+    try:
+        response = requests.get("https://www.google.pt")
+        feed_content = feedparser.parse('http://services.web.ua.pt/deti/news/')
 
-    for entry in feed_content.entries:
-        news["news"] += [{"author": parse_author(entry.author),
-                          "summary": entry.summary,
-                          "title": entry.title,
-                          "date": parse_date(str(entry.updated))}]
+        news = {"title": feed_content.feed.title, "news": []}
 
-    print news["news"][0]["title"]
-    for i in range(0, len(news["news"])):
-        db.execute("INSERT INTO News VALUES (?,?,?,?);",
-                   (news["news"][i]["title"], news["news"][i]["date"], news["news"][i]["author"], news["news"][i]["summary"]))
-        db.commit()
-    db.close()
+        db = sql.connect('../db/raspi-tv.sqlite')
+        db.execute("DELETE FROM News;")
 
-    return news
+        for entry in feed_content.entries:
+            news["news"] += [{"author": parse_author(entry.author),
+                            "summary": entry.summary,
+                            "title": entry.title,
+                            "date": parse_date(str(entry.updated))}]
+
+        for i in range(0, len(news["news"])):
+            db.execute("INSERT INTO News VALUES (?,?,?,?);",
+                    (news["news"][i]["title"], news["news"][i]["date"], news["news"][i]["author"], news["news"][i]["summary"]))
+            db.commit()
+
+        db.close()
+
+        return news
+    except Exception:
+        news_db = {"title": "", "news": []}
+        db = sql.connect('../db/raspi-tv.sqlite')
+
+        for i in db.execute("SELECT * FROM News;").fetchall():
+            news_db["news"] += [{"author": i[2],
+                            "summary": i[3],
+                            "title": i[0],
+                            "date": i[1]}]
+
+        return news_db
 
 
 def parse_author(author):

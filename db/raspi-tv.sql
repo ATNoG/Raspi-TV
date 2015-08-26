@@ -72,6 +72,13 @@ CREATE TABLE [News] (
     [Content] TEXT
 );
 
+CREATE TABLE [Weather] (
+    [Wind] TEXT PRIMARY KEY NOT NULL,
+    [Humidity] TEXT,
+    [Temperature] TEXT,
+    [Weather_Code] TEXT
+);
+
 INSERT INTO [Users] VALUES (
   'RJJ',
   '65304dac3823069673aa9d3b90dcb9f44938e2d12f58509addc915d08922b64b', -- "ricardo"
