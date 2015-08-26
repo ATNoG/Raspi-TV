@@ -205,23 +205,23 @@ class Update:
         return 'Successful.'
 
     @cherrypy.expose
-    def tweets(self, tweets):
+    def tweets(self, tweetlist):
         outdated_tweets = self.get.tweets()
         i = 0
         while True:
-            if not tweets[i] or not outdated_tweets[i]:
+            if not tweetlist[i] or not outdated_tweets[i]:
                 break
-            if not tweets[i]['todisplay'] == outdated_tweets[i]['todisplay']:
+            if not tweetlist[i]['todisplay'] == outdated_tweets[i]['todisplay']:
                 try:
                     conn.execute('UPDATE Tweets SET ToDisplay = ? WHERE TweetId = ?',
-                                 (tweets[i]['todisplay'], tweets[i]['tweetid']))
+                                 (tweetlist[i]['todisplay'], tweetlist[i]['tweetid']))
                     conn.commit()
                 except sql.Error:
                     return 'Unsuccessful.'
-            if not tweets[i]['order'] == outdated_tweets[i]['order']:
+            if not tweetlist[i]['order'] == outdated_tweets[i]['order']:
                 try:
                     conn.execute('UPDATE Tweets SET TweetOrder = ? WHERE TweetId = ?',
-                                 (tweets[i]['order'], tweets[i]['tweetid']))
+                                 (tweetlist[i]['order'], tweetlist[i]['tweetid']))
                     conn.commit()
                 except sql.Error:
                     return 'Unsuccessful.'
