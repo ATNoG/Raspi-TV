@@ -2,6 +2,9 @@ import feedparser
 import urllib
 import sqlite3 as sql
 import requests
+import re
+import wget
+
 
 def deti_news():
 
@@ -24,6 +27,12 @@ def deti_news():
             db.execute("INSERT INTO News VALUES (?,?,?,?);",
                     (news["news"][i]["title"], news["news"][i]["date"], news["news"][i]["author"], news["news"][i]["summary"]))
             db.commit()
+
+        for i in range(0, len(news["news"])):
+            tmp = news["news"][i]["summary"]
+            #print tmp
+            download_photo(tmp)
+
 
         db.close()
 
@@ -49,6 +58,7 @@ def parse_author(author):
             author += slice.strip().replace("_", " ")
     return author
 
+
 def parse_date(date):
 
     date_time = date.split("T")
@@ -56,6 +66,21 @@ def parse_date(date):
     return " Date: " + date_time[0] + " Hour: " + tmp[0]
 
 
+def download_photo(tmp):
+    images = re.findall('(<img[^>]*src="[^"]*"[^>]*>)', tmp)
+    for image in images:
+        url = re.search('(src="[^"]*")', image)
+        url = url.group(0)
+        url = url.split("\"")[1]
+
+        print url
+
+        if "cid" in url:
+            pass
+        else:
+            name = url.split("=")
+            name = name[1]
+        filename = wget.download(url, "static/img/feed_imgs/" + name + ".jpg")
+
 if __name__ == '__main__':
     resp = deti_news()
-    resp

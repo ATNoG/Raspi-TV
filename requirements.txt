@@ -5,3 +5,4 @@ pyowm>=2.2.1
 dropbox>=2.2.0
 python-twitter>=2.2
 pytube
+wget
