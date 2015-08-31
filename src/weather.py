@@ -1,6 +1,5 @@
 import pyowm
 import sqlite3 as sql
-import requests
 
 # forecast = owm.daily_forecast("Aveiro,pt")
 #tomorrow = pyowm.timeutils.tomorrow()
@@ -10,7 +9,6 @@ import requests
 def get_weather():
 
     try:
-        response = requests.get("https://www.google.pt")
         # sign in at http://home.openweathermap.org/users/sign_up
         # and get the API Key and paste bellow:
         owm = pyowm.OWM('9a1dd6da7dec9485cacbe5ea25ed40de')
@@ -27,15 +25,23 @@ def get_weather():
         temperature = weather.get_temperature('celsius')
         temperature = temperature['temp']
         code = weather.get_weather_code()
+        sunrise = weather.get_sunrise_time('iso')
+        sunrise = sunrise[0].split(" ")
+        sunrise = sunrise[1].split("+")
+        sunset = weather.get_sunset_time('iso')
+        sunset = sunset[0].split(" ")
+        sunset = sunset[1].split("+")
 
-        db.execute("INSERT INTO Weather VALUES (?,?,?,?)", (wind, humidity, temperature, code))
+        db.execute("INSERT INTO Weather VALUES (?,?,?,?,?,?)", (wind, humidity, temperature, code, sunrise, sunset))
         db.commit()
         db.close()
 
         return {'weather': {'wind': wind,
                             'humidity': humidity,
                             'temperature': temperature,
-                            'status': code
+                            'status': code,
+                            'sunrise': sunrise[0],
+                            'sunset': sunset[0]
                             }
                 }
     except Exception:
@@ -44,10 +50,18 @@ def get_weather():
         humidity = db.execute("SELECT Humidity FROM Weather;").fetchone()
         temperature = db.execute("SELECT Temperature FROM Weather;").fetchone()
         status = db.execute("SELECT Weather_Code FROM Weather;").fetchone()
+        sunrise = db.execute("SELECT Sunrise_Time FROM Weather;").fetchone()
+        sunset = db.execute("SELECT Sunset_Time FROM Weather;").fetchone()
+        sunrise = sunrise[0].split(" ")
+        sunrise = sunrise[1].split("+")
+        sunset = sunset[0].split(" ")
+        sunset = sunset[1].split("+")
 
         return {'weather': {'wind': wind[0],
                             'humidity': humidity[0],
                             'temperature': temperature[0],
-                            'status': status[0]
+                            'status': status[0],
+                            'sunset': sunset[0],
+                            'sunrise': sunrise[0]
                             }
                 }

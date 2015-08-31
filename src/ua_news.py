@@ -7,7 +7,6 @@ import wget
 
 
 def deti_news():
-    open("static/img/feed_imgs/156.jpg", "r")
     try:
         response = requests.get("https://www.google.pt")
         feed_content = feedparser.parse('http://services.web.ua.pt/deti/news/')
@@ -36,28 +35,19 @@ def deti_news():
                         (news["news"][i]["title"], news["news"][i]["date"], news["news"][i]["author"], tmp))
                 db.commit()
 
-        news_db = {"title": "", "news": []}
-        for i in db.execute("SELECT * FROM News;").fetchall():
-            news_db["news"] += [{"author": i[2],
-                            "summary": i[3],
-                            "title": i[0],
-                            "date": i[1]}]
-
-        db.close()
-
-
-        return news_db
     except Exception:
-        news_db = {"title": "", "news": []}
-        db = sql.connect('../db/raspi-tv.sqlite')
+        pass
 
-        for i in db.execute("SELECT * FROM News;").fetchall():
-            news_db["news"] += [{"author": i[2],
-                            "summary": i[3],
-                            "title": i[0],
-                            "date": i[1]}]
+    news_db = {"title": "", "news": []}
+    db = sql.connect('../db/raspi-tv.sqlite')
 
-        return news_db
+    for i in db.execute("SELECT * FROM News;").fetchall():
+        news_db["news"] += [{"author": i[2],
+                        "summary": i[3],
+                        "title": i[0],
+                        "date": i[1]}]
+
+    return news_db
 
 
 def parse_author(author):
@@ -91,7 +81,7 @@ def download_photo(tmp):
             filename = wget.download(url, "static/img/feed_imgs/" + name + ".jpg")
             new_path_url = ["img/feed_imgs/" + name + ".jpg", url]
 
-            return tmp.replace(new_path_url[1], new_path_url[0])
+        return tmp.replace(new_path_url[1], new_path_url[0])
 
 if __name__ == '__main__':
     resp = deti_news()

@@ -14,6 +14,8 @@ DROP TABLE IF EXISTS [YouTube];
 
 DROP TABLE IF EXISTS [News];
 
+DROP TABLE IF EXISTS [Weather];
+
 CREATE TABLE [Users] (
   [UserId]    TEXT PRIMARY KEY  NOT NULL, -- Username
   [Password]  TEXT              NOT NULL, -- Password
@@ -76,7 +78,9 @@ CREATE TABLE [Weather] (
     [Wind] TEXT PRIMARY KEY NOT NULL,
     [Humidity] TEXT,
     [Temperature] TEXT,
-    [Weather_Code] TEXT
+    [Weather_Code] TEXT,
+    [Sunrise_Time] TEXT,
+    [Sunset_Time] TEXT
 );
 
 INSERT INTO [Users] VALUES (
