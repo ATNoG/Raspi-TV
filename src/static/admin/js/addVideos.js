@@ -36,41 +36,16 @@ $(document).ready(function(){
 
             if(data.status!=200){
                 $.alert({
-                title: 'Atention!',
+                title: 'Attention!',
                 content: 'Your video couldn\'t be added! Verify if the URL is valid or if the video have already been added.',
                 });
             }else{
-                var addto = "#field";
-                var addRemove = "#field_input" + next;
-                if(link.length<1){
-                    $.alert({
-                    title: 'Atention!',
-                    content: 'The input box cannot be empty!',
-                    });
-                    return;
-                }
-                var newIn = '<div class="input-group" id="field' + next + '"><input disabled id="field_input' + next + '" class="form-control" type="text">';
-                var newInput = $(newIn);
-
-                var removeBtn = '<span class="input-group-btn"><button id="remove' + next + '" class="btn btn-danger remove-me" >-</button></span></div>';
-                var removeButton = $(removeBtn);
-                $(addto).after(newInput);
-                $('#field_input' + next).val(link);
-                $(addRemove).after(removeButton);
-                $("#field" + next).attr('data-source',$(addto).attr('data-source'));
-                next = next + 1;
-
                 $('#field_input').val('');
 
                 $.alert({
-                    title: 'Success!',
-                    content: 'Video added and downloaded!',
+                    title: 'OK!',
+                    content: 'Your video is in the queue to be downloaded, <strong>refresh</strong> to check if is finished!',
                 });
-
-                $(".remove-me").click(function(){
-                    remove(this);
-                });
-
             }
         });
     });

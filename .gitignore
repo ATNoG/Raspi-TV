@@ -123,5 +123,8 @@ environment
 # images stored
 src/static/img/feed_imgs
 
+# youtube videos
+src/static/videos
+
 # db
 raspi-tv.db

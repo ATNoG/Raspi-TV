@@ -5,6 +5,8 @@ from pprint import pprint
 import json
 import os
 import glob
+import sys
+
 
 # from https://github.com/nficano/pytube
 def download(link):
@@ -33,18 +35,6 @@ def download(link):
 
     # view the auto generated filename:
     print(yt.filename)
-
-    db = sql.connect('../db/raspi-tv.sqlite')
-    find_id = db.execute("SELECT * FROM YouTube WHERE VideoId = (?);", (link,)).fetchall()
-
-    #check if the URL haven't been added
-    if len(find_id)>0:
-        return json.dumps({'status': 500})
-
-    if not find_id:
-        db.execute("INSERT INTO YouTube VALUES (?,?);", (link, yt.filename))
-        db.commit()
-    db.close()
 
     #Pulp Fiction - Dancing Scene [HD]
 
@@ -122,7 +112,11 @@ def download(link):
     # argument to the download method.
     # video.download('/tmp/')
 
-    return json.dumps({'status': 200})
+    db = sql.connect('../db/raspi-tv.sqlite')
+    db.execute("INSERT INTO YouTube VALUES (?,?);", (link, yt.filename))
+    db.commit()
+    db.close()
+
 
 
 def delete_video(name):
@@ -136,3 +130,8 @@ def delete_video(name):
     files = glob.glob('static/videos/' + name + '.webm')
     for f in files:
         os.remove(f)
+
+
+if __name__ == "__main__":
+    if len(sys.argv) == 2:
+        download(sys.argv[1])
