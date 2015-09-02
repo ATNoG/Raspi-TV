@@ -4,13 +4,21 @@ import sqlite3 as sql
 import re
 import wget
 import os
+import glob
+
 
 
 def deti_news():
     try:
+        #delete all the images
+
+        files = glob.glob('static/img/feed_imgs/*')
+        for f in files:
+            os.remove(f)
+
         feed_content = feedparser.parse('http://services.web.ua.pt/deti/news/')
 
-        news = {"title": feed_content.feed.title, "news": []}
+        news = {"title": feed_content.feed.title, "news": [], "videos": []}
 
         db = sql.connect('../db/raspi-tv.sqlite')
         db.execute("DELETE FROM News;")
@@ -36,7 +44,7 @@ def deti_news():
     except Exception, e:
         print e.message
 
-    news_db = {"title": "", "news": []}
+    news_db = {"title": "", "news": [], "videos": []}
     db = sql.connect('../db/raspi-tv.sqlite')
 
     for i in db.execute("SELECT * FROM News;").fetchall():
@@ -44,6 +52,9 @@ def deti_news():
                         "summary": i[3],
                         "title": i[0],
                         "date": i[1]}]
+
+    for j in db.execute("SELECT * FROM YouTube;").fetchall():
+        news_db["videos"] += [{'link': j[0], 'name': j[1]}]
 
     return news_db
 
@@ -86,7 +97,6 @@ def download_photo(tmp):
 
             tmp = tmp.replace(new_path_url[1], new_path_url[0])
 
-    print tmp
     return tmp
 
 if __name__ == '__main__':

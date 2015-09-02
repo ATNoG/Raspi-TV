@@ -42,7 +42,7 @@ def download(link):
         return json.dumps({'status': 500})
 
     if not find_id:
-        db.execute("INSERT INTO YouTube VALUES (?,?);", (link,yt.filename))
+        db.execute("INSERT INTO YouTube VALUES (?,?);", (link, yt.filename))
         db.commit()
     db.close()
 
