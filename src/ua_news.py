@@ -1,19 +1,62 @@
 import feedparser
 import urllib
+import sqlite3 as sql
+import re
+import wget
+import os
+import glob
+
 
 
 def deti_news():
-    feed_content = feedparser.parse('http://services.web.ua.pt/deti/news/')
+    try:
+        #delete all the images
 
-    news = {"title": feed_content.feed.title, "news": []}
+        files = glob.glob('static/img/feed_imgs/*')
+        for f in files:
+            os.remove(f)
 
-    for entry in feed_content.entries:
-        news["news"] += [{"author": parse_author(entry.author),
-                          "summary": entry.summary,
-                          "title": entry.title,
-                          "date": parse_date(str(entry.updated))}]
+        feed_content = feedparser.parse('http://services.web.ua.pt/deti/news/')
 
-    return news
+        news = {"title": feed_content.feed.title, "news": [], "videos": []}
+
+        db = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
+        db.execute("DELETE FROM News;")
+
+        for entry in feed_content.entries:
+            news["news"] += [{"author": parse_author(entry.author),
+                            "summary": entry.summary,
+                            "title": entry.title,
+                            "date": parse_date(str(entry.updated))}]
+
+        for i in range(0, len(news["news"])):
+            tmp = news["news"][i]["summary"]
+            new_tmp = download_photo(tmp)
+
+            if new_tmp:
+                db.execute("INSERT INTO News VALUES (?,?,?,?);",
+                        (news["news"][i]["title"], news["news"][i]["date"], news["news"][i]["author"], new_tmp))
+                db.commit()
+            else:
+                db.execute("INSERT INTO News VALUES (?,?,?,?);",
+                        (news["news"][i]["title"], news["news"][i]["date"], news["news"][i]["author"], tmp))
+                db.commit()
+    except Exception, e:
+        print e.message
+
+    news_db = {"title": "", "news": [], "videos": []}
+    db = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
+
+    for i in db.execute("SELECT * FROM News;").fetchall():
+        news_db["news"] += [{"author": i[2],
+                        "summary": i[3],
+                        "title": i[0],
+                        "date": i[1]}]
+
+    for j in db.execute("SELECT * FROM YouTube;").fetchall():
+        news_db["videos"] += [{'link': j[0], 'name': j[1]}]
+
+    return news_db
 
 
 def parse_author(author):
@@ -24,15 +67,37 @@ def parse_author(author):
             author += slice.strip().replace("_", " ")
     return author
 
+
 def parse_date(date):
 
     date_time = date.split("T")
     tmp = date_time[1].split("+")
-    print date_time
-    print tmp
     return " Date: " + date_time[0] + " Hour: " + tmp[0]
 
 
+def download_photo(tmp):
+    images = re.findall('(<img[^>]*src="[^"]*"[^>]*>)', tmp)
+
+    for image in images:
+        url = re.search('(src="[^"]*")', image)
+        url = url.group(0)
+        url = url.split("\"")[1]
+
+        if "cid" in url:
+            tmp = tmp.replace(image, "")
+        else:
+            name = url.split("=")
+            name = name[1]
+            if not os.path.exists("static/img/feed_imgs"):
+                os.makedirs("static/img/feed_imgs")
+
+            filename = wget.download(url, "static/img/feed_imgs/" + name + ".jpg")
+
+            new_path_url = ["img/feed_imgs/" + name + ".jpg", url]
+
+            tmp = tmp.replace(new_path_url[1], new_path_url[0])
+
+    return tmp
+
 if __name__ == '__main__':
     resp = deti_news()
-    resp

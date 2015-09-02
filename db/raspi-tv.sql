@@ -10,6 +10,12 @@ DROP TABLE IF EXISTS [Files];
 
 DROP TABLE IF EXISTS [HTMLSettings];
 
+DROP TABLE IF EXISTS [YouTube];
+
+DROP TABLE IF EXISTS [News];
+
+DROP TABLE IF EXISTS [Weather];
+
 CREATE TABLE [Users] (
   [UserId]    TEXT PRIMARY KEY  NOT NULL, -- Username
   [Password]  TEXT              NOT NULL, -- Password
@@ -56,6 +62,27 @@ CREATE TABLE [Files] (
 CREATE TABLE [HTMLSettings] (
   [IdName]  TEXT PRIMARY KEY NOT NULL, -- To be added
   [Content] TEXT             NOT NULL   -- To be added
+);
+
+CREATE TABLE [YouTube] (
+    [VideoId] TEXT PRIMARY KEY NOT NULL,
+    [VideoName] TEXT
+);
+
+CREATE TABLE [News] (
+    [Title] TEXT PRIMARY KEY NOT NULL,
+    [Date_Updated] TEXT,
+    [Author] TEXT,
+    [Content] TEXT
+);
+
+CREATE TABLE [Weather] (
+    [Wind] TEXT PRIMARY KEY NOT NULL,
+    [Humidity] TEXT,
+    [Temperature] TEXT,
+    [Weather_Code] TEXT,
+    [Sunrise_Time] TEXT,
+    [Sunset_Time] TEXT
 );
 
 INSERT INTO [Users] VALUES (

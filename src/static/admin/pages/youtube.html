@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Raspi-TV | YouTube</title>
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <!-- bootstrap 3.0.2 -->
+    <link href="/admin/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <!-- font Awesome -->
+    <link href="/admin/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <!-- Ionicons -->
+    <link href="/admin/css/ionicons.min.css" rel="stylesheet" type="text/css"/>
+    <!-- Theme style -->
+    <link href="/admin/css/AdminLTE.css" rel="stylesheet" type="text/css"/>
+    <!-- text box style -->
+    <link href="/admin/css/addVideos.css" rel="stylesheet" type="text/css"/>
+    <!-- warning box -->
+    <link href="/admin/css/jquery-confirm.min.css" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="/admin/js/html5shiv.js"></script>
+    <script src="/admin/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="skin-blue">
+<!-- header logo: style can be found in header.less -->
+<header class="header">
+    <a href="/admin/index.html" class="logo">
+        <!-- Add the class icon to your logo image or logo icon to add the margining -->
+        Raspi-TV
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top" role="navigation">
+        <!-- Sidebar toggle button-->
+        <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+
+        <div class="navbar-right">
+            <ul class="nav navbar-nav">
+                <!-- User Account: style can be found in dropdown.less -->
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="glyphicon glyphicon-user"></i>
+                        <span><span class="user_id"></span> <i class="caret"></i></span>
+                    </a>
+                    <ul id="user_info" class="dropdown-menu">
+                        <!-- User info -->
+                        <li id="login-row" class="user-header bg-light-blue">
+
+                            <p>
+                                <span class="user_first"></span> <span class="user_last"></span>
+                                <small>Member since <span class="user_date"></span></small>
+                            </p>
+                        </li>
+                        <!-- Menu Footer-->
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="#" class="btn btn-default btn-flat">Videos</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="/auth/logout" class="btn btn-default btn-flat">Sign out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<div class="wrapper row-offcanvas row-offcanvas-left">
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="left-side sidebar-offcanvas">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu">
+                <li class="active">
+                    <a href="/admin/index.html">
+                        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-group"></i>
+                        <span>Accounts</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/admin/pages/accounts/accounts.html#dropbox"><i
+                                class="fa fa-angle-double-right"></i> Dropbox</a></li>
+                        <li><a href="/admin/pages/accounts/accounts.html#twitter"><i
+                                class="fa fa-angle-double-right"></i> Twitter</a></li>
+                        <li><a href="/admin/changes.html"><i
+                                class="fa fa-angle-double-right"></i>
+                            Changes</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../widgets.html">
+                        <i class="fa fa-th"></i> <span>Widgets</span>
+                        <small class="badge pull-right bg-green">new</small>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-bar-chart-o"></i>
+                        <span>Charts</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="../charts/morris.html"><i class="fa fa-angle-double-right"></i> Morris</a></li>
+                        <li><a href="../charts/flot.html"><i class="fa fa-angle-double-right"></i> Flot</a></li>
+                        <li><a href="../charts/inline.html"><i class="fa fa-angle-double-right"></i> Inline charts</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-laptop"></i>
+                        <span>UI Elements</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="../UI/general.html"><i class="fa fa-angle-double-right"></i> General</a></li>
+                        <li><a href="../UI/icons.html"><i class="fa fa-angle-double-right"></i> Icons</a></li>
+                        <li><a href="../UI/buttons.html"><i class="fa fa-angle-double-right"></i> Buttons</a></li>
+                        <li><a href="../UI/sliders.html"><i class="fa fa-angle-double-right"></i> Sliders</a></li>
+                        <li><a href="../UI/timeline.html"><i class="fa fa-angle-double-right"></i> Timeline</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-edit"></i> <span>Forms</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="../forms/general.html"><i class="fa fa-angle-double-right"></i> General
+                            Elements</a></li>
+                        <li><a href="../forms/advanced.html"><i class="fa fa-angle-double-right"></i> Advanced Elements</a>
+                        </li>
+                        <li><a href="../forms/editors.html"><i class="fa fa-angle-double-right"></i> Editors</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-table"></i> <span>Tables</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="../tables/simple.html"><i class="fa fa-angle-double-right"></i> Simple tables</a>
+                        </li>
+                        <li><a href="../tables/data.html"><i class="fa fa-angle-double-right"></i> Data tables</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../calendar.html">
+                        <i class="fa fa-calendar"></i> <span>Calendar</span>
+                        <small class="badge pull-right bg-red">3</small>
+                    </a>
+                </li>
+                <li>
+                    <a href="../mailbox.html">
+                        <i class="fa fa-envelope"></i> <span>Mailbox</span>
+                        <small class="badge pull-right bg-yellow">12</small>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-folder"></i> <span>Examples</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="../examples/invoice.html"><i class="fa fa-angle-double-right"></i> Invoice</a></li>
+                        <li><a href="../examples/login.html"><i class="fa fa-angle-double-right"></i> Login</a></li>
+                        <li><a href="../examples/register.html"><i class="fa fa-angle-double-right"></i> Register</a>
+                        </li>
+                        <li><a href="../examples/lockscreen.html"><i class="fa fa-angle-double-right"></i>
+                            Lockscreen</a></li>
+                        <li><a href="../examples/404.html"><i class="fa fa-angle-double-right"></i> 404 Error</a></li>
+                        <li><a href="../examples/500.html"><i class="fa fa-angle-double-right"></i> 500 Error</a></li>
+                        <li><a href="../examples/blank.html"><i class="fa fa-angle-double-right"></i> Blank Page</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-folder"></i> Multilevel Menu
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+
+                    <ul class="treeview-menu">
+                        <li class="treeview">
+                            <a href="#">
+                                First level
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+
+                            <ul class="treeview-menu">
+                                <li class="treeview">
+                                    <a href="#">
+                                        Second level
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+
+                                    <ul class="treeview-menu">
+                                        <li>
+                                            <a href="#">Third level</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Right side column. Contains the navbar and content of the page -->
+    <aside class="right-side">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Videos
+                <small>Control panel</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li class="active">Accounts</li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="alert alert-warning alert-dismissable hide error_box">
+                <i class="fa fa-warning"></i>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <b>Error!</b> <span class="error_message"></span>.
+            </div>
+            <!-- http://bootsnipp.com/snippets/featured/dynamic-form-fields-add-amp-remove -->
+            <div class="input-group" id="field">
+              <input type="text" class="form-control" placeholder="Your YouTube URL" id="field_input">
+                <span class="input-group-btn">
+                    <button id="b1" class="btn add-more" type="button">+</button>
+                </span>
+            </div>
+            <!--
+            <div class="container">
+	            <div class="row">
+		            <input type="hidden" name="count" value="1" />
+                    <div class="control-group" id="fields">
+                       <label class="control-label" for="field1">Nice Multiple Form Fields</label>
+                        <div class="controls" id="profs">
+                            <form class="input-append">
+                                <div id="field">
+                                    <input autocomplete="off" class="input" id="field1" name="prof1" type="text" placeholder="Type something" data-items="8"/>
+                                    <button id="b1" class="btn add-more" type="button">+</button>
+                                </div>
+                            </form>
+                        <br>
+                        <small>Press + to add another form field :)</small>
+                        </div>
+                    </div>
+	            </div>
+            </div>
+            -->
+        </section>
+        <!-- /.content -->
+    </aside>
+    <!-- /.right-side -->
+</div>
+<!-- ./wrapper -->
+
+
+<!-- jQuery 2.0.2 -->
+<script src="/admin/js/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="/admin/js/bootstrap.min.js" type="text/javascript"></script>
+<!-- AdminLTE App -->
+<script src="/admin/js/AdminLTE/app.js" type="text/javascript"></script>
+<!-- Mine -->
+<script src="/admin/js/admin.js" type="text/javascript"></script>
+<script src="/admin/js/profile.js" type="text/javascript"></script>
+<script src="/admin/js/addVideos.js" type="text/javascript"></script>
+<script src="/admin/js/jquery-confirm.min.js" type="text/javascript"></script>
+
+
+</body>
+</html>
