@@ -1,14 +1,13 @@
 import feedparser
 import urllib
 import sqlite3 as sql
-import requests
 import re
 import wget
+import os
 
 
 def deti_news():
     try:
-        response = requests.get("https://www.google.pt")
         feed_content = feedparser.parse('http://services.web.ua.pt/deti/news/')
 
         news = {"title": feed_content.feed.title, "news": []}
@@ -34,9 +33,8 @@ def deti_news():
                 db.execute("INSERT INTO News VALUES (?,?,?,?);",
                         (news["news"][i]["title"], news["news"][i]["date"], news["news"][i]["author"], tmp))
                 db.commit()
-
-    except Exception:
-        pass
+    except Exception, e:
+        print e.message
 
     news_db = {"title": "", "news": []}
     db = sql.connect('../db/raspi-tv.sqlite')
@@ -68,20 +66,28 @@ def parse_date(date):
 
 def download_photo(tmp):
     images = re.findall('(<img[^>]*src="[^"]*"[^>]*>)', tmp)
+
     for image in images:
         url = re.search('(src="[^"]*")', image)
         url = url.group(0)
         url = url.split("\"")[1]
 
         if "cid" in url:
-            return
+            tmp = tmp.replace(image, "")
         else:
             name = url.split("=")
             name = name[1]
+            if not os.path.exists("static/img/feed_imgs"):
+                os.makedirs("static/img/feed_imgs")
+
             filename = wget.download(url, "static/img/feed_imgs/" + name + ".jpg")
+
             new_path_url = ["img/feed_imgs/" + name + ".jpg", url]
 
-        return tmp.replace(new_path_url[1], new_path_url[0])
+            tmp = tmp.replace(new_path_url[1], new_path_url[0])
+
+    print tmp
+    return tmp
 
 if __name__ == '__main__':
     resp = deti_news()

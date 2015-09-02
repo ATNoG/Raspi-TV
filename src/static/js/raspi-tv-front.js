@@ -33,20 +33,45 @@ $(document).ready(function(){
     };
 
     function get_weather_success(data){
-    	if(data.content.weather.status == 800){
-			$("#weather").html('<img src="img/img_met/sun.png" width="100%"/>');
-    	}else if(data.content.weather.status == 801){
-    		$("#weather").html('<img src="img/img_met/sun_simple_cloudy.png" width="100%"/>');
-    	}else if(data.content.weather.status >= 802 && data.content.weather.status <= 804 ){
-    		$("#weather").html('<img src="img/img_met/cloud.png" width="100%"/>');
-    	}else if((data.content.weather.status >= 501 && data.content.weather.status <= 531) || (data.content.weather.status >= 300 && data.content.weather.status >= 321)){
-    		$("#weather").html('<img src="img/img_met/rain.png" width="100%"/>');
-    	}else if(data.content.weather.status == 500){
-    		$("#weather").html('<img src="img/img_met/sun_simple_rain.png" width="100%"/>');
-    	}else if(data.content.weather.status >= 600 && data.content.weather.status <= 622){
-    		$("#weather").html('<img src="img/img_met/cloud_snow.png" width="100%"/>');
+
+    	var sunset_time = data.content.weather.sunset;
+    	var sunrise_time = data.content.weather.sunrise;
+		var time = Date();
+		time = time.split(" ");
+		time = time[4]
+
+		if(time < sunset_time && time > sunrise_time){
+			if(data.content.weather.status == 800){
+				$("#weather").html('<img src="img/img_met/sun.png" width="100%"/>');
+			}else if(data.content.weather.status == 801){
+				$("#weather").html('<img src="img/img_met/sun_simple_cloudy.png" width="100%"/>');
+			}else if(data.content.weather.status >= 802 && data.content.weather.status <= 804 ){
+				$("#weather").html('<img src="img/img_met/cloud.png" width="100%"/>');
+			}else if((data.content.weather.status >= 501 && data.content.weather.status <= 531) || (data.content.weather.status >= 300 && data.content.weather.status >= 321)){
+				$("#weather").html('<img src="img/img_met/rain.png" width="100%"/>');
+			}else if(data.content.weather.status == 500){
+				$("#weather").html('<img src="img/img_met/sun_simple_rain.png" width="100%"/>');
+			}else if(data.content.weather.status >= 600 && data.content.weather.status <= 622){
+				$("#weather").html('<img src="img/img_met/cloud_snow.png" width="100%"/>');
+			}else{
+				$("#weather").html('<img src="img/img_met/default.png" width="100%"/>');
+			}
     	}else{
-    		$("#weather").html('<img src="img/img_met/default.png" width="100%"/>');
+    		if(data.content.weather.status == 800){
+				$("#weather").html('<img src="img/img_met/moon.png" width="100%"/>');
+			}else if(data.content.weather.status == 801){
+				$("#weather").html('<img src="img/img_met/moon_cloudy.png" width="100%"/>');
+			}else if(data.content.weather.status >= 802 && data.content.weather.status <= 804 ){
+				$("#weather").html('<img src="img/img_met/cloud.png" width="100%"/>');
+			}else if((data.content.weather.status >= 501 && data.content.weather.status <= 531) || (data.content.weather.status >= 300 && data.content.weather.status >= 321)){
+				$("#weather").html('<img src="img/img_met/moon_rain.png" width="100%"/>');
+			}else if(data.content.weather.status == 500){
+				$("#weather").html('<img src="img/img_met/moon_rain.png" width="100%"/>');
+			}else if(data.content.weather.status >= 600 && data.content.weather.status <= 622){
+				$("#weather").html('<img src="img/img_met/cloud_snow.png" width="100%"/>');
+			}else{
+				$("#weather").html('<img src="img/img_met/default.png" width="100%"/>');
+			}
     	}
 
 		// icons from http://www.flaticon.com/search/haw-weather-fill
