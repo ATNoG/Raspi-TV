@@ -34,7 +34,6 @@ class Api:
         weather = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('weather',)).fetchone()[1]
         response.append({'id': 'weather', 'type': 'text', 'content': weather})
 
-        conn.close()
         return json.dumps(response)
 
     @cherrypy.expose
@@ -45,6 +44,5 @@ class Api:
         list = []
         for i in ids:
             list.append(i[0])
-        conn.close()
         return json.dumps({"status": 200, "content": list})
 

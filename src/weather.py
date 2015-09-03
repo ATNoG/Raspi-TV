@@ -38,7 +38,6 @@ def get_weather():
 
         conn.execute("INSERT INTO Weather VALUES (?,?,?,?,?,?)", (wind, humidity, temperature, code, sunrise[0], sunset[0]))
         conn.commit()
-        conn.close()
 
         return {'weather': {'wind': wind,
                             'humidity': humidity,
