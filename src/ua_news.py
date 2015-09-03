@@ -33,6 +33,12 @@ def deti_news():
             tmp = news["news"][i]["summary"]
             new_tmp = download_photo(tmp)
 
+            # try to clean...
+            new_tmp = new_tmp.replace("<p class=\"MsoNormal\"></p>", "")
+            new_tmp = new_tmp.replace("<p></p>", "")
+            new_tmp = new_tmp.replace("<br>", "")
+            new_tmp = new_tmp.replace("<br />", "")
+
             if new_tmp:
                 db.execute("INSERT INTO News VALUES (?,?,?,?);",
                         (news["news"][i]["title"], news["news"][i]["date"], news["news"][i]["author"], new_tmp))
