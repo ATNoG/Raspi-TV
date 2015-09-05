@@ -7,7 +7,6 @@ from idp import Login
 from admin import Admin
 from youtube import Youtube
 from auth import AuthController
-from updating import Updating
 import webbrowser
 
 
@@ -17,7 +16,6 @@ class Root:
         self.api = Api()
         self.admin = Admin()
         self.auth = AuthController()
-        self.updating = Updating()
         self.youtube = Youtube()
 
         

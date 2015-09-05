@@ -113,3 +113,7 @@ INSERT INTO [HTMLSettings] VALUES (
     'weather',
     'Aveiro'
 );
+INSERT INTO [HTMLSettings] VALUES (
+    'feed',
+    'http://services.web.ua.pt/deti/news'
+);

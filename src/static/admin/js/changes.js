@@ -9,8 +9,9 @@ $("#save_btn").click(function(){
    var newLocationDescription = $('#location_description').val();
    var newBackground = $('#background').val();
    var newWeather = $("#weather").val();
+   var newFeedSource = $("#feed").val();
 
-    if (newLocation.length<=0 || newLocationDescription.length<=0 || newBackground.length<=0 || newWeather.length<=0){
+    if (newLocation.length<=0 || newLocationDescription.length<=0 || newBackground.length<=0 || newWeather.length<=0 || newFeedSource.length<=0){
 
         $('.error_box').removeClass('hide');
         $('.error_message').html("Specify All Fields Correctly");
@@ -21,7 +22,8 @@ $("#save_btn").click(function(){
             'location': newLocation,
             'locationDescription': newLocationDescription,
             'background': newBackground,
-            'weather': newWeather
+            'weather': newWeather,
+            'feed':newFeedSource
         });
         
         $(".success_box").removeClass('hide');
