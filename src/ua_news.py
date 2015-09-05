@@ -7,18 +7,18 @@ import os
 import glob
 
 
-
 def deti_news():
     try:
+
+        feed_content = feedparser.parse('http://services.web.ua.pt/deti/news/')
+
+        news = {"title": feed_content.feed.title, "news": [], "videos": []}
+
         #delete all the images
 
         files = glob.glob('static/img/feed_imgs/*')
         for f in files:
             os.remove(f)
-
-        feed_content = feedparser.parse('http://services.web.ua.pt/deti/news/')
-
-        news = {"title": feed_content.feed.title, "news": [], "videos": []}
 
         db = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
         db.execute("DELETE FROM News;")

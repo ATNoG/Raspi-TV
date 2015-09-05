@@ -56,9 +56,8 @@ def get_weather():
         sunrise = conn.execute("SELECT Sunrise_Time FROM Weather;").fetchone()
         sunset = conn.execute("SELECT Sunset_Time FROM Weather;").fetchone()
         sunrise = sunrise[0].split(" ")
-        sunrise = sunrise[1].split("+")
         sunset = sunset[0].split(" ")
-        sunset = sunset[1].split("+")
+        print status
 
         return {'weather': {'wind': wind[0],
                             'humidity': humidity[0],
