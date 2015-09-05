@@ -231,7 +231,7 @@ class Update:
 
     @cherrypy.expose
     @cherrypy.tools.allow(methods=['POST'])
-    def updateDB(self, location=None, locationDescription=None, background=None, weather=None):
+    def updateDB(self, location=None, locationDescription=None, background=None, weather=None, feed=None):
         if location:
             conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ', (location, 'location',))
         if locationDescription:
@@ -240,4 +240,6 @@ class Update:
             conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ', (background, 'background',))
         if weather:
             conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ', (weather, 'weather',))
+        if feed:
+            conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ', (feed, 'feed',))
         conn.commit()

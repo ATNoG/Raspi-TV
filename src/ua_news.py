@@ -6,7 +6,7 @@ import wget
 import os
 import glob
 
-
+conn = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
 
 def deti_news():
     try:
@@ -16,7 +16,8 @@ def deti_news():
         for f in files:
             os.remove(f)
 
-        feed_content = feedparser.parse('http://services.web.ua.pt/deti/news/')
+        feed_source = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('feed',)).fetchone()[1]
+        feed_content = feedparser.parse(feed_source)
 
         news = {"title": feed_content.feed.title, "news": [], "videos": []}
 
