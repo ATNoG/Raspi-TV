@@ -61,7 +61,7 @@ $(document).ready(function(){
                     if(count<peices_of_page){
                         scroll();
                     }
-                }, 1000);
+                }, 10000);
             };
 
         	scroll();

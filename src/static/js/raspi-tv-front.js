@@ -57,12 +57,12 @@ $(document).ready(function(){
 			width_iframe = $("#content_div").width();
 			$("#content_frame").width(width_iframe);
 			//console.log("width");
-			//console.log(width_iframe);
+			console.log(width_iframe);
 
 			height_frame = $("#right_bar").height();
 			$("#content_frame").height(height_frame);
 			//console.log("height");
-			//console.log(height_frame);
+			console.log(height_frame);
 		}, 100);
 
     };

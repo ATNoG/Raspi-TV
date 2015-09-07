@@ -103,7 +103,7 @@ def download_photo(tmp):
             filename = wget.download(url, "static/img/feed_imgs/" + name + ".jpg")
 
             new_path_url = ["img/feed_imgs/" + name + ".jpg", url]
-
+            print new_path_url
             tmp = tmp.replace(new_path_url[1], new_path_url[0])
 
     return tmp

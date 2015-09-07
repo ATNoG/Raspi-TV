@@ -5,7 +5,15 @@ html, body {
     padding: 0;
 }
 .container_body {
-    height: auto;
+    height: 90%;
     width: 100%;
     color: #fff;
+}
+
+.footer{
+
+}
+
+#content_div {
+
 }
