@@ -2,11 +2,11 @@
 import datetime
 import sqlite3 as sql
 import json
-import dropbox_conn
 import cherrypy
 from auth import require, SESSION_KEY
 from Crypto.Hash import SHA256
 from requests_oauthlib import OAuth1Session
+from dropbox.client import DropboxOAuth2FlowNoRedirect, DropboxOAuth2Flow
 
 conn = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
 
@@ -42,18 +42,30 @@ class Create:
         self.resp = None
 
     @cherrypy.expose
-    def dropbox(self, account, token, note):
+    def dropbox(self, auth=0, access_token=None, note=None):
         date = datetime.datetime.now().strftime('%I:%M%p on %B %d, %Y')
-        service = 'dropbox'
-        if conn.execute('SELECT COUNT(*) FROM Accounts WHERE AccountId=? AND Service=?', (account, service)).fetchone()[
-            0]:
-            rtn = 'Unsuccessful. Account already exists.'
+
+        (app_key, app_secret) = conn.execute('SELECT AppKey, AppSecret FROM Dropbox').fetchone()
+
+        redirect_uri = 'http://localhost:8080/admin/pages/accounts/register-dropbox.html'
+
+        if auth == 0:
+            return 'https://www.dropbox.com/1/oauth2/authorize?response_type=token&client_id=' + app_key + '&redirect_uri=' + redirect_uri
+
+        if access_token:
+            print access_token
+            if not conn.execute('SELECT COUNT(*) FROM Dropbox WHERE AuthToken=?', (access_token,)).fetchone()[0] == 0:
+                rtn = 'Unsuccessful. Account already exists.'
+            else:
+                conn.execute('UPDATE Dropbox SET AuthToken=?, Note=?, DateAdded=? WHERE AppKey=?',
+                             (access_token, note, date, app_key))
+                conn.commit()
+                rtn = 'Successful.'
+            return rtn
         else:
-            conn.execute('INSERT INTO Accounts VALUES (?, ?, ?, ?, ?)', (account, token, date, note, service))
-            conn.commit()
-            dropbox_conn.copy_dropbox_folder(token)
-            rtn = 'Successful.'
-        return rtn
+            return 'Error reading parameters'
+
+
 
     @cherrypy.expose
     def twitter(self, clear=0, pincode=None, note=None):
@@ -113,6 +125,7 @@ class Get:
                            'AccessSecret': 'X' * len(twitter[1][:-4]) + twitter[1][-4:], 'Note': twitter[2],
                            'DateAdded': twitter[3]}, separators=(',', ':'))
 
+    @cherrypy.expose
     def get(self, service):
         rtn = []
         accounts = conn.execute('SELECT * FROM Accounts WHERE Service=?', (service,))
@@ -125,6 +138,7 @@ class Get:
                         'date': account[2], 'note': account[3]})
         return json.dumps(rtn, separators=(',', ':'))
 
+    @cherrypy.expose
     def dropbox_files(self):
         all_files = []
         for f in conn.execute('SELECT * FROM Files ORDER BY FileOrder DESC').fetchall():  # se puderes experimenta retirar o .fetchall()
@@ -133,9 +147,11 @@ class Get:
 
         return json.dumps(all_files, separators=(',', ':'))
 
+    @cherrypy.expose
     def tweets(self):
         all_tweets = []
-        for tweet in conn.execute('SELECT * FROM Tweets ORDER BY TweetOrder DESC').fetchall():  # Idem caso acima resulte
+        for tweet in conn.execute('SELECT * FROM Tweets ORDER BY TweetOrder DESC').fetchall(): # Idem caso acima resulte
+            print tweet[0]
             # Por favor revê também esta parte. Mais uma vez suponho que querias isto
             all_tweets.append({'tweetid': tweet[0], 'author': tweet[1],
                                'tweet': tweet[2], 'todisplay': tweet[3], 'order': tweet[4]})

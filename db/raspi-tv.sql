@@ -25,12 +25,13 @@ CREATE TABLE [Users] (
   [Date]      TEXT              NOT NULL   -- Date when account was created
 );
 
-CREATE TABLE [Accounts] (
+CREATE TABLE [Dropbox] (
   [AccountId] TEXT PRIMARY KEY  NOT NULL, -- Account Id to authenticate with
   [AuthToken] TEXT              NOT NULL, -- Authentication Token used
   [DateAdded] TEXT              NOT NULL, -- When account was added to the database
-  [Note]      TEXT              NOT NULL, -- Note on account
-  [Service]   TEXT              NOT NULL   -- Name of the related service (e.g.: 'dropbox', 'twitter', ...)
+  [Note]      TEXT              NOT NULL,
+  [AppKey]    TEXT              NOT NULL,
+  [AppSecret] TEXT              NOT NULL
 );
 
 CREATE TABLE [Twitter] (
@@ -52,7 +53,7 @@ CREATE TABLE [Tweets] (
 
 CREATE TABLE [Files] (
   [FilePath]  TEXT PRIMARY KEY    NOT NULL, -- Absolute path to file
-  [ToDisplay] INTEGER             NOT NULL, -- 'Boolean value' determining whether to use the file or not
+  [ToDisplay] INTEGER DEFAULT 0   NOT NULL, -- 'Boolean value' determining whether to use the file or not
   [FileOrder] INTEGER DEFAULT -1  NOT NULL,   -- Order in main page presentation
   [AccountId] TEXT                NOT NULL, -- Refers which dropbox account the file belongs to
   FOREIGN KEY ([AccountId]) REFERENCES [Accounts] ([AccountId])
