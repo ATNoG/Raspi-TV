@@ -116,33 +116,27 @@ class Get:
 
     @cherrypy.expose
     def dropbox(self):
-        return self.get('dropbox')
+        dropbox = conn.execute('SELECT AuthToken, Note, DateAdded FROM Dropbox').fetchone()
+        try:
+            return json.dumps({'AuthToken': 'X' * len(dropbox[0][:-4]) + dropbox[0][-4:], 'Note': dropbox[1],
+                               'DateAdded': dropbox[2]}, separators=(',', ':'))
+        except TypeError:
+            return 'No account added.'
 
     @cherrypy.expose
     def twitter(self):
         twitter = conn.execute('SELECT AccessKey, AccessSecret, Note, DateAdded FROM Twitter').fetchone()
-        return json.dumps({'AccessKey': 'X' * len(twitter[0][:-4]) + twitter[0][-4:],
-                           'AccessSecret': 'X' * len(twitter[1][:-4]) + twitter[1][-4:], 'Note': twitter[2],
-                           'DateAdded': twitter[3]}, separators=(',', ':'))
-
-    @cherrypy.expose
-    def get(self, service):
-        rtn = []
-        accounts = conn.execute('SELECT * FROM Accounts WHERE Service=?', (service,))
-        # Nao falta aqui um fetchall(), Ricardo?
-        # Repara no ciclo for a baixo. Itera-se por todos os resultados
-        # Nao sei se itera, ja testei isso uma vez e deu mal...
-        # Quando criava as contas da forma antiga (e errada) experimentei assim. Lembro-me do que falas mas faziamos .fetchone()
-        for account in accounts:
-            rtn.append({'account': account[0], 'token': 'X' * len(account[1][:-4]) + account[1][-4:],
-                        'date': account[2], 'note': account[3]})
-        return json.dumps(rtn, separators=(',', ':'))
+        try:
+            return json.dumps({'AccessKey': 'X' * len(twitter[0][:-4]) + twitter[0][-4:],
+                               'AccessSecret': 'X' * len(twitter[1][:-4]) + twitter[1][-4:], 'Note': twitter[2],
+                               'DateAdded': twitter[3]}, separators=(',', ':'))
+        except TypeError:
+            return 'No account added.'
 
     @cherrypy.expose
     def dropbox_files(self):
         all_files = []
-        for f in conn.execute('SELECT * FROM Files ORDER BY FileOrder DESC').fetchall():  # se puderes experimenta retirar o .fetchall()
-            # Revê o código que tinhas antes. Acho que o que querias era isto
+        for f in conn.execute('SELECT * FROM Files ORDER BY FileOrder DESC').fetchall():
             all_files.append({'accountid': f[3], 'filepath': f[0], 'todisplay': f[1], 'order': f[2]})
 
         return json.dumps(all_files, separators=(',', ':'))
@@ -150,9 +144,7 @@ class Get:
     @cherrypy.expose
     def tweets(self):
         all_tweets = []
-        for tweet in conn.execute('SELECT * FROM Tweets ORDER BY TweetOrder DESC').fetchall(): # Idem caso acima resulte
-            print tweet[0]
-            # Por favor revê também esta parte. Mais uma vez suponho que querias isto
+        for tweet in conn.execute('SELECT * FROM Tweets ORDER BY TweetOrder DESC').fetchall():
             all_tweets.append({'tweetid': tweet[0], 'author': tweet[1],
                                'tweet': tweet[2], 'todisplay': tweet[3], 'order': tweet[4]})
 

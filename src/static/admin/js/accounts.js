@@ -1,56 +1,34 @@
 $(document).ready(function () {
-    admin_get('dropbox');
+    /* Dropbox */
+    $.get('/admin/get/dropbox', function (data) {
+        if (data == 'No account added.') {
+            $('#dropbox-table').append(
+                '<tr><th>No account added</th></tr>'
+            );
+        } else {
+            data = JSON.parse(data);
+            $('#dropbox-table').append(
+                '<tr><th>Authentication Token</th><td>' + data['AuthToken'] + '</td></tr>' +
+                '<tr><th>Note</th><td>' + data['Note'] + '</td></tr>' +
+                '<tr><th>Date</th><td>' + data['DateAdded'] + '</td></tr>'
+            );
+        }
+    });
+
     /* Twitter */
     $.get('/admin/get/twitter', function (data) {
-        data = JSON.parse(data);
-        $('#twitter-table').append(
-            '<tr><th>Access Key</th><td>' + data['AccessKey'] + '</td></tr>' +
-            '<tr><th>Access Secret</th><td>' + data['AccessSecret'] + '</td></tr>' +
-            '<tr><th>Note</th><td>' + data['Note'] + '</td></tr>' +
-            '<tr><th>Date</th><td>' + data['DateAdded'] + '</td></tr>'
-        );
-    });
-
-    // If there are any hash arguments on the URL, save the token
-    if (window.location.hash.length != 0) {
-        save_access_token();
-    }
-});
-
-function admin_get(query) {
-    $.get('/admin/get/' + query, function (data) {
-        data = JSON.parse(data);
-        var text = '';
-        for (var i = 0; i < data.length; i++)
-            text += '<tr><td>' + data[i]['account'] + '</td><td>' + data[i]['token'] + '</td><td>' + data[i]['date'] + '</td><td>' + data[i]['note'] + '</td></tr>';
-        $('#' + query + '-table').append(text);
-    });
-}
-
-function save_access_token() {
-    var access_token = getURLHashInfo('access_token');
-    var account_id = getURLHashInfo('uid');
-    var data = {
-        account: account_id,
-        token: access_token,
-        note: ""
-    };
-    $.post('/admin/create/dropbox', data, function (data) {
-        if (data == 'Successful.') {
-            // Show success message
+        if (data == 'No account added.') {
+            $('#twitter-table').append(
+                '<tr><th>No account added</th></tr>'
+            );
         } else {
-            // Show error message
+            data = JSON.parse(data);
+            $('#twitter-table').append(
+                '<tr><th>Access Key</th><td>' + data['AccessKey'] + '</td></tr>' +
+                '<tr><th>Access Secret</th><td>' + data['AccessSecret'] + '</td></tr>' +
+                '<tr><th>Note</th><td>' + data['Note'] + '</td></tr>' +
+                '<tr><th>Date</th><td>' + data['DateAdded'] + '</td></tr>'
+            );
         }
     });
-}
-
-function getURLHashInfo(field) {
-    var url = window.location.hash.substring(1);
-    var fields = url.split("&");
-    for (var i = 0; i < fields.length; i++) {
-        var parameters = fields[i].split("=");
-        if (parameters[0] == field) {
-            return parameters[1];
-        }
-    }
-}
+});
