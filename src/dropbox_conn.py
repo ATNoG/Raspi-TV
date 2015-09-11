@@ -20,7 +20,7 @@ def list_files(path):
 
 
 def save_file(path, f):
-    out = open(os.path.join(BASE_DIR, 'src/dropbox_files', path[1:]), 'w')
+    out = open(os.path.join(BASE_DIR, 'src/static/dropbox_files', path[1:]), 'w')
     out.write(f.read())
     out.close()
     conn.execute('INSERT OR REPLACE INTO Files (FilePath, ToDisplay, FileOrder) VALUES '
@@ -39,9 +39,9 @@ def download_file(path):
     # Check if it an image/video
     if file_type == 'image' or file_type == 'video':
         # Check if it was changed
-        if os.path.isfile(os.path.join(BASE_DIR, 'src/dropbox_files', path[1:])):
+        if os.path.isfile(os.path.join(BASE_DIR, 'src/static/dropbox_files', path[1:])):
             # saved_f = open(), os.O_RDONLY)
-            info = os.stat(os.path.join(BASE_DIR, 'src/dropbox_files', path[1:]))
+            info = os.stat(os.path.join(BASE_DIR, 'src/static/dropbox_files', path[1:]))
             if not time.asctime(time.localtime(info.st_mtime)) == last_mod_date:
                 save_file(path, f)
         else:
@@ -51,8 +51,8 @@ def download_file(path):
 
 
 def download_folder(path):
-    if not os.path.isdir(os.path.join(BASE_DIR, 'src/dropbox_files', path[1:])):
-        os.mkdir(os.path.join(BASE_DIR, 'src/dropbox_files', path[1:]))
+    if not os.path.isdir(os.path.join(BASE_DIR, 'src/static/dropbox_files', path[1:])):
+        os.mkdir(os.path.join(BASE_DIR, 'src/static/dropbox_files', path[1:]))
     copy_folder(path)
 
 
