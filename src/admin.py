@@ -150,6 +150,14 @@ class Get:
 
         return json.dumps(all_tweets, separators=(',', ':'))
 
+    @cherrypy.expose
+    def services(self):
+        all_services = []
+        for service in conn.execute('SELECT * FROM FrontEndOrder ORDER BY ServicesOrder DESC', ('1',)).fetchall():
+            all_services.append({'name': service[0], 'todisplay': service[1], 'order': service[2]})
+
+        return json.dumps(all_services, separators=(',', ':'))
+
 
 @require()
 class Update:
@@ -196,14 +204,14 @@ class Update:
                 break
             if not files[i]['todisplay'] == outdated_files[i]['todisplay']:
                 try:
-                    conn.execute('UPDATE Files SET ToDisplay = ? WHERE FilePath = ?',
+                    conn.execute('UPDATE Files SET ToDisplay=? WHERE FilePath=?',
                                  (files[i]['todisplay'], files[i]['filepath']))
                     conn.commit()
                 except sql.Error:
                     return 'Unsuccessful.'
             if not files[i]['order'] == outdated_files[i]['order']:
                 try:
-                    conn.execute('UPDATE Files SET FileOrder = ? WHERE FilePath = ?',
+                    conn.execute('UPDATE Files SET FileOrder=? WHERE FilePath=?',
                                  (files[i]['order'], files[i]['filepath']))
                     conn.commit()
                 except sql.Error:
@@ -221,15 +229,40 @@ class Update:
                 break
             if not tweetlist[i]['todisplay'] == outdated_tweets[i]['todisplay']:
                 try:
-                    conn.execute('UPDATE Tweets SET ToDisplay = ? WHERE TweetId = ?',
+                    conn.execute('UPDATE Tweets SET ToDisplay=? WHERE TweetId=?',
                                  (tweetlist[i]['todisplay'], tweetlist[i]['tweetid']))
                     conn.commit()
                 except sql.Error:
                     return 'Unsuccessful.'
             if not tweetlist[i]['order'] == outdated_tweets[i]['order']:
                 try:
-                    conn.execute('UPDATE Tweets SET TweetOrder = ? WHERE TweetId = ?',
+                    conn.execute('UPDATE Tweets SET TweetOrder=? WHERE TweetId=?',
                                  (tweetlist[i]['order'], tweetlist[i]['tweetid']))
+                    conn.commit()
+                except sql.Error:
+                    return 'Unsuccessful.'
+            i += 1
+
+        return 'Successful.'
+
+    @cherrypy.expose
+    def services(self, serviceslist):
+        outdated_services = self.get.services()
+        i = 0
+        while True:
+            if not serviceslist[i] or not outdated_services[i]:
+                break
+            if not serviceslist[i]['todisplay'] == outdated_services[i]['todisplay']:
+                try:
+                    conn.execute('UPDATE FrontEndOrder SET ToDisplay=? WHERE Service=?',
+                                 (serviceslist[i]['todisplay'], serviceslist[i]['name']))
+                    conn.commit()
+                except sql.Error:
+                    return 'Unsuccessful.'
+            if not serviceslist[i]['order'] == outdated_services[i]['order']:
+                try:
+                    conn.execute('UPDATE FrontEndOrder SET ServicesOrder=? WHERE Service=?',
+                                 (serviceslist[i]['order'], serviceslist[i]['name']))
                     conn.commit()
                 except sql.Error:
                     return 'Unsuccessful.'

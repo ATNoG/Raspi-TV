@@ -16,6 +16,8 @@ DROP TABLE IF EXISTS [News];
 
 DROP TABLE IF EXISTS [Weather];
 
+DROP TABLE IF EXISTS [FrontEndOrder];
+
 CREATE TABLE [Users] (
   [UserId]    TEXT PRIMARY KEY  NOT NULL, -- Username
   [Password]  TEXT              NOT NULL, -- Password
@@ -53,7 +55,8 @@ CREATE TABLE [Tweets] (
 CREATE TABLE [Files] (
   [FilePath]  TEXT PRIMARY KEY    NOT NULL, -- Absolute path to file
   [ToDisplay] INTEGER DEFAULT 0   NOT NULL, -- 'Boolean value' determining whether to use the file or not
-  [FileOrder] INTEGER DEFAULT -1  NOT NULL
+  [FileOrder] INTEGER DEFAULT -1  NOT NULL,
+  [Type]
 );
 
 CREATE TABLE [HTMLSettings] (
@@ -62,24 +65,30 @@ CREATE TABLE [HTMLSettings] (
 );
 
 CREATE TABLE [YouTube] (
-    [VideoId] TEXT PRIMARY KEY NOT NULL,
-    [VideoName] TEXT
+  [VideoId] TEXT PRIMARY KEY NOT NULL,
+  [VideoName] TEXT
 );
 
 CREATE TABLE [News] (
-    [Title] TEXT PRIMARY KEY NOT NULL,
-    [Date_Updated] TEXT,
-    [Author] TEXT,
-    [Content] TEXT
+  [Title] TEXT PRIMARY KEY NOT NULL,
+  [Date_Updated] TEXT,
+  [Author] TEXT,
+  [Content] TEXT
 );
 
 CREATE TABLE [Weather] (
-    [Wind] TEXT PRIMARY KEY NOT NULL,
-    [Humidity] TEXT,
-    [Temperature] TEXT,
-    [Weather_Code] TEXT,
-    [Sunrise_Time] TEXT,
-    [Sunset_Time] TEXT
+  [Wind] TEXT PRIMARY KEY NOT NULL,
+  [Humidity] TEXT,
+  [Temperature] TEXT,
+  [Weather_Code] TEXT,
+  [Sunrise_Time] TEXT,
+  [Sunset_Time] TEXT
+);
+
+CREATE TABLE [FrontEndOrder] (
+  [Service]       TEXT PRIMARY KEY  NOT NULL,
+  [ToDisplay]     TEXT    DEFAULT 1 NOT NULL,
+  [ServicesOrder] INTEGER DEFAULT 0 NOT NULL
 );
 
 INSERT INTO [Users] VALUES (
@@ -113,4 +122,24 @@ INSERT INTO [HTMLSettings] VALUES (
 INSERT INTO [HTMLSettings] VALUES (
     'feed',
     'http://services.web.ua.pt/deti/news'
+);
+
+INSERT INTO [FrontEndOrder] VALUES (
+    'News',
+    1
+);
+
+INSERT INTO [FrontEndOrder] VALUES (
+    'Youtube',
+    2
+);
+
+INSERT INTO [FrontEndOrder] VALUES (
+    'Dropbox Photos',
+    3
+);
+
+INSERT INTO [FrontEndOrder] VALUES (
+    'Dropbox Videos',
+    4
 );

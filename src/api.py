@@ -54,10 +54,15 @@ class Api:
     @cherrypy.expose
     def get_tweets(self):
         all_tweets = []
+        
         for tweet in conn.execute('SELECT * FROM Tweets ORDER BY TweetOrder DESC').fetchall():
             #print tweet
             if tweet[3] == 0:
                 all_tweets.append({'tweetid': tweet[0], 'author': tweet[1],
                                    'tweet': tweet[2], 'order': tweet[4]})
+
+        for tweet in conn.execute('SELECT * FROM Tweets WHERE TweetOrder=? ORDER BY TweetOrder DESC', ('1',)).fetchall():
+            all_tweets.append({'tweetid': tweet[0], 'author': tweet[1], 'tweet': tweet[2], 'order': tweet[4]})
+
 
         return json.dumps(all_tweets, separators=(',', ':'))
