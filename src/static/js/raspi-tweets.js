@@ -8,7 +8,7 @@ $(document).ready(function(){
         $.getJSON('/api/get_tweets', function(data){
         data_length = data.length;
             for (var i = 0; i < data.length; i++) {
-                info.push('<strong>' + data[i]['author'] + '</strong>: ' + data[i]['tweet']);
+                info.push('<img src="img/img/twitter.png" width="2%"/>' + '<strong style=\'color:#003399;\'>' + ' ' + data[i]['author'] + '</strong>:' + '<span style=\'color:#003399;\'>' + data[i]['tweet'] + '</span>');
             }
             slider();
         });
@@ -20,7 +20,7 @@ $(document).ready(function(){
             setTimeout(function(){
                 counter++;
                 var $slideContainer = $('#tweets-table');
-                var width = '-150%';
+                var width = '-250%';
 
                 if (counter == data_length) {
                     counter = 0;
@@ -31,7 +31,7 @@ $(document).ready(function(){
                 });
 
 
-            }, 8000);
+            }, 10000);
 
         }
 
