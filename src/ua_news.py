@@ -5,8 +5,9 @@ import re
 import wget
 import os
 import glob
+from settings import *
 
-conn = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
+conn = sql.connect(os.path.join(BASE_DIR, 'db/raspi-tv.sqlite'), check_same_thread=False)
 
 def deti_news():
     try:

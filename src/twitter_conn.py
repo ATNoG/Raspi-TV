@@ -1,7 +1,9 @@
 import twitter
 import sqlite3 as sql
+import os
+from settings import *
 
-conn = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
+conn = sql.connect(os.path.join(BASE_DIR, 'db/raspi-tv.sqlite'), check_same_thread=False)
 
 (consumer_key, consumer_secret, access_token_key, access_token_secret) = conn.execute(
     'SELECT ConsumerKey, ConsumerSecret, AccessKey, AccessSecret FROM Twitter').fetchone()

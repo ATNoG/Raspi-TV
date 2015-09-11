@@ -6,6 +6,7 @@ import json
 import os
 import glob
 import sys
+from settings import *
 
 
 # from https://github.com/nficano/pytube
@@ -112,7 +113,7 @@ def download(link):
     # argument to the download method.
     # video.download('/tmp/')
 
-    db = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
+    db = sql.connect(os.path.join(BASE_DIR, 'db/raspi-tv.sqlite'), check_same_thread=False)
     db.execute("INSERT INTO YouTube VALUES (?,?);", (link, yt.filename))
     db.commit()
     db.close()

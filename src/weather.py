@@ -1,7 +1,8 @@
 import pyowm
 import sqlite3 as sql
+from settings import *
 
-conn = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
+conn = sql.connect(os.path.join(BASE_DIR, 'db/raspi-tv.sqlite'), check_same_thread=False)
 
 # sign in at http://home.openweathermap.org/users/sign_up
 # and get the API Key and paste bellow:

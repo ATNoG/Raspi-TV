@@ -8,9 +8,10 @@ import cherrypy
 from cgi import escape
 from Crypto.Hash import SHA256
 import sqlite3 as sql
+from settings import *
 
 SESSION_KEY = '_cp_username'
-conn = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
+conn = sql.connect(os.path.join(BASE_DIR, 'db/raspi-tv.sqlite'), check_same_thread=False)
 
 
 def check_credentials(username, password):
@@ -122,7 +123,7 @@ class AuthController(object):
         username = escape(username, True)
         msg = escape(msg, True)
         from_page = escape(from_page, True)
-        return open('static/admin/login.html').read() % {'msg': msg, 'username': username}
+        return open(os.path.join(BASE_DIR, 'src/static/admin/login.html')).read() % {'msg': msg, 'username': username}
 
     @cherrypy.expose
     def login(self, username=None, password=None, from_page='/admin'):

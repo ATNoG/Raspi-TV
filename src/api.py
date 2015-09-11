@@ -4,8 +4,9 @@ import os
 import sqlite3 as sql
 from ua_news import deti_news
 from weather import get_weather as get_w
+from settings import *
 
-conn = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
+conn = sql.connect(os.path.join(BASE_DIR, 'db/raspi-tv.sqlite'), check_same_thread=False)
 
 class Api:
     @cherrypy.expose

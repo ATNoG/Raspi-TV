@@ -8,6 +8,8 @@ from admin import Admin
 from youtube import Youtube
 from auth import AuthController
 import webbrowser
+import os
+from settings import *
 
 
 class Root:
@@ -24,7 +26,22 @@ class Root:
         'tools.auth.on': True
     }
 
+    conf = {
+        'global':
+            {
+                'server.socket_host': '0.0.0.0',
+                'server.socket_port': 8080
+            },
+        '/':
+            {
+                'tools.staticdir.root': os.path.abspath(os.path.join(return_base_dir(), 'src', 'static')),
+                'tools.staticdir.on': True,
+                'tools.staticdir.dir': '',
+                'tools.staticdir.index': 'index.html'
+            }
+    }
+
 
 if __name__ == '__main__':
     # webbrowser.get('firefox').open('localhost:8080/')  # Useful when auto starting on the Raspberry Pi
-    cherrypy.quickstart(Root(), '/', 'app.conf')
+    cherrypy.quickstart(Root(), '/', Root.conf)

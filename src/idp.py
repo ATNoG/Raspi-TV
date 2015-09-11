@@ -2,11 +2,12 @@ import cherrypy
 import json
 from Crypto.Hash import SHA256
 import sqlite3 as sql
+from settings import *
 
 
 class Login:
     def __init__(self):
-        self.db = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
+        self.db = sql.connect(os.path.join(BASE_DIR, 'db/raspi-tv.sqlite'), check_same_thread=False)
 
     def encrypt_password(self, password):
         return SHA256.new(password).hexdigest()

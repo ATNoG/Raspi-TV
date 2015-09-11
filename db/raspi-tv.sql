@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS [Users];
 
-DROP TABLE IF EXISTS [Accounts];
+DROP TABLE IF EXISTS [Dropbox];
 
 DROP TABLE IF EXISTS [Twitter];
 
@@ -26,12 +26,11 @@ CREATE TABLE [Users] (
 );
 
 CREATE TABLE [Dropbox] (
-  [AccountId] TEXT PRIMARY KEY  NOT NULL, -- Account Id to authenticate with
+  [AppKey]    TEXT PRIMARY KEY  NOT NULL, -- Account Id to authenticate with
+  [AppSecret] TEXT              NOT NULL,
   [AuthToken] TEXT              NOT NULL, -- Authentication Token used
   [DateAdded] TEXT              NOT NULL, -- When account was added to the database
-  [Note]      TEXT              NOT NULL,
-  [AppKey]    TEXT              NOT NULL,
-  [AppSecret] TEXT              NOT NULL
+  [Note]      TEXT              NOT NULL
 );
 
 CREATE TABLE [Twitter] (
@@ -54,10 +53,7 @@ CREATE TABLE [Tweets] (
 CREATE TABLE [Files] (
   [FilePath]  TEXT PRIMARY KEY    NOT NULL, -- Absolute path to file
   [ToDisplay] INTEGER DEFAULT 0   NOT NULL, -- 'Boolean value' determining whether to use the file or not
-  [FileOrder] INTEGER DEFAULT -1  NOT NULL,   -- Order in main page presentation
-  [AccountId] TEXT                NOT NULL, -- Refers which dropbox account the file belongs to
-  FOREIGN KEY ([AccountId]) REFERENCES [Accounts] ([AccountId])
-  ON DELETE NO ACTION ON UPDATE NO ACTION
+  [FileOrder] INTEGER DEFAULT -1  NOT NULL
 );
 
 CREATE TABLE [HTMLSettings] (

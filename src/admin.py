@@ -6,9 +6,9 @@ import cherrypy
 from auth import require, SESSION_KEY
 from Crypto.Hash import SHA256
 from requests_oauthlib import OAuth1Session
-from dropbox.client import DropboxOAuth2FlowNoRedirect, DropboxOAuth2Flow
+from settings import *
 
-conn = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
+conn = sql.connect(os.path.join(BASE_DIR, 'db/raspi-tv.sqlite'), check_same_thread=False)
 
 
 class Admin:
@@ -137,7 +137,7 @@ class Get:
     def dropbox_files(self):
         all_files = []
         for f in conn.execute('SELECT * FROM Files ORDER BY FileOrder DESC').fetchall():
-            all_files.append({'accountid': f[3], 'filepath': f[0], 'todisplay': f[1], 'order': f[2]})
+            all_files.append({'filepath': f[0], 'todisplay': f[1], 'order': f[2]})
 
         return json.dumps(all_files, separators=(',', ':'))
 

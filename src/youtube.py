@@ -4,6 +4,7 @@ import cherrypy
 import requests
 from download_videos import delete_video
 import subprocess
+from settings import *
 
 
 class Youtube:
@@ -39,7 +40,7 @@ class Youtube:
     @cherrypy.expose
     @cherrypy.tools.allow(methods=['POST'])
     def delete_link(self, link):
-        db = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
+        db = sql.connect(os.path.join(BASE_DIR, 'db/raspi-tv.sqlite'), check_same_thread=False)
         find_id = db.execute("SELECT * FROM YouTube WHERE VideoId = (?);", (link,)).fetchone()
         find_name = db.execute("SELECT VideoName FROM YouTube WHERE VideoId = (?);", (link,)).fetchone()
 
