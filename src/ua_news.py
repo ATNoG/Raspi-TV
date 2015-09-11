@@ -9,23 +9,21 @@ from settings import *
 
 conn = sql.connect(os.path.join(BASE_DIR, 'db/raspi-tv.sqlite'), check_same_thread=False)
 
+
 def deti_news():
     try:
-        
-
         feed_source = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('feed',)).fetchone()[1]
         feed_content = feedparser.parse(feed_source)
 
         news = {"title": feed_content.feed.title, "news": [], "videos": []}
 
-		#delete all the images
+        #delete all the images
 
         files = glob.glob('static/img/feed_imgs/*')
         for f in files:
             os.remove(f)
-            
-        db = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
-        db.execute("DELETE FROM News;")
+
+        conn.execute("DELETE FROM News;")
 
         for entry in feed_content.entries:
             news["news"] += [{"author": parse_author(entry.author),
@@ -44,26 +42,25 @@ def deti_news():
             new_tmp = new_tmp.replace("<br />", "")
 
             if new_tmp:
-                db.execute("INSERT INTO News VALUES (?,?,?,?);",
+                conn.execute("INSERT INTO News VALUES (?,?,?,?);",
                         (news["news"][i]["title"], news["news"][i]["date"], news["news"][i]["author"], new_tmp))
-                db.commit()
+                conn.commit()
             else:
-                db.execute("INSERT INTO News VALUES (?,?,?,?);",
+                conn.execute("INSERT INTO News VALUES (?,?,?,?);",
                         (news["news"][i]["title"], news["news"][i]["date"], news["news"][i]["author"], tmp))
-                db.commit()
+                conn.commit()
     except Exception, e:
         print e.message
 
     news_db = {"title": "", "news": [], "videos": []}
-    db = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
 
-    for i in db.execute("SELECT * FROM News;").fetchall():
+    for i in conn.execute("SELECT * FROM News;").fetchall():
         news_db["news"] += [{"author": i[2],
                         "summary": i[3],
                         "title": i[0],
                         "date": i[1]}]
 
-    for j in db.execute("SELECT * FROM YouTube;").fetchall():
+    for j in conn.execute("SELECT * FROM YouTube;").fetchall():
         news_db["videos"] += [{'link': j[0], 'name': j[1]}]
 
     return news_db
