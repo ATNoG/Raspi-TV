@@ -4,7 +4,7 @@ $(document).ready(function(){
     };
 
     function get_weather_success(data){
-
+		console.log(data);
     	var sunset_time = data.content.weather.sunset;
     	var sunrise_time = data.content.weather.sunrise;
 		var time = Date();
@@ -49,7 +49,7 @@ $(document).ready(function(){
 
     	$("#hum").html('<img src="img/img_met/hum.png" width="15%"/>' + " " + '<big style="color:#33B3D1" "font-size:3%">' +  data.content.weather.humidity + "%" + '</big>');
     	$("#temp").html('<img src="img/img_met/temp.png" width=15%"/>' + " " + '<big style="color:#33B3D1" "font-size:3%">'+ data.content.weather.temperature + " ºC" + '</big>');
-    	$("#wind").html('<img src="img/img_met/wind.png" width="15%"/>'+ " " + '<big style="color:#33B3D1" "font-size:3%">' + data.content.weather.wind + " km/h" + '</big>');
+    	$("#wind").html('<img src="img/img_met/wind.png" width="15%"/>'+ " " + '<big style="color:#33B3D1" "font-size:3%">' + Math.round(data.content.weather.wind).toFixed(2) + " km/h" + '</big>');
     	$("#sunrise").html('<img src="img/img_met/sunrise.png" width="15%"/>'+ " " + '<big style="color:#33B3D1" "font-size:3%">' + data.content.weather.sunrise + "h" +'</big>');
     	$("#sunset").html('<img src="img/img_met/sunset.png" width="15%"/>'+ " " + '<big style="color:#33B3D1" "font-size:3%">' + data.content.weather.sunset + "h" + '</big>');
 
@@ -57,15 +57,16 @@ $(document).ready(function(){
 			width_iframe = $("#content_div").width();
 			$("#content_frame").width(width_iframe);
 			//console.log("width");
-			console.log(width_iframe);
+			//console.log(width_iframe);
 
 			height_frame = $("#right_bar").height();
 			$("#content_frame").height(height_frame);
 			//console.log("height");
-			console.log(height_frame);
+			//console.log(height_frame);
 		}, 100);
 
     };
 
 	get_weather();
+
 });

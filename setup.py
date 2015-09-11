@@ -105,7 +105,6 @@ def delete(user):
     else:
         print(user + ' was not found.', file=sys.stderr)
 
-
 if __name__ == '__main__':
     functions = {'create': create, 'delete': delete}
     if sys.argv[1] in functions.keys():

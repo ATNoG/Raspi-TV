@@ -55,7 +55,8 @@ class Api:
     def get_tweets(self):
         all_tweets = []
         for tweet in conn.execute('SELECT * FROM Tweets ORDER BY TweetOrder DESC').fetchall():
-            if tweet[3] == '1':
+            #print tweet
+            if tweet[3] == 0:
                 all_tweets.append({'tweetid': tweet[0], 'author': tweet[1],
                                    'tweet': tweet[2], 'order': tweet[4]})
 

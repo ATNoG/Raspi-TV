@@ -40,6 +40,20 @@ def deti_news():
             new_tmp = new_tmp.replace("<p></p>", "")
             new_tmp = new_tmp.replace("<br>", "")
             new_tmp = new_tmp.replace("<br />", "")
+            new_tmp = new_tmp.replace("<p>&nbsp;</p>", "")
+
+            # news without images
+
+            tmp = tmp.replace("<p class=\"MsoNormal\"></p>", "")
+            tmp = tmp.replace("<p></p>", "")
+            tmp = tmp.replace("<br>", "")
+            tmp = tmp.replace("<br />", "")
+            tmp = tmp.replace("<p>&nbsp;</p>", "")
+
+            spaces = re.findall('(<p[^>]*><p[^>]*>.</p></p>&#13;)', new_tmp)
+            for space in spaces:
+                new_tmp = new_tmp.replace(space, "")
+                tmp = tmp.replace(space, "")
 
             if new_tmp:
                 conn.execute("INSERT INTO News VALUES (?,?,?,?);",
@@ -101,7 +115,6 @@ def download_photo(tmp):
             filename = wget.download(url, "static/img/feed_imgs/" + name + ".jpg")
 
             new_path_url = ["img/feed_imgs/" + name + ".jpg", url]
-            print new_path_url
             tmp = tmp.replace(new_path_url[1], new_path_url[0])
 
     return tmp

@@ -10,7 +10,6 @@ $(document).ready(function(){
     	console.log(data)
 		for(var j=0; j<data.content.news.length; j++) {
 			queue.push({'type' : 'noticia' , 'content' : data.content.news[j]});
-			console.log(data.content.news[j]);
 		}
 		for(var k=0; k<data.content.videos.length; k++) {
 			queue.push({'type' : 'video' , 'content' : data.content.videos[k]});
@@ -30,7 +29,6 @@ $(document).ready(function(){
 							time();
 						}else{
 							time_to_wait = $("video")[0]["duration"]*1000 + 1500;
-							console.log(i);
 							i = (i+1);
 							if (i==queue.length) {
 								i = 0;
@@ -54,7 +52,7 @@ $(document).ready(function(){
                 setTimeout(function(){
                     $(document).scrollTop(count*$(window).height());
 
-                    console.log($(document).scrollTop());
+                    //console.log($(document).scrollTop());
 
                     count++;
 
