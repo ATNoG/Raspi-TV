@@ -126,20 +126,24 @@ INSERT INTO [HTMLSettings] VALUES (
 
 INSERT INTO [FrontEndOrder] VALUES (
     'News',
+    '1',
     1
 );
 
 INSERT INTO [FrontEndOrder] VALUES (
     'Youtube',
+    '1',
     2
 );
 
 INSERT INTO [FrontEndOrder] VALUES (
     'Dropbox Photos',
+    '1',
     3
 );
 
 INSERT INTO [FrontEndOrder] VALUES (
     'Dropbox Videos',
+    '1',
     4
 );

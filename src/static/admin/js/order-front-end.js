@@ -1,57 +1,39 @@
 $(document).ready(function(){
-    get_info_twitter();
-    get_info_dropbox();
-    $( "#tweets-table" ).sortable({
-      revert: true
-    });
-    $( "ul, li" ).disableSelection();
+    get_info_services();
+
 
     $('#btn-update').click(function(){
        update_info();
     });
 });
 
-function get_info_twitter() {
-    $.get('/admin/get/tweets', function(data) {
-        var html = "";
+function get_info_services() {
+    $.get('/admin/get/services', function(data) {
         for (var i = 0; i < data.length; i++) {
-            html += "<li class='list-group-item'><span class='tweetid'>" + data[i]['tweetid'] + "</span> | <span class='author'>" + data[i]['author'] + "</span> | <span class='tweet'>" + data[i]['tweet'] + "</span></li>";
+            var code = "<li class='list-group-item'><span class='service-name'>" + data[i]['name'] + "</span>";
             if (data[i]['todisplay'] != 0) {
-                $('#tweets-table').append(html);
+                code += "<span class='to-display' style='float:right;'><input type='checkbox' checked></span></li>";
+            } else {
+                code += "<span class='to-display' style='float:right;'><input type='checkbox'></span></li>";
             }
+            $('#services-table').append(code);
         }
-    });
-}
 
-function get_info_dropbox() {
-    $.get('/admin/get/dropbox_files', function(data) {
-        var html = "";
-        for (var i = 0; i < data.length; i++) {
-            html += "<li class='list-group-item'><span class='filepath'>" + data[i]['filepath'] + "</span> | <span class='accountid'>" + data[i]['accountid'] + "</span></li>";
-            if (data[i]['todisplay'] != 0) {
-                $('#dropbox-table').append(html);
-            }
-        }
+        $("#services-table").sortable({
+          revert: true
+        });
+        $( "ul, li" ).disableSelection();
     });
 }
 
 function update_info() {
-    var dropbox = {
-        files: get_dropbox_table()
-    };
-    var twitter = {
-        tweetlist: get_tweets_table()
+    var services = {
+        servicelist: JSON.stringify(get_services_table())
     };
 
-    $.push('/admin/update/dropbox_files', dropbox, function(data) {
-       if (data == 'Successful.') {
-           // Success
-       } else {
-           // Error
-       }
-    });
-
-    $.push('/admin/update/tweets', twitter, function(data) {
+    console.log(services);
+    $.post('/admin/update/services', services, function(data) {
+       console.log(data);
        if (data == 'Successful.') {
            // Success
        } else {
@@ -60,50 +42,29 @@ function update_info() {
     });
 }
 
-function get_tweets_table() {
-    var $table_row = $('#tweets-table').find('li');
+function get_services_table() {
+    var $table_row = $('#services-table').find('li');
     var data_arr = [];
-    var i = 0;
+    var i = 1;
 
     $table_row.each(function() {
-        var tweetid = $table_row.find('.tweetid').html();
-        var author = $table_row.find('.author').html();
-        var tweet = $table_row.find('.tweet').html();
-        var todisplay = 1;
+        var name = $(this).find('.service-name').html();
+        var todisplay = 0;
+        var order = -1;
+
+        if ($(this).find('.to-display').children().is(':checked')) {
+            todisplay = 1;
+            order = i;
+            i++;
+        }
 
         var elem_data = {
-            tweetid: tweetid,
-            author: author,
-            tweet: tweet,
-            todisplay: todisplay,
-            order: i
+            'name': name,
+            'todisplay': todisplay,
+            'order': order
         };
 
         data_arr.push(elem_data);
-        i++;
-    });
-    return data_arr;
-}
-
-function get_dropbox_table() {
-    var $table_row = $('#dropbox-table').find('li');
-    var data_arr = [];
-    var i = 0;
-
-    $table_row.each(function() {
-        var filepath = $table_row.find('.filepath').html();
-        var accountid = $table_row.find('.accountid').html();
-        var todisplay = 1;
-
-        var elem_data = {
-            filepath: filepath,
-            accountid: accountid,
-            todisplay: todisplay,
-            order: i
-        };
-
-        data_arr.push(elem_data);
-        i++;
     });
     return data_arr;
 }

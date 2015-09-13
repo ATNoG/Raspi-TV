@@ -116,6 +116,7 @@ class Get:
 
     @cherrypy.expose
     def dropbox(self):
+        cherrypy.response.headers['Content-Type'] = "application/json"
         dropbox = conn.execute('SELECT AuthToken, Note, DateAdded FROM Dropbox').fetchone()
         try:
             return json.dumps({'AuthToken': 'X' * len(dropbox[0][:-4]) + dropbox[0][-4:], 'Note': dropbox[1],
@@ -125,6 +126,7 @@ class Get:
 
     @cherrypy.expose
     def twitter(self):
+        cherrypy.response.headers['Content-Type'] = "application/json"
         twitter = conn.execute('SELECT AccessKey, AccessSecret, Note, DateAdded FROM Twitter').fetchone()
         try:
             return json.dumps({'AccessKey': 'X' * len(twitter[0][:-4]) + twitter[0][-4:],
@@ -135,16 +137,18 @@ class Get:
 
     @cherrypy.expose
     def dropbox_files(self):
+        cherrypy.response.headers['Content-Type'] = "application/json"
         all_files = []
-        for f in conn.execute('SELECT * FROM Files ORDER BY FileOrder DESC').fetchall():
+        for f in conn.execute('SELECT * FROM Files ORDER BY FileOrder ASC').fetchall():
             all_files.append({'filepath': f[0], 'todisplay': f[1], 'order': f[2]})
 
         return json.dumps(all_files, separators=(',', ':'))
 
     @cherrypy.expose
     def tweets(self):
+        cherrypy.response.headers['Content-Type'] = "application/json"
         all_tweets = []
-        for tweet in conn.execute('SELECT * FROM Tweets ORDER BY TweetOrder DESC').fetchall():
+        for tweet in conn.execute('SELECT * FROM Tweets ORDER BY TweetOrder ASC').fetchall():
             all_tweets.append({'tweetid': tweet[0], 'author': tweet[1],
                                'tweet': tweet[2], 'todisplay': tweet[3], 'order': tweet[4]})
 
@@ -152,8 +156,9 @@ class Get:
 
     @cherrypy.expose
     def services(self):
+        cherrypy.response.headers['Content-Type'] = "text/json"
         all_services = []
-        for service in conn.execute('SELECT * FROM FrontEndOrder ORDER BY ServicesOrder DESC', ('1',)).fetchall():
+        for service in conn.execute('SELECT * FROM FrontEndOrder ORDER BY ServicesOrder ASC').fetchall():
             all_services.append({'name': service[0], 'todisplay': service[1], 'order': service[2]})
 
         return json.dumps(all_services, separators=(',', ':'))
@@ -246,27 +251,14 @@ class Update:
         return 'Successful.'
 
     @cherrypy.expose
-    def services(self, serviceslist):
-        outdated_services = self.get.services()
-        i = 0
-        while True:
-            if not serviceslist[i] or not outdated_services[i]:
-                break
-            if not serviceslist[i]['todisplay'] == outdated_services[i]['todisplay']:
-                try:
-                    conn.execute('UPDATE FrontEndOrder SET ToDisplay=? WHERE Service=?',
-                                 (serviceslist[i]['todisplay'], serviceslist[i]['name']))
-                    conn.commit()
-                except sql.Error:
-                    return 'Unsuccessful.'
-            if not serviceslist[i]['order'] == outdated_services[i]['order']:
-                try:
-                    conn.execute('UPDATE FrontEndOrder SET ServicesOrder=? WHERE Service=?',
-                                 (serviceslist[i]['order'], serviceslist[i]['name']))
-                    conn.commit()
-                except sql.Error:
-                    return 'Unsuccessful.'
-            i += 1
+    def services(self, servicelist):
+        for service in json.loads(servicelist):
+            try:
+                conn.execute('UPDATE FrontEndOrder SET ToDisplay=?, ServicesOrder=? WHERE Service=?',
+                            (service['todisplay'], service['order'], service['name'],))
+                conn.commit()
+            except sql.Error:
+                return 'Unsuccessful.'
 
         return 'Successful.'
 

@@ -48,7 +48,7 @@ function update_info() {
         tweetlist: get_tweets_table()
     };
 
-    $.push('/admin/update/dropbox_files', dropbox, function(data) {
+    $.post('/admin/update/dropbox_files', dropbox, function(data) {
        if (data == 'Successful.') {
            // Success
        } else {
@@ -56,7 +56,7 @@ function update_info() {
        }
     });
 
-    $.push('/admin/update/tweets', twitter, function(data) {
+    $.post('/admin/update/tweets', twitter, function(data) {
        if (data == 'Successful.') {
            // Success
        } else {
