@@ -19,13 +19,13 @@ def list_files(path):
     return folder_files
 
 
-def save_file(path, f):
+def save_file(path, f, file_type):
     out = open(os.path.join(BASE_DIR, 'src/static/dropbox_files', path[1:]), 'w')
     out.write(f.read())
     out.close()
-    conn.execute('INSERT OR REPLACE INTO Files (FilePath, ToDisplay, FileOrder) VALUES '
+    conn.execute('INSERT OR REPLACE INTO Files (FilePath, ToDisplay, FileOrder, Type) VALUES '
                  '(?, COALESCE((SELECT ToDisplay FROM Files WHERE FilePath=?), 0),'
-                 'COALESCE((SELECT FileOrder FROM Files WHERE FilePath=?), 0))', (path, '0', '-1',))
+                 'COALESCE((SELECT FileOrder FROM Files WHERE FilePath=?), 0))', (path, '0', '-1', file_type))
     conn.commit()
     print 'SUCCESS: ' + path + ' was saved.'
 
@@ -40,12 +40,11 @@ def download_file(path):
     if file_type == 'image' or file_type == 'video':
         # Check if it was changed
         if os.path.isfile(os.path.join(BASE_DIR, 'src/static/dropbox_files', path[1:])):
-            # saved_f = open(), os.O_RDONLY)
             info = os.stat(os.path.join(BASE_DIR, 'src/static/dropbox_files', path[1:]))
             if not time.asctime(time.localtime(info.st_mtime)) == last_mod_date:
-                save_file(path, f)
+                save_file(path, f, file_type)
         else:
-            save_file(path, f)
+            save_file(path, f, file_type)
     else:
         print 'WARNING: The file with the path: ' + path + ' is neither a image or a video. NOT copied.'
 
