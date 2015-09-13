@@ -6,7 +6,6 @@ $(document).ready(function () {
                 '<tr><th>No account added</th></tr>'
             );
         } else {
-            data = JSON.parse(data);
             $('#dropbox-table').append(
                 '<tr><th>Authentication Token</th><td>' + data['AuthToken'] + '</td></tr>' +
                 '<tr><th>Note</th><td>' + data['Note'] + '</td></tr>' +
@@ -22,7 +21,6 @@ $(document).ready(function () {
                 '<tr><th>No account added</th></tr>'
             );
         } else {
-            data = JSON.parse(data);
             $('#twitter-table').append(
                 '<tr><th>Access Key</th><td>' + data['AccessKey'] + '</td></tr>' +
                 '<tr><th>Access Secret</th><td>' + data['AccessSecret'] + '</td></tr>' +

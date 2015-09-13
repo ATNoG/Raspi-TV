@@ -56,7 +56,7 @@ CREATE TABLE [Files] (
   [FilePath]  TEXT PRIMARY KEY    NOT NULL, -- Absolute path to file
   [ToDisplay] INTEGER DEFAULT 0   NOT NULL, -- 'Boolean value' determining whether to use the file or not
   [FileOrder] INTEGER DEFAULT -1  NOT NULL,
-  [Type]
+  [Type]      TEXT                NOT NULL
 );
 
 CREATE TABLE [HTMLSettings] (

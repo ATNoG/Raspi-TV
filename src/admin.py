@@ -136,11 +136,11 @@ class Get:
             return 'No account added.'
 
     @cherrypy.expose
-    def dropbox_files(self):
+    def dropbox_files(self, file_type):
         cherrypy.response.headers['Content-Type'] = "application/json"
         all_files = []
-        for f in conn.execute('SELECT * FROM Files ORDER BY FileOrder ASC').fetchall():
-            all_files.append({'filepath': f[0], 'todisplay': f[1], 'order': f[2]})
+        for f in conn.execute('SELECT * FROM Files WHERE Type=? ORDER BY FileOrder ASC', (file_type,)).fetchall():
+            all_files.append({'filepath': f[0], 'todisplay': f[1], 'order': f[2], 'type': f[3]})
 
         return json.dumps(all_files, separators=(',', ':'))
 
@@ -156,7 +156,7 @@ class Get:
 
     @cherrypy.expose
     def services(self):
-        cherrypy.response.headers['Content-Type'] = "text/json"
+        cherrypy.response.headers['Content-Type'] = "application/json"
         all_services = []
         for service in conn.execute('SELECT * FROM FrontEndOrder ORDER BY ServicesOrder ASC').fetchall():
             all_services.append({'name': service[0], 'todisplay': service[1], 'order': service[2]})
@@ -200,53 +200,34 @@ class Update:
     def encrypt_password(password):
         return SHA256.new(password).hexdigest()
 
-    @cherrypy.expose
-    def dropbox_files(self, files):
-        outdated_files = self.get.dropbox_files()
-        i = 0
-        while True:
-            if not files[i] or not outdated_files[i]:
-                break
-            if not files[i]['todisplay'] == outdated_files[i]['todisplay']:
-                try:
-                    conn.execute('UPDATE Files SET ToDisplay=? WHERE FilePath=?',
-                                 (files[i]['todisplay'], files[i]['filepath']))
-                    conn.commit()
-                except sql.Error:
-                    return 'Unsuccessful.'
-            if not files[i]['order'] == outdated_files[i]['order']:
-                try:
-                    conn.execute('UPDATE Files SET FileOrder=? WHERE FilePath=?',
-                                 (files[i]['order'], files[i]['filepath']))
-                    conn.commit()
-                except sql.Error:
-                    return 'Unsuccessful.'
-            i += 1
+    @staticmethod
+    def dropbox_db(files):
+        for f in json.loads(files):
+            try:
+                conn.execute('UPDATE Files SET ToDisplay=?, FileOrder=? WHERE FilePath=?',
+                             (f['todisplay'], f['order'], f['filepath'],))
+                conn.commit()
+            except sql.Error:
+                return 'Unsuccessful.'
 
         return 'Successful.'
 
     @cherrypy.expose
+    def dropbox_files(self, images, videos):
+        if self.dropbox_db(images) == 'Successful.' and self.dropbox_db(videos) == 'Successful.':
+            return 'Successful.'
+        else:
+            return 'Unsuccessful.'
+
+    @cherrypy.expose
     def tweets(self, tweetlist):
-        outdated_tweets = self.get.tweets()
-        i = 0
-        while True:
-            if not tweetlist[i] or not outdated_tweets[i]:
-                break
-            if not tweetlist[i]['todisplay'] == outdated_tweets[i]['todisplay']:
-                try:
-                    conn.execute('UPDATE Tweets SET ToDisplay=? WHERE TweetId=?',
-                                 (tweetlist[i]['todisplay'], tweetlist[i]['tweetid']))
-                    conn.commit()
-                except sql.Error:
-                    return 'Unsuccessful.'
-            if not tweetlist[i]['order'] == outdated_tweets[i]['order']:
-                try:
-                    conn.execute('UPDATE Tweets SET TweetOrder=? WHERE TweetId=?',
-                                 (tweetlist[i]['order'], tweetlist[i]['tweetid']))
-                    conn.commit()
-                except sql.Error:
-                    return 'Unsuccessful.'
-            i += 1
+        for tweet in json.loads(tweetlist):
+            try:
+                conn.execute('UPDATE Tweets SET ToDisplay=?, TweetOrder=? WHERE TweetId=?',
+                             (tweet['todisplay'], tweet['order'], tweet['tweetid'],))
+                conn.commit()
+            except sql.Error:
+                return 'Unsuccessful.'
 
         return 'Successful.'
 
@@ -255,7 +236,7 @@ class Update:
         for service in json.loads(servicelist):
             try:
                 conn.execute('UPDATE FrontEndOrder SET ToDisplay=?, ServicesOrder=? WHERE Service=?',
-                            (service['todisplay'], service['order'], service['name'],))
+                             (service['todisplay'], service['order'], service['name'],))
                 conn.commit()
             except sql.Error:
                 return 'Unsuccessful.'
