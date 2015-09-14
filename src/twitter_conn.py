@@ -22,9 +22,5 @@ def populate_db(query='%23raspi-tv', count=100):  # Containing '#raspi-tv'
                          '(?, ?, ?, COALESCE((SELECT ToDisplay FROM Tweets WHERE TweetId=?), 0))',
                          (tweet.id, tweet.user.name, tweet.text, tweet.id))
             conn.commit()
-    except twitter.TwitterError, err:
-        print err
-        pass
-
-if __name__ == '__main__':
-    populate_db()
+    except twitter.TwitterError, e:
+        print e

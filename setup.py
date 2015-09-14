@@ -38,7 +38,7 @@ def verify_db(rtn=False):
 
 
 def create(predicate):
-    available_actions = ['user', 'database']
+    available_actions = ['user', 'database', 'cronjobs']
     assert len(predicate), 'Expecting a predicate:\n ' \
                            '' + repr(available_actions)
     action = predicate[0]
@@ -84,6 +84,12 @@ def create(predicate):
                     print('No changes were made.')
                     exit(0)
             call('cat ' + db_sql + ' | sqlite3 ' + db_sqlite, shell=True)
+
+        elif action == available_actions[2]:
+            cron_tasks = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'src/cron.py')
+            print('Copy: \n')
+            print('0 * * * * ' + ' python ' + str(cron_tasks))
+            print('\nNow type \'crontab -e\' and at the bottom of the opened file paste the copied task.')
 
 
 def delete(user):
