@@ -11,6 +11,7 @@ from settings import *
 conn = sql.connect(os.path.join(BASE_DIR, 'db/raspi-tv.sqlite'), check_same_thread=False)
 
 
+@require()
 class Admin:
     def __init__(self):
         self.create = Create()
@@ -64,8 +65,6 @@ class Create:
             return rtn
         else:
             return 'Error reading parameters'
-
-
 
     @cherrypy.expose
     def twitter(self, clear=0, pincode=None, note=None):
