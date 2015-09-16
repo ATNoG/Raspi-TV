@@ -65,8 +65,68 @@ $(document).ready(function(){
 			//console.log(height_frame);
 		}, 100);
 
+		// then call the changes
+
+		changes();
     };
 
-	get_weather();
 
+	/* CHANGES */
+
+	var changes = function(){
+		$.get( "/api/get_HTMLChanges", function( data ) {
+			console.log(data);
+			for(var i =0 ;i<data.length;i++){
+				if(data[i].type.localeCompare('text') == 0){
+					$('#'+data[i].id).html(data[i].content);
+				} else if (data[i].type.localeCompare('image')==0){
+					$("body").css('background-image', 'url(' +'/static/images'+ data[i].content + ')');
+				} else {
+					//add , if needed
+				}
+			}
+
+			// then call get tweets
+			get_tweets();
+		});
+	};
+
+	var data_length = 0;
+    var info = [];
+    var counter = 0;
+
+    function get_tweets() {
+        $.getJSON('/api/get_tweets', function(data){
+        data_length = data.length;
+            for (var i = 0; i < data.length; i++) {
+                info.push('<img src="img/img/twitter.png" width="2%"/>' + '<strong style=\'color:#003399;\'>' + ' ' + data[i]['author'] + '</strong>:' + '<span style=\'color:#003399;\'>' + data[i]['tweet'] + '</span>');
+            }
+            slider();
+        });
+    }
+
+    function slider() {
+		$('#tweets-table').html(info[counter]);
+
+		setTimeout(function(){
+			counter++;
+			var $slideContainer = $('#tweets-table');
+			var width = '-250%';
+
+			if (counter == data_length) {
+				counter = 0;
+			}
+			$slideContainer.animate({'margin-left': width}, 5000, function(){
+					$slideContainer.css('margin-left', '0%');
+					slider();
+			});
+
+
+		}, 10000);
+
+		// then load the iframe
+		$("#content_frame").attr("src", "news.html");
+	}
+
+	get_weather();
 });
