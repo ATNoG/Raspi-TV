@@ -3,7 +3,7 @@ $(document).ready(function(){
 	var i = 0;
 
     function get_all_info() {
-        $.getJSON('/api/get_all_info').then(get_ordered);
+        $.get('/api/get_all_info').then(get_ordered);
 	}
 
     function get_ordered(data) {

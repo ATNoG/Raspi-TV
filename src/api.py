@@ -12,15 +12,15 @@ conn = sql.connect(os.path.join(BASE_DIR, 'db/raspi-tv.sqlite'), check_same_thre
 class Api:
     @cherrypy.expose
     def get_all_info(self):
-        cherrypy.response.headers['Content-Type'] = 'text/json'
+        cherrypy.response.headers['Content-Type'] = 'application/json'
         array_info = []
         services_order = self.get_front_order()
         for service in services_order:
-            if service[0] == 'News':
+            if service['name'] == 'News':
                 array_info.append({'name': 'News', 'content': self.get_deti_news()})
-            elif service[0] == 'Youtube':
+            elif service['name'] == 'Youtube':
                 array_info.append({'name': 'Youtube', 'content': self.get_youtube()})
-            elif service[0] == 'Dropbox Photos':
+            elif service['name'] == 'Dropbox Photos':
                 array_info.append({'name': 'Dropbox Photos', 'content': self.get_dropbox_files('Image')})
             else:
                 array_info.append({'name': 'Dropbox Videos', 'content': self.get_dropbox_files('Video')})
@@ -33,7 +33,7 @@ class Api:
         for service in conn.execute('SELECT * FROM FrontEndOrder WHERE ToDisplay=? ORDER BY ServicesOrder ASC', ('1',)).fetchall():
             all_services.append({'name': service[0], 'order': service[2]})
 
-        return json.dumps(all_services)
+        return all_services
 
     @cherrypy.expose
     def get_youtube(self):
@@ -41,11 +41,11 @@ class Api:
         for video in conn.execute('SELECT * FROM YouTube').fetchall():
             all_videos.append({'link': video[0], 'filepath': video[1], 'name': video[2]})
 
-        return json.dumps(all_videos)
+        return all_videos
 
     @cherrypy.expose
     def get_deti_news(self):
-        return json.dumps(deti_news())
+        return deti_news()
 
     @cherrypy.expose
     def get_weather(self):
@@ -53,12 +53,11 @@ class Api:
 
     @cherrypy.expose
     def get_dropbox_files(self, file_type):
-        cherrypy.response.headers['Content-Type'] = "application/json"
         all_files = []
         for f in conn.execute('SELECT * FROM Files WHERE Type=? AND ToDisplay=? ORDER BY FileOrder ASC', (file_type, '1',)).fetchall():
             all_files.append({'filepath': f[0], 'todisplay': f[1], 'order': f[2], 'type': f[3]})
 
-        return json.dumps(all_files)
+        return all_files
 
     @cherrypy.expose
     @cherrypy.tools.allow(methods=['GET'])
@@ -97,7 +96,7 @@ class Api:
     def get_tweets(self):
         all_tweets = []
         
-        for tweet in conn.execute('SELECT * FROM Tweets ORDER BY TweetOrder DESC').fetchall():
+        for tweet in conn.execute('SELECT * FROM Tweets ORDER BY TweetOrder ASC').fetchall():
             #print tweet
             if tweet[3] == 0:
                 all_tweets.append({'tweetid': tweet[0], 'author': tweet[1],
