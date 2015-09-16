@@ -23,7 +23,7 @@ class Youtube:
         except Exception:
             return json.dumps({'status': 500})
 
-        db = sql.connect('../db/raspi-tv.sqlite', check_same_thread=False)
+        db = sql.connect(os.path.join(BASE_DIR, 'db/raspi-tv.sqlite'), check_same_thread=False)
         find_id = db.execute("SELECT * FROM YouTube WHERE VideoId = (?);", (link,)).fetchall()
 
         #check if the URL haven't been added

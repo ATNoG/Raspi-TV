@@ -48,7 +48,7 @@ class Create:
 
         (app_key, app_secret) = conn.execute('SELECT AppKey, AppSecret FROM Dropbox').fetchone()
 
-        redirect_uri = 'http://localhost:8080/admin/pages/accounts/register-dropbox.html'
+        redirect_uri = 'http://localhost:8080/admin/register-dropbox.html'
 
         if auth == 0:
             return 'https://www.dropbox.com/1/oauth2/authorize?response_type=token&client_id=' + app_key + '&redirect_uri=' + redirect_uri

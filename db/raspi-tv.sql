@@ -65,7 +65,8 @@ CREATE TABLE [HTMLSettings] (
 );
 
 CREATE TABLE [YouTube] (
-  [VideoId] TEXT PRIMARY KEY NOT NULL,
+  [VideoId]   TEXT PRIMARY KEY NOT NULL,
+  [FilePath]  TEXT             NOT NULL,
   [VideoName] TEXT
 );
 

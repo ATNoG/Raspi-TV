@@ -15,7 +15,7 @@ def deti_news():
         feed_source = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('feed',)).fetchone()[1]
         feed_content = feedparser.parse(feed_source)
 
-        news = {"title": feed_content.feed.title, "news": [], "videos": []}
+        news = {"title": feed_content.feed.title, "news": []}
 
         #delete all the images
 
@@ -66,16 +66,13 @@ def deti_news():
     except Exception, e:
         print e.message
 
-    news_db = {"title": "", "news": [], "videos": []}
+    news_db = {"title": "", "news": []}
 
     for i in conn.execute("SELECT * FROM News;").fetchall():
         news_db["news"] += [{"author": i[2],
                         "summary": i[3],
                         "title": i[0],
                         "date": i[1]}]
-
-    for j in conn.execute("SELECT * FROM YouTube;").fetchall():
-        news_db["videos"] += [{'link': j[0], 'name': j[1]}]
 
     return news_db
 
