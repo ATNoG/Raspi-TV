@@ -16,13 +16,13 @@ class Api:
         array_info = []
         services_order = self.get_front_order()
         for service in services_order:
-            print service['name']
             if service['name'] == 'News':
                 array_info.append({'name': 'News', 'content': self.get_deti_news()})
             elif service['name'] == 'Youtube':
                 array_info.append({'name': 'Youtube', 'content': self.get_youtube()})
             elif service['name'] == 'Dropbox Photos':
                 array_info.append({'name': 'Dropbox Photos', 'content': self.get_dropbox_files('Image')})
+                print self.get_dropbox_files('Image')
             else:
                 array_info.append({'name': 'Dropbox Videos', 'content': self.get_dropbox_files('Video')})
 
