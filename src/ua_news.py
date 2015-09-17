@@ -66,13 +66,10 @@ def deti_news():
     except Exception, e:
         print e.message
 
-    news_db = {"title": "", "news": []}
+    news_db = []
 
     for i in conn.execute("SELECT * FROM News;").fetchall():
-        news_db["news"] += [{"author": i[2],
-                        "summary": i[3],
-                        "title": i[0],
-                        "date": i[1]}]
+        news_db.append({"author": i[3], "summary": i[4], "title": i[1], "date": i[2]})
 
     return news_db
 

@@ -34,8 +34,8 @@ $(document).ready(function(){
     }
 
     function queue_process_news(data) {
-        for (var j = 0; j < data.content.news.length; j++) {
-            queue.push({'type': 'noticia', 'content': data.content.news[j]});
+        for (var j = 0; j < data.content.length; j++) {
+            queue.push({'type': 'noticia', 'content': data.content[j]});
         }
     }
 
@@ -73,7 +73,7 @@ $(document).ready(function(){
             time();
 
         } else if (queue[i].type == 'image') {
-            $("#content").hide().html("<img src='" + queue[i].content.filepath + "'/>").fadeIn('slow');
+            $("#content").hide().html("<img src='/dropbox_files" + queue[i].content.filepath + "'/>").fadeIn('slow');
             setTimeout(function(){
                 i++;
                 setTimeout(explode, 1000);

@@ -1,6 +1,6 @@
 $(document).ready(function(){
-    get_info_dropbox('Image', '#dropbox-images-table');
-    get_info_dropbox('Videos', '#dropbox-videos-table');
+    get_info_dropbox('image', '#dropbox-images-table');
+    get_info_dropbox('video', '#dropbox-videos-table');
 
     $('#btn-update').click(function(){
         $('.alert').hide();
