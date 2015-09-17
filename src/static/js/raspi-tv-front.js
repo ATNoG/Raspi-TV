@@ -66,8 +66,9 @@ $(document).ready(function(){
 		}, 100);
 
 		// then call the changes
-
-		changes();
+		setTimeout(function(){
+			changes();
+		}, 500);
     };
 
 
@@ -87,7 +88,9 @@ $(document).ready(function(){
 			}
 
 			// then call get tweets
-			get_tweets();
+			setTimeout(function(){
+				get_tweets();
+			}, 500);
 		});
 	};
 
@@ -97,14 +100,17 @@ $(document).ready(function(){
 
     function get_tweets() {
         $.getJSON('/api/get_tweets', function(data){
-        data_length = data.length;
+        	data_length = data.length;
+
             for (var i = 0; i < data.length; i++) {
                 info.push('<img src="img/img/twitter.png" width="2%"/>' + '<strong style=\'color:#003399;\'>' + ' ' + data[i]['author'] + '</strong>:' + '<span style=\'color:#003399;\'>' + data[i]['tweet'] + '</span>');
             }
             slider();
 
 			// then load the iframe
-			$("#content_frame").attr("src", "news.html");
+			setTimeout(function(){
+				$("#content_frame").attr("src", "news.html");
+			}, 500);
         });
     }
 
