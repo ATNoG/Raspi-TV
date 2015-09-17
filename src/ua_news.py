@@ -12,7 +12,7 @@ conn = sql.connect(os.path.join(BASE_DIR, 'db/raspi-tv.sqlite'), check_same_thre
 
 def deti_news():
     try:
-        feed_source = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('feed',)).fetchone()[1]
+        feed_source = conn.execute('SELECT * FROM HTMLSettings WHERE IdName=?', ('feed',)).fetchone()[1]
         feed_content = feedparser.parse(feed_source)
 
         news = {"title": feed_content.feed.title, "news": []}
@@ -56,12 +56,12 @@ def deti_news():
                 tmp = tmp.replace(space, "")
 
             if new_tmp:
-                conn.execute("INSERT INTO News VALUES (?,?,?,?);",
-                        (news["news"][i]["title"], news["news"][i]["date"], news["news"][i]["author"], new_tmp))
+                conn.execute("INSERT INTO News (Title, Date_Updated, Author, Content) VALUES (?,?,?,?);",
+                             (news["news"][i]["title"], news["news"][i]["date"], news["news"][i]["author"], new_tmp))
                 conn.commit()
             else:
-                conn.execute("INSERT INTO News VALUES (?,?,?,?);",
-                        (news["news"][i]["title"], news["news"][i]["date"], news["news"][i]["author"], tmp))
+                conn.execute("INSERT INTO News (Title, Date_Updated, Author, Content) VALUES (?,?,?,?);",
+                             (news["news"][i]["title"], news["news"][i]["date"], news["news"][i]["author"], tmp))
                 conn.commit()
     except Exception, e:
         print e.message

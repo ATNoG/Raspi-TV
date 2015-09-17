@@ -71,10 +71,11 @@ CREATE TABLE [YouTube] (
 );
 
 CREATE TABLE [News] (
-  [Title] TEXT PRIMARY KEY NOT NULL,
+  [NewsId]       INTEGER PRIMARY KEY AUTOINCREMENT,
+  [Title]        TEXT                     NOT NULL,
   [Date_Updated] TEXT,
-  [Author] TEXT,
-  [Content] TEXT
+  [Author]       TEXT,
+  [Content]      TEXT
 );
 
 CREATE TABLE [Weather] (

@@ -20,6 +20,6 @@ $('#send-btn').click(function () {
     var pincode = $('#pincode').val();
     var note = $('#note').val();
     $.post('/admin/create/twitter', {'pincode': pincode, 'note': note}, function (data) {
-        if (data == 'Successful') window.open('/admin/pages/accounts/accounts.html#twitter')
+        if (data == 'Successful') window.open('/admin/accounts.html#twitter')
     });
 });

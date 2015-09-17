@@ -25,7 +25,7 @@ def save_file(path, f, file_type):
     out.close()
     conn.execute('INSERT OR REPLACE INTO Files (FilePath, ToDisplay, FileOrder, Type) VALUES '
                  '(?, COALESCE((SELECT ToDisplay FROM Files WHERE FilePath=?), 0),'
-                 'COALESCE((SELECT FileOrder FROM Files WHERE FilePath=?), 0))', (path, '0', '-1', file_type))
+                 'COALESCE((SELECT FileOrder FROM Files WHERE FilePath=?), 0), ?)', (path, '0', '-1', file_type))
     conn.commit()
     print 'SUCCESS: ' + path + ' was saved.'
 
@@ -66,6 +66,3 @@ def copy_folder(path):
 def copy_dropbox_folder():
     copy_folder('/')
 
-
-if __name__ == '__main__':
-    copy_dropbox_folder()

@@ -102,6 +102,9 @@ $(document).ready(function(){
                 info.push('<img src="img/img/twitter.png" width="2%"/>' + '<strong style=\'color:#003399;\'>' + ' ' + data[i]['author'] + '</strong>:' + '<span style=\'color:#003399;\'>' + data[i]['tweet'] + '</span>');
             }
             slider();
+
+			// then load the iframe
+			$("#content_frame").attr("src", "news.html");
         });
     }
 
@@ -124,8 +127,6 @@ $(document).ready(function(){
 
 		}, 10000);
 
-		// then load the iframe
-		$("#content_frame").attr("src", "news.html");
 	}
 
 	get_weather();

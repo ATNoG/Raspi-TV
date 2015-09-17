@@ -7,6 +7,7 @@ $(document).ready(function(){
 	}
 
     function get_ordered(data) {
+        console.log("CALL");
         console.log(data);
         for (var j = 0; j < data.length; j++) {
             console.log(data[j]['name']);
@@ -80,9 +81,6 @@ $(document).ready(function(){
         } else {
 			$("#content").hide().html('<h2 style="color:#33B3D1">' + queue[i].content.title + '</h2>' + '<span style="color:#003399">' + queue[i].content.date + '</span>' + '<br>' + '<span style="color:#003399">' + queue[i].content.author + '</span>' + queue[i].content.summary).fadeIn('slow');
 			i = (i+1);
-			if (i==queue.length) {
-				i = 0;
-			}
 
 			var pieces_of_page = Math.ceil($(document).height()/$(window).height());
         	var count = 0;
@@ -104,6 +102,9 @@ $(document).ready(function(){
         	scroll();
 			setTimeout(explode, pieces_of_page*time_to_wait);
 		}
+        if (i==queue.length) {
+            i = 0;
+        }
 
 	};
 

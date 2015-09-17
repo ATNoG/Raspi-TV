@@ -16,6 +16,7 @@ class Api:
         array_info = []
         services_order = self.get_front_order()
         for service in services_order:
+            print service['name']
             if service['name'] == 'News':
                 array_info.append({'name': 'News', 'content': self.get_deti_news()})
             elif service['name'] == 'Youtube':
