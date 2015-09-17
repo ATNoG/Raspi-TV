@@ -18,26 +18,26 @@ class Api:
         for service in services_order:
             print service['name']
             if service['name'] == 'News':
-                array_info.append({'name': 'News', 'content': self.get_deti_news()})
+                array_info.append({'name': 'News', 'content': deti_news()})
             elif service['name'] == 'Youtube':
                 array_info.append({'name': 'Youtube', 'content': self.get_youtube()})
             elif service['name'] == 'Dropbox Photos':
-                array_info.append({'name': 'Dropbox Photos', 'content': self.get_dropbox_files('Image')})
+                array_info.append({'name': 'Dropbox Photos', 'content': self.get_dropbox_files('image')})
             else:
-                array_info.append({'name': 'Dropbox Videos', 'content': self.get_dropbox_files('Video')})
+                array_info.append({'name': 'Dropbox Videos', 'content': self.get_dropbox_files('video')})
 
         return json.dumps(array_info)
 
-    @cherrypy.expose
-    def get_front_order(self):
+    @staticmethod
+    def get_front_order():
         all_services = []
         for service in conn.execute('SELECT * FROM FrontEndOrder WHERE ToDisplay=? ORDER BY ServicesOrder ASC', ('1',)).fetchall():
             all_services.append({'name': service[0], 'order': service[2]})
 
         return all_services
 
-    @cherrypy.expose
-    def get_youtube(self):
+    @staticmethod
+    def get_youtube():
         all_videos = []
         for video in conn.execute('SELECT * FROM YouTube').fetchall():
             all_videos.append({'link': video[0], 'filepath': video[1], 'name': video[2]})
@@ -45,15 +45,11 @@ class Api:
         return all_videos
 
     @cherrypy.expose
-    def get_deti_news(self):
-        return deti_news()
-
-    @cherrypy.expose
     def get_weather(self):
         return json.dumps({'content': get_w()})
 
-    @cherrypy.expose
-    def get_dropbox_files(self, file_type):
+    @staticmethod
+    def get_dropbox_files(file_type):
         all_files = []
         for f in conn.execute('SELECT * FROM Files WHERE Type=? AND ToDisplay=? ORDER BY FileOrder ASC', (file_type, '1',)).fetchall():
             all_files.append({'filepath': f[0], 'todisplay': f[1], 'order': f[2], 'type': f[3]})
