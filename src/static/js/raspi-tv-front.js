@@ -9,7 +9,8 @@ $(document).ready(function(){
     	var sunrise_time = data.content.weather.sunrise;
 		var time = Date();
 		time = time.split(" ");
-		time = time[4]
+		time = time[4];
+		console.log(data.content.weather.status);
 
 		if(time < sunset_time && time > sunrise_time){
 			if(data.content.weather.status == 800){
@@ -81,7 +82,7 @@ $(document).ready(function(){
 				if(data[i].type.localeCompare('text') == 0){
 					$('#'+data[i].id).html(data[i].content);
 				} else if (data[i].type.localeCompare('image')==0){
-					$("body").css('background-image', 'url(' +'/static/images'+ data[i].content + ')');
+					$("body").css('background-image', 'url(' +'/img'+ data[i].content + ')');
 				} else {
 					//add , if needed
 				}

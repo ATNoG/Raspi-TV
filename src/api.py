@@ -71,8 +71,8 @@ class Api:
         locationDescription = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('locationDescription',)).fetchone()[1]
         response.append({'id': 'location_description', 'type': 'text', 'content': locationDescription})
 
-        weather = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('weather',)).fetchone()[1]
-        response.append({'id': 'weather', 'type': 'text', 'content': weather})
+        # weather = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('weather',)).fetchone()[1]
+        # response.append({'id': 'weather', 'type': 'text', 'content': weather})
 
         feed = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('feed',)).fetchone()[1]
         response.append({'id': 'feed', 'type': 'text', 'content': feed})
