@@ -26,12 +26,13 @@ def deti_news():
         conn.execute("DELETE FROM News;")
 
         for entry in feed_content.entries:
-            news["news"] += [{"author": parse_author(entry.author),
-                            "summary": entry.summary,
-                            "title": entry.title,
-                            "date": parse_date(str(entry.updated))}]
 
-        for i in range(0, len(news["news"])):
+            news["news"] += [{"author": parse_author(entry.author) if hasattr(entry, "author") else "",
+                            "summary": entry.summary if hasattr(entry, "summary") else "",
+                            "title": entry.title if hasattr(entry, "title") else "",
+                            "date": parse_date(str(entry.updated)) if hasattr(entry, "entry.updated") else ""}]
+
+        for i in range(len(news["news"])):
             tmp = news["news"][i]["summary"]
             new_tmp = download_photo(tmp)
 
