@@ -13,13 +13,15 @@ except ValueError:
     print 'No account added'
     sys.exit()
 
+updated_files = []
+
 
 def list_files(path):
     folder_files = client.metadata(path)['contents']
     return folder_files
 
 
-def save_file(path, f, file_type):
+def save_file(path, f, file_type, message):
     out = open(os.path.join(BASE_DIR, 'src/static/dropbox_files', path[1:]), 'w')
     out.write(f.read())
     out.close()
@@ -27,7 +29,8 @@ def save_file(path, f, file_type):
                  '(?, COALESCE((SELECT ToDisplay FROM Files WHERE FilePath=?), 0),'
                  'COALESCE((SELECT FileOrder FROM Files WHERE FilePath=?), 0), ?)', (os.path.join(BASE_DIR, 'src/static/dropbox_files', path), '1', -1, file_type))
     conn.commit()
-    print 'SUCCESS: ' + path + ' was saved.'
+    updated_files.append(path)
+    print 'SUCCESS: ' + path + ' was ' + message + '.'
 
 
 def download_file(path):
@@ -42,9 +45,9 @@ def download_file(path):
         if os.path.isfile(os.path.join(BASE_DIR, 'src/static/dropbox_files', path[1:])):
             info = os.stat(os.path.join(BASE_DIR, 'src/static/dropbox_files', path[1:]))
             if not time.asctime(time.localtime(info.st_mtime)) == last_mod_date:
-                save_file(path, f, file_type)
+                save_file(path, f, file_type, 'updated')
         else:
-            save_file(path, f, file_type)
+            save_file(path, f, file_type, 'saved')
     else:
         print 'WARNING: The file with the path: ' + path + ' is neither a image or a video. NOT copied.'
 
@@ -65,4 +68,9 @@ def copy_folder(path):
 
 def copy_dropbox_folder():
     copy_folder('/')
-
+    for f in conn.execute('SELECT * FROM Files').fetchall():
+        if f[0] not in updated_files:
+            conn.execute('DELETE FROM Files WHERE FilePath=?', (f[0],))
+            conn.commit()
+            os.remove(os.path.join(BASE_DIR, 'src/static/dropbox_files', f[0][1:]))
+            print 'WARNING: The file with the path: ' + f[0] + ' was removed.'

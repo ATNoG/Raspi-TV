@@ -6,6 +6,7 @@ import cherrypy
 from auth import require, SESSION_KEY
 from Crypto.Hash import SHA256
 from requests_oauthlib import OAuth1Session
+from dropbox.client import *
 from settings import *
 
 conn = sql.connect(os.path.join(BASE_DIR, 'db/raspi-tv.sqlite'), check_same_thread=False)
@@ -43,17 +44,23 @@ class Create:
         self.resp = None
 
     @cherrypy.expose
-    def dropbox(self, auth=0, access_token=None, note=None):
+    def dropbox(self, auth=0, pincode=None, note=None):
         date = datetime.datetime.now().strftime('%I:%M%p on %B %d, %Y')
 
         (app_key, app_secret) = conn.execute('SELECT AppKey, AppSecret FROM Dropbox').fetchone()
 
-        redirect_uri = 'http://localhost:8080/admin/register-dropbox.html'
+        auth_flow = DropboxOAuth2FlowNoRedirect(app_key, app_secret)
 
         if auth == 0:
-            return 'https://www.dropbox.com/1/oauth2/authorize?response_type=token&client_id=' + app_key + '&redirect_uri=' + redirect_uri
+            return auth_flow.start()
 
-        if access_token:
+        if pincode:
+            try:
+                access_token, user_id = auth_flow.finish(pincode)
+            except ErrorResponse, e:
+                print('Error: %s' % (e,))
+                return 'Unsuccessful.'
+
             print access_token
             if not conn.execute('SELECT COUNT(*) FROM Dropbox WHERE AuthToken=?', (access_token,)).fetchone()[0] == 0:
                 rtn = 'Unsuccessful. Account already exists.'
