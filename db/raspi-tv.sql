@@ -123,7 +123,7 @@ INSERT INTO [HTMLSettings] VALUES (
 );
 INSERT INTO [HTMLSettings] VALUES (
     'feed',
-    'http://services.web.ua.pt/deti/news'
+    'http://deti-cdn.clients.ua.pt/'
 );
 
 INSERT INTO [FrontEndOrder] VALUES (
