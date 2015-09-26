@@ -3,7 +3,8 @@ import urllib
 import sqlite3 as sql
 import re
 import wget
-import os
+import random
+import string
 import glob
 from settings import *
 
@@ -102,8 +103,7 @@ def download_photo(tmp):
         if "cid" in url:
             tmp = tmp.replace(image, "")
         else:
-            name = url.split("=")
-            name = name[1]
+            name = ''.join(random.choice(string.ascii_uppercase) for i in range(12))
             if not os.path.exists("static/img/feed_imgs"):
                 os.makedirs("static/img/feed_imgs")
 
