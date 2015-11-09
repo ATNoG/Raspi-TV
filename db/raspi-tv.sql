@@ -93,13 +93,21 @@ CREATE TABLE [FrontEndOrder] (
   [ServicesOrder] INTEGER DEFAULT 0 NOT NULL
 );
 
-INSERT INTO [Users] VALUES (
-  'RJJ',
-  '65304dac3823069673aa9d3b90dcb9f44938e2d12f58509addc915d08922b64b', -- "ricardo"
-  'Ricardo',
-  'Jesus',
-  'ricardojesus@ua.pt',
-  'January 1, 2015'
+INSERT INTO [Dropbox] VALUES (
+    'rbfnah947b3iobb',
+    'l4r9iivgz4onshk',
+    '',
+    '',
+    '00:00AM on January 1, 2000'
+);
+
+INSERT INTO [Twitter] VALUES (
+    'LBkx6ijeOITvfsArKgdKH2wOL',
+    'GqQodc99leDRSBw1d89N8uKBKJlPkMvrFXNfLJauzMwxF4Chxx',
+    '',
+    '',
+    '',
+    '00:00AM on January 1, 2000'
 );
 
 INSERT INTO [HTMLSettings] VALUES (
