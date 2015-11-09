@@ -67,8 +67,8 @@ def copy_folder(path):
 
 
 def copy_dropbox_folder():
-    copy_folder('/')
     if client:
+        copy_folder('/')
         for f in conn.execute('SELECT * FROM Files').fetchall():
             if f[0] not in updated_files:
                 conn.execute('DELETE FROM Files WHERE FilePath=?', (f[0],))
