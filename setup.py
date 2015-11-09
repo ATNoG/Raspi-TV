@@ -89,7 +89,8 @@ def create(predicate):
             cron_tasks = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'src/cron.py')
             print('Copy: \n')
             print('0 * * * * ' + ' python ' + str(cron_tasks))
-            print('\nNow type \'crontab -e\' and at the bottom of the opened file paste the copied task.')
+            print('@reboot python ~/Raspi-TV/src/web.py &')
+            print('\nNow type \'crontab -e\' and at the bottom of the opened file paste the copied tasks.')
 
 
 def delete(user):
