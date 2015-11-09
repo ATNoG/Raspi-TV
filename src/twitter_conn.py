@@ -14,7 +14,7 @@ api = twitter.Api(consumer_key=consumer_key,
                   access_token_secret=access_token_secret)
 
 
-def populate_db(query='%23detiuaveiro', count=100):  # Containing '#raspi-tv'
+def populate_db(query='%23raspi-tv', count=100):  # Containing '#raspi-tv'
     try:
         tweets = api.GetSearch(term=query, count=count)
         for tweet in tweets:
