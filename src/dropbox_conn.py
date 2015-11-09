@@ -67,9 +67,10 @@ def copy_folder(path):
 
 def copy_dropbox_folder():
     copy_folder('/')
-    for f in conn.execute('SELECT * FROM Files').fetchall():
-        if f[0] not in updated_files:
-            conn.execute('DELETE FROM Files WHERE FilePath=?', (f[0],))
-            conn.commit()
-            os.remove(os.path.join(BASE_DIR, 'src/static/dropbox_files', f[0][1:]))
-            print 'WARNING: The file with the path: ' + f[0] + ' was removed.'
+    if client:
+        for f in conn.execute('SELECT * FROM Files').fetchall():
+            if f[0] not in updated_files:
+                conn.execute('DELETE FROM Files WHERE FilePath=?', (f[0],))
+                conn.commit()
+                os.remove(os.path.join(BASE_DIR, 'src/static/dropbox_files', f[0][1:]))
+                print 'WARNING: The file with the path: ' + f[0] + ' was removed.'
