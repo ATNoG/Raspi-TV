@@ -11,6 +11,7 @@ try:
     client = dropbox.client.DropboxClient(access_token)
 except ValueError:
     print 'No account added'
+    client = None
 
 updated_files = []
 
