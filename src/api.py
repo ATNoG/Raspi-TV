@@ -40,7 +40,7 @@ class Api:
     def get_youtube():
         all_videos = []
         for video in conn.execute('SELECT * FROM YouTube').fetchall():
-            all_videos.append({'link': video[0], 'filepath': video[1], 'name': video[2]})
+            all_videos.append({'link': video[0], 'filepath': video[1].split("/src/static/")[1], 'name': video[2]})
 
         return all_videos
 
