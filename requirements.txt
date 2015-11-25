@@ -4,5 +4,5 @@ feedparser>=5.1.3
 pyowm>=2.2.1
 dropbox>=2.2.0
 python-twitter>=2.2
-pytube
-wget
+pytube>=0.2.1
+wget>=2.2
