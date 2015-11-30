@@ -10,6 +10,7 @@ from settings import *
 
 conn = sql.connect(os.path.join(BASE_DIR, 'db/raspi-tv.sqlite'), check_same_thread=False)
 
+
 def deti_news():
     try:
         feed_source = conn.execute('SELECT * FROM HTMLSettings WHERE IdName=?', ('feed',)).fetchone()[1]
@@ -19,7 +20,8 @@ def deti_news():
 
         # delete all the images
 
-        files = glob.glob(os.path.join(BASE_DIR, 'src/static/img/feed_imgs/') + '*')  # glob.glob('static/img/feed_imgs/*')
+        files = glob.glob(
+            os.path.join(BASE_DIR, 'src/static/img/feed_imgs/') + '*')  # glob.glob('static/img/feed_imgs/*')
         for f in files:
             os.remove(f)
 
@@ -109,8 +111,9 @@ def download_photo(tmp):
             filename = wget.download(url, os.path.join(BASE_DIR, 'src/static/img/feed_imgs/') + name + ".jpg")
 
             new_path_url = [filename, url]
-            tmp = tmp.replace(new_path_url[1], new_path_url[0])
-
+            img_idx = new_path_url[0].find('img')
+            tmp = tmp.replace(new_path_url[1], new_path_url[0][img_idx:])
+            print(new_path_url[0][img_idx:])
     return tmp
 
 
