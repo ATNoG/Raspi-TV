@@ -30,7 +30,7 @@ class Root:
         'global':
             {
                 'server.socket_host': '0.0.0.0',
-                'server.socket_port': 8080
+                'server.socket_port': 80
             },
         '/':
             {
