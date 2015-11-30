@@ -9,3 +9,10 @@ html, body {
     width: 100%;
     color: #fff;
 }
+
+#ip{
+    color:white;
+    float:right;
+    text-decoration: solid;
+    margin-right: -8%;
+}
