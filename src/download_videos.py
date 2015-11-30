@@ -115,7 +115,7 @@ def download(link):
 
     db = sql.connect(os.path.join(BASE_DIR, 'db/raspi-tv.sqlite'), check_same_thread=False)
     db.execute("INSERT INTO YouTube VALUES (?,?,?);",
-               (link, os.path.join(BASE_DIR, 'src/static/videos/' + yt.filename + '.mp4'), yt.filename))
+               (link, os.path.join(BASE_DIR, 'src/videos/' + yt.filename + '.mp4'), yt.filename))
     db.commit()
     db.close()
 
