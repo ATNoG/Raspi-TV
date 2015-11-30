@@ -31,7 +31,8 @@ class Api:
     @staticmethod
     def get_front_order():
         all_services = []
-        for service in conn.execute('SELECT * FROM FrontEndOrder WHERE ToDisplay=? ORDER BY ServicesOrder ASC', ('1',)).fetchall():
+        for service in conn.execute('SELECT * FROM FrontEndOrder WHERE ToDisplay=? ORDER BY ServicesOrder ASC',
+                                    ('1',)).fetchall():
             all_services.append({'name': service[0], 'order': service[2]})
 
         return all_services
@@ -51,7 +52,8 @@ class Api:
     @staticmethod
     def get_dropbox_files(file_type):
         all_files = []
-        for f in conn.execute('SELECT * FROM Files WHERE Type=? AND ToDisplay=? ORDER BY FileOrder ASC', (file_type, '1',)).fetchall():
+        for f in conn.execute('SELECT * FROM Files WHERE Type=? AND ToDisplay=? ORDER BY FileOrder ASC',
+                              (file_type, '1',)).fetchall():
             all_files.append({'filepath': f[0], 'todisplay': f[1], 'order': f[2], 'type': f[3]})
 
         return all_files
@@ -62,13 +64,14 @@ class Api:
         cherrypy.response.headers['Content-Type'] = 'text/json'
         response = []
 
-        #background = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('background',)).fetchone()[1]
+        # background = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('background',)).fetchone()[1]
         #response.append({'id': 'background', 'type': 'image', 'content': background})
 
         location = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('location',)).fetchone()[1]
         response.append({'id': 'location', 'type': 'text', 'content': location})
 
-        locationDescription = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('locationDescription',)).fetchone()[1]
+        locationDescription = \
+        conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('locationDescription',)).fetchone()[1]
         response.append({'id': 'location_description', 'type': 'text', 'content': locationDescription})
 
         weather = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('weather',)).fetchone()[1]
@@ -92,14 +95,15 @@ class Api:
     @cherrypy.expose
     def get_tweets(self):
         all_tweets = []
-        
+
         for tweet in conn.execute('SELECT * FROM Tweets ORDER BY TweetOrder ASC').fetchall():
-            #print tweet
+            # print tweet
             if tweet[3] == 0:
                 all_tweets.append({'tweetid': tweet[0], 'author': tweet[1],
                                    'tweet': tweet[2], 'order': tweet[4]})
 
-        for tweet in conn.execute('SELECT * FROM Tweets WHERE TweetOrder=? ORDER BY TweetOrder DESC', ('1',)).fetchall():
+        for tweet in conn.execute('SELECT * FROM Tweets WHERE TweetOrder=? ORDER BY TweetOrder DESC',
+                                  ('1',)).fetchall():
             all_tweets.append({'tweetid': tweet[0], 'author': tweet[1], 'tweet': tweet[2], 'order': tweet[4]})
 
         return json.dumps(all_tweets, separators=(',', ':'))

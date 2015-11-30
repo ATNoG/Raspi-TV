@@ -27,7 +27,8 @@ def save_file(path, f, file_type, message):
     out.close()
     conn.execute('INSERT OR REPLACE INTO Files (FilePath, ToDisplay, FileOrder, Type) VALUES '
                  '(?, COALESCE((SELECT ToDisplay FROM Files WHERE FilePath=?), 0),'
-                 'COALESCE((SELECT FileOrder FROM Files WHERE FilePath=?), 0), ?)', (os.path.join(BASE_DIR, 'src/static/dropbox_files', path), '1', -1, file_type))
+                 'COALESCE((SELECT FileOrder FROM Files WHERE FilePath=?), 0), ?)',
+                 (os.path.join(BASE_DIR, 'src/static/dropbox_files', path), '1', -1, file_type))
     conn.commit()
     updated_files.append(path)
     print 'SUCCESS: ' + path + ' was ' + message + '.'

@@ -18,7 +18,7 @@ def deti_news():
 
         news = {"title": feed_content.feed.title, "news": []}
 
-        #delete all the images
+        # delete all the images
 
         files = glob.glob('static/img/feed_imgs/*')
         for f in files:
@@ -27,11 +27,10 @@ def deti_news():
         conn.execute("DELETE FROM News;")
 
         for entry in feed_content.entries:
-
             news["news"] += [{"author": parse_author(entry.author) if hasattr(entry, "author") else "",
-                            "summary": entry.summary if hasattr(entry, "summary") else "",
-                            "title": entry.title if hasattr(entry, "title") else "",
-                            "date": parse_date(str(entry.updated)) if hasattr(entry, "entry.updated") else ""}]
+                              "summary": entry.summary if hasattr(entry, "summary") else "",
+                              "title": entry.title if hasattr(entry, "title") else "",
+                              "date": parse_date(str(entry.updated)) if hasattr(entry, "entry.updated") else ""}]
 
         for i in range(len(news["news"])):
             tmp = news["news"][i]["summary"]
@@ -86,7 +85,6 @@ def parse_author(author):
 
 
 def parse_date(date):
-
     date_time = date.split("T")
     tmp = date_time[1].split("+")
     return " Date: " + date_time[0] + " Hour: " + tmp[0]
@@ -113,6 +111,7 @@ def download_photo(tmp):
             tmp = tmp.replace(new_path_url[1], new_path_url[0])
 
     return tmp
+
 
 if __name__ == '__main__':
     resp = deti_news()

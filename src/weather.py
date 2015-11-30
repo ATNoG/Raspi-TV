@@ -9,7 +9,7 @@ conn = sql.connect(os.path.join(BASE_DIR, 'db/raspi-tv.sqlite'), check_same_thre
 owm = pyowm.OWM('9a1dd6da7dec9485cacbe5ea25ed40de')
 
 # forecast = owm.daily_forecast("Aveiro,pt")
-#tomorrow = pyowm.timeutils.tomorrow()
+# tomorrow = pyowm.timeutils.tomorrow()
 #forecast.will_be_sunny_at(tomorrow)
 
 
@@ -17,7 +17,7 @@ def get_weather():
     try:
         try:
             location = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('weather',)).fetchone()[1]
-            observation = owm.weather_at_place(location+',pt')
+            observation = owm.weather_at_place(location + ',pt')
         except Exception:
             observation = owm.weather_at_place('Aveiro,pt')
         weather = observation.get_weather()
@@ -25,7 +25,7 @@ def get_weather():
         conn.execute("DELETE FROM Weather;")
 
         wind = weather.get_wind()
-        wind = wind['speed']*10
+        wind = wind['speed'] * 10
         humidity = weather.get_humidity()
         temperature = weather.get_temperature('celsius')
         temperature = temperature['temp']
@@ -37,7 +37,8 @@ def get_weather():
         sunset = sunset.split(" ")
         sunset = sunset[1].split("+")
 
-        conn.execute("INSERT INTO Weather VALUES (?,?,?,?,?,?)", (wind, humidity, temperature, code, sunrise[0], sunset[0]))
+        conn.execute("INSERT INTO Weather VALUES (?,?,?,?,?,?)",
+                     (wind, humidity, temperature, code, sunrise[0], sunset[0]))
         conn.commit()
 
         return {'weather': {'wind': wind,
@@ -46,8 +47,8 @@ def get_weather():
                             'status': code,
                             'sunrise': sunrise[0],
                             'sunset': sunset[0]
-                            }
-                }
+        }
+        }
     except Exception, e:
         print e.message
         wind = conn.execute("SELECT Wind FROM Weather;").fetchone()
@@ -66,5 +67,5 @@ def get_weather():
                             'status': status[0],
                             'sunset': sunset[0],
                             'sunrise': sunrise[0]
-                            }
-                }
+        }
+        }

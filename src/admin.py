@@ -255,8 +255,9 @@ class Update:
         if location:
             conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ', (location, 'location',))
         if locationDescription:
-            conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ', (locationDescription, 'locationDescription',))
-        #if background:
+            conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ',
+                         (locationDescription, 'locationDescription',))
+            # if background:
             #conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ', (background, 'background',))
         if weather:
             conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ', (weather, 'weather',))

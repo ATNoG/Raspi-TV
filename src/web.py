@@ -20,7 +20,7 @@ class Root:
         self.auth = AuthController()
         self.youtube = Youtube()
 
-        
+
     _cp_config = {
         'tools.sessions.on': True,
         'tools.auth.on': True

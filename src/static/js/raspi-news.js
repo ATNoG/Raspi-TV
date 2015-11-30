@@ -7,8 +7,6 @@ $(document).ready(function(){
 	}
 
     function get_ordered(data) {
-        console.log("CALL");
-        console.log(data);
         for (var j = 0; j < data.length; j++) {
             console.log(data[j]['name']);
             switch(data[j]['name']) {
@@ -56,7 +54,6 @@ $(document).ready(function(){
 
 		if (queue[i].type=="video") {
             $("#content").hide().html('<video width="100%" controls autoplay> <source src="' + queue[i].content.filepath + '" type="video/ogg"> Your browser does not support HTML5 video. </video>').fadeIn('slow');
-            $("video").play();
             var time = function () {
                 setTimeout(function () {
                     if (!$.isNumeric($("video")[0]["duration"])) {

@@ -8,13 +8,12 @@ from settings import *
 
 
 class Youtube:
-    
     @cherrypy.expose
     @cherrypy.tools.allow(methods=['POST'])
     def save_link(self, link):
 
         videoUrl = link
-        videoJson = "http://www.youtube.com/oembed?url="+videoUrl+"&format=json"
+        videoJson = "http://www.youtube.com/oembed?url=" + videoUrl + "&format=json"
 
         try:
             response = requests.get(videoJson)
@@ -26,8 +25,8 @@ class Youtube:
         db = sql.connect(os.path.join(BASE_DIR, 'db/raspi-tv.sqlite'), check_same_thread=False)
         find_id = db.execute("SELECT * FROM YouTube WHERE VideoId = (?);", (link,)).fetchall()
 
-        #check if the URL haven't been added
-        if len(find_id)>0:
+        # check if the URL haven't been added
+        if len(find_id) > 0:
             return json.dumps({'status': 500})
 
         try:

@@ -21,7 +21,7 @@ def download(link):
 
     pprint(yt.videos)
 
-    #[<Video: MPEG-4 Visual (.3gp) - 144p>,
+    # [<Video: MPEG-4 Visual (.3gp) - 144p>,
     # <Video: MPEG-4 Visual (.3gp) - 240p>,
     # <Video: Sorenson H.263 (.flv) - 240p>,
     # <Video: H.264 (.flv) - 360p>,
@@ -37,7 +37,7 @@ def download(link):
     # view the auto generated filename:
     print(yt.filename)
 
-    #Pulp Fiction - Dancing Scene [HD]
+    # Pulp Fiction - Dancing Scene [HD]
 
     # set the filename:
     # yt.set_filename('example')
@@ -57,7 +57,7 @@ def download(link):
     #<Video: H.264 (.mp4) - 720p>
 
     # you can also get all videos for a given resolution
-    mp4_videos =  yt.filter(extension='mp4')
+    mp4_videos = yt.filter(extension='mp4')
 
     if len(mp4_videos) is 0:
         webm_videos = yt.filter(extension='webm')
@@ -65,9 +65,9 @@ def download(link):
             return json.dumps({'status': 400})
             # error message to the user, can't get the video, missing mp4 videos
         else:
-            best_video = webm_videos[len(webm_videos)-1]
+            best_video = webm_videos[len(webm_videos) - 1]
     else:
-        best_video = mp4_videos[len(mp4_videos)-1]
+        best_video = mp4_videos[len(mp4_videos) - 1]
 
     #[<Video: H.264 (.flv) - 480p>,
     #<Video: VP8 (.webm) - 480p>]
@@ -114,20 +114,19 @@ def download(link):
     # video.download('/tmp/')
 
     db = sql.connect(os.path.join(BASE_DIR, 'db/raspi-tv.sqlite'), check_same_thread=False)
-    db.execute("INSERT INTO YouTube VALUES (?,?,?);", (link, os.path.join(BASE_DIR, 'src/static/videos/' + yt.filename + '.mp4'), yt.filename))
+    db.execute("INSERT INTO YouTube VALUES (?,?,?);",
+               (link, os.path.join(BASE_DIR, 'src/static/videos/' + yt.filename + '.mp4'), yt.filename))
     db.commit()
     db.close()
 
 
-
 def delete_video(name):
-
-    #in case of mp4
+    # in case of mp4
     files = glob.glob('static/videos/' + name + '.mp4')
     for f in files:
         os.remove(f)
 
-    #in case of webm
+    # in case of webm
     files = glob.glob('static/videos/' + name + '.webm')
     for f in files:
         os.remove(f)
