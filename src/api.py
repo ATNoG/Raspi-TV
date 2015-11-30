@@ -5,6 +5,7 @@ import sqlite3 as sql
 from ua_news import deti_news
 from weather import get_weather as get_w
 from settings import *
+from netifaces import interfaces, ifaddresses, AF_INET
 
 conn = sql.connect(os.path.join(BASE_DIR, 'db/raspi-tv.sqlite'), check_same_thread=False)
 
@@ -79,6 +80,9 @@ class Api:
 
         feed = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('feed',)).fetchone()[1]
         response.append({'id': 'feed', 'type': 'text', 'content': feed})
+
+        addresses = [i['addr'] for i in ifaddresses('eth0').setdefault(AF_INET, [{'addr':'No IP addr'}])]
+        response.append({'id': 'ip', 'type': 'text', 'content': addresses[0]})
 
         return json.dumps(response)
 
