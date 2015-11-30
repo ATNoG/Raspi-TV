@@ -1,12 +1,13 @@
 git clone https://github.com/ATNoG/Raspi-TV.git
 echo "Installing dependencies"
-apt-get install python-dev python-pip sqlite3 chromium libffi-dev libssl-dev
+apt-get install python-dev python-pip sqlite3 chromium libffi-dev libssl-dev xautomation
 pip install -r Raspi-TV/requirements.txt
 chown -R pi:pi Raspi-TV
 echo "Issue 'sudo raspi-config', select 'Enable Boot to Desktop', and choose 'Desktop Log in as user pi at the GUI'"
-echo "Add the following line to '/etc/xdg/lxsession/LXDE-pi/autostart':"
-echo "/usr/bin/chromium --kiosk --ignore-certificate-errors --disable-restore-session-state \"http://localhost:8080/\""
-echo "Please change directory to Raspi-TV:"
+echo "Add the following lines to '/etc/xdg/lxsession/LXDE-pi/autostart':"
+echo "@epiphany-browser localhost:8080"
+echo "@xte 'sleep 10' 'key F11'"
+echo "Now please change directory to Raspi-TV:"
 echo "cd Raspi-TV"
 echo "Then, issue:"
 echo "python setup.py create database"
