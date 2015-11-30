@@ -10,7 +10,7 @@ html, body {
     color: #fff;
 }
 
-.ip{
+#ip{
     color:white;
     float:right;
     text-decoration: solid;
