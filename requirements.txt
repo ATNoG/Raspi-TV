@@ -6,3 +6,4 @@ dropbox>=2.2.0
 python-twitter>=2.2
 pytube>=0.2.1
 wget>=2.2
+netifaces>=0.10.4
