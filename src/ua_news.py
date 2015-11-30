@@ -19,7 +19,7 @@ def deti_news():
 
         # delete all the images
 
-        files = glob.glob(os.path.join(BASE_DIR, '/img/feed_imgs/') + '*')  # glob.glob('static/img/feed_imgs/*')
+        files = glob.glob(os.path.join(BASE_DIR, 'src/static/img/feed_imgs/') + '*')  # glob.glob('static/img/feed_imgs/*')
         for f in files:
             os.remove(f)
 
@@ -101,12 +101,12 @@ def download_photo(tmp):
             tmp = tmp.replace(image, "")
         else:
             name = ''.join(random.choice(string.ascii_uppercase) for i in range(12))
-            if not os.path.exists(os.path.join(BASE_DIR, '/img/feed_imgs/')):
-                os.makedirs(os.path.join(BASE_DIR, '/img/feed_imgs/'))
+            if not os.path.exists(os.path.join(BASE_DIR, 'src/static/img/feed_imgs/')):
+                os.makedirs(os.path.join(BASE_DIR, 'src/static/img/feed_imgs/'))
 
             print name
 
-            filename = wget.download(url, os.path.join(BASE_DIR, '/img/feed_imgs/') + name + ".jpg")
+            filename = wget.download(url, os.path.join(BASE_DIR, 'src/static/img/feed_imgs/') + name + ".jpg")
 
             new_path_url = [filename, url]
             tmp = tmp.replace(new_path_url[1], new_path_url[0])
