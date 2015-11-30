@@ -103,7 +103,7 @@ def download(link):
 
     # Okay, let's download it!
     #try:
-    video.download('static/videos')
+    video.download(os.path.join(BASE_DIR, 'src/videos/'))
     #except Exception:
     #    return json.dumps({'status': 400})
     # Downloading: Pulp Fiction - Dancing Scene.mp4 Bytes: 37561829
@@ -122,12 +122,12 @@ def download(link):
 
 def delete_video(name):
     # in case of mp4
-    files = glob.glob('static/videos/' + name + '.mp4')
+    files = glob.glob(os.path.join(BASE_DIR, 'src/videos/' + name + '.mp4'))
     for f in files:
         os.remove(f)
 
     # in case of webm
-    files = glob.glob('static/videos/' + name + '.webm')
+    files = glob.glob(os.path.join(BASE_DIR, 'src/videos/' + name + '.webm'))
     for f in files:
         os.remove(f)
 

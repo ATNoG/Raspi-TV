@@ -113,7 +113,6 @@ def download_photo(tmp):
             new_path_url = [filename, url]
             img_idx = new_path_url[0].find('img')
             tmp = tmp.replace(new_path_url[1], new_path_url[0][img_idx:])
-            print(new_path_url[0][img_idx:])
     return tmp
 
 

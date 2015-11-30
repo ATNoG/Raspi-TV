@@ -48,6 +48,3 @@ class Youtube:
         db.execute("DELETE FROM YouTube WHERE VideoId = (?);", (find_id[0],))
         db.commit()
         db.close()
-
-
-
