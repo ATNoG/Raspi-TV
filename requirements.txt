@@ -7,3 +7,6 @@ python-twitter>=2.2
 pytube>=0.2.1
 wget>=2.2
 netifaces>=0.10.4
+pyOpenSSL>=0.15.1
+pyasn1>=0.1.9
+ndg-httpsclient>=0.4.0

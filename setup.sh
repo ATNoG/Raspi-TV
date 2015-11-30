@@ -1,6 +1,6 @@
 git clone https://github.com/ATNoG/Raspi-TV.git
 echo "Installing dependencies"
-apt-get install python-dev python-pip sqlite3 chromium
+apt-get install python-dev python-pip sqlite3 chromium libffi-dev libssl-dev
 pip install -r Raspi-TV/requirements.txt
 chown -R pi:pi Raspi-TV
 echo "Issue 'sudo raspi-config', select 'Enable Boot to Desktop', and choose 'Desktop Log in as user pi at the GUI'"
