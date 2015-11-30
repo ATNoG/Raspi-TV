@@ -104,9 +104,11 @@ def download_photo(tmp):
             if not os.path.exists(os.path.join(BASE_DIR, 'src/static/img/feed_imgs/')):
                 os.makedirs(os.path.join(BASE_DIR, 'src/static/img/feed_imgs/'))
 
+            print name
+
             filename = wget.download(url, os.path.join(BASE_DIR, 'src/static/img/feed_imgs/') + name + ".jpg")
 
-            new_path_url = [os.path.join(BASE_DIR, 'src/static/img/feed_imgs/') + name + ".jpg", url]
+            new_path_url = [filename, url]
             tmp = tmp.replace(new_path_url[1], new_path_url[0])
 
     return tmp
