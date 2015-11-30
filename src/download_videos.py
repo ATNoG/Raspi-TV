@@ -103,7 +103,7 @@ def download(link):
 
     # Okay, let's download it!
     #try:
-    video.download(os.path.join(BASE_DIR, 'src/videos/'))
+    video.download(os.path.join(BASE_DIR, 'src/static/videos/'))
     #except Exception:
     #    return json.dumps({'status': 400})
     # Downloading: Pulp Fiction - Dancing Scene.mp4 Bytes: 37561829
