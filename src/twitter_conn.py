@@ -19,7 +19,7 @@ def populate_db(query='%23raspi-tv', count=100):  # Containing '#raspi-tv'
         tweets = api.GetSearch(term=query, count=count)
         for tweet in tweets:
             conn.execute('INSERT OR REPLACE INTO Tweets (TweetId, Author, Tweet, ToDisplay) VALUES '
-                         '(?, ?, ?, COALESCE((SELECT ToDisplay FROM Tweets WHERE TweetId=?), 1))',
+                         '(?, ?, ?, COALESCE((SELECT ToDisplay FROM Tweets WHERE TweetId=?), 0))',
                          (tweet.id, tweet.user.name, tweet.text, tweet.id))
             conn.commit()
     except twitter.TwitterError, e:
