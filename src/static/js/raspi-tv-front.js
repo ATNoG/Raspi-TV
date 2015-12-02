@@ -104,10 +104,11 @@ $(document).ready(function(){
         	data_length = data.length;
 
             for (var i = 0; i < data.length; i++) {
-				if (data[i]['todisplay'] != 0)
-                	info.push('<img src="img/img/twitter.png" width="2%"/>' + '<strong style=\'color:#003399;\'>' + ' ' + data[i]['author'] + '</strong>:' + '<span style=\'color:#003399;\'>' + data[i]['tweet'] + '</span>');
-            }
-            slider();
+				if (data[i]['todisplay'] != 0) {
+					info.push('<img src="img/img/twitter.png" width="2%"/>' + '<strong style=\'color:#003399;\'>' + ' ' + data[i]['author'] + '</strong>:' + '<span style=\'color:#003399;\'>' + data[i]['tweet'] + '</span>');
+				}
+			}
+			slider();
 
 			// then load the iframe
 			setTimeout(function(){
