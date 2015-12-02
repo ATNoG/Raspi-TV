@@ -58,7 +58,7 @@ function get_tweets_table() {
             todisplay = 1;
             order = i;
             i++;
-        }
+        } else console.log("not selected");
 
         var elem_data = {
             'tweetid': tweetid,
