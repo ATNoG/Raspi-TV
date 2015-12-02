@@ -16,22 +16,34 @@ except ValueError:
 updated_files = []
 
 
+def copy_dropbox_folder():
+    if client:
+        copy_folder('/')
+        for f in conn.execute('SELECT * FROM Files').fetchall():
+            if f[0] not in updated_files:
+                conn.execute('DELETE FROM Files WHERE FilePath=?', (f[0],))
+                conn.commit()
+                os.remove(os.path.join(BASE_DIR, 'src/static/dropbox_files', f[0][1:]))
+                print 'WARNING: The file with the path: ' + f[0] + ' was removed.'
+
+
+def copy_folder(path):
+    for f in list_files(path):
+        if f['is_dir']:
+            download_folder(f['path'])
+        else:
+            download_file(f['path'])
+
+
+def download_folder(path):
+    if not os.path.isdir(os.path.join(BASE_DIR, 'src/static/dropbox_files', path[1:])):
+        os.mkdir(os.path.join(BASE_DIR, 'src/static/dropbox_files', path[1:]))
+    copy_folder(path)
+
+
 def list_files(path):
     folder_files = client.metadata(path)['contents']
     return folder_files
-
-
-def save_file(path, f, file_type, message):
-    out = open(os.path.join(BASE_DIR, 'src/static/dropbox_files', path[1:]), 'w')
-    out.write(f.read())
-    out.close()
-    conn.execute('INSERT OR REPLACE INTO Files (FilePath, ToDisplay, FileOrder, Type) VALUES '
-                 '(?, COALESCE((SELECT ToDisplay FROM Files WHERE FilePath=?), 0),'
-                 'COALESCE((SELECT FileOrder FROM Files WHERE FilePath=?), 0), ?)',
-                 (os.path.join(BASE_DIR, 'src/static/dropbox_files', path), '1', -1, file_type))
-    conn.commit()
-    updated_files.append(path)
-    print 'SUCCESS: ' + path + ' was ' + message + '.'
 
 
 def download_file(path):
@@ -50,29 +62,17 @@ def download_file(path):
         else:
             save_file(path, f, file_type, 'saved')
     else:
-        print 'WARNING: The file with the path: ' + path + ' is neither a image or a video. NOT copied.'
+        print 'WARNING: The file with the path: ' + path + ' is neither an image or a video. NOT copied.'
 
 
-def download_folder(path):
-    if not os.path.isdir(os.path.join(BASE_DIR, 'src/static/dropbox_files', path[1:])):
-        os.mkdir(os.path.join(BASE_DIR, 'src/static/dropbox_files', path[1:]))
-    copy_folder(path)
-
-
-def copy_folder(path):
-    for f in list_files(path):
-        if f['is_dir']:
-            download_folder(f['path'])
-        else:
-            download_file(f['path'])
-
-
-def copy_dropbox_folder():
-    if client:
-        copy_folder('/')
-        for f in conn.execute('SELECT * FROM Files').fetchall():
-            if f[0] not in updated_files:
-                conn.execute('DELETE FROM Files WHERE FilePath=?', (f[0],))
-                conn.commit()
-                os.remove(os.path.join(BASE_DIR, 'src/static/dropbox_files', f[0][1:]))
-                print 'WARNING: The file with the path: ' + f[0] + ' was removed.'
+def save_file(path, f, file_type, message):
+    out = open(os.path.join(BASE_DIR, 'src/static/dropbox_files', path[1:]), 'w')
+    out.write(f.read())
+    out.close()
+    conn.execute('INSERT OR REPLACE INTO Files (FilePath, ToDisplay, FileOrder, Type) VALUES '
+                 '(?, COALESCE((SELECT ToDisplay FROM Files WHERE FilePath=?), 0),'
+                 'COALESCE((SELECT FileOrder FROM Files WHERE FilePath=?), 0), ?)',
+                 (os.path.join(BASE_DIR, 'src/static/dropbox_files', path), '1', -1, file_type))
+    conn.commit()
+    updated_files.append(path)
+    print 'SUCCESS: ' + path + ' was ' + message + '.'
