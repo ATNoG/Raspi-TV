@@ -5,6 +5,9 @@ pip install -r Raspi-TV/requirements.txt
 chown -R pi:pi Raspi-TV
 echo "Issue 'sudo raspi-config', select 'Enable Boot to Desktop', and choose 'Desktop Log in as user pi at the GUI'"
 echo "Add the following lines to '/etc/xdg/lxsession/LXDE-pi/autostart':"
+echo "@xset s off"
+echo "@xset -dpms"
+echo "@xset s noblank"
 echo "@epiphany-browser localhost:8080"
 echo "@xte 'sleep 10' 'key F11'"
 echo "Now please change directory to Raspi-TV:"
