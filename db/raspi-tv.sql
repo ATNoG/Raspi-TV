@@ -48,7 +48,7 @@ CREATE TABLE [Tweets] (
   [TweetId]    INTEGER PRIMARY KEY NOT NULL, -- Tweet Id
   [Author]     TEXT                NOT NULL, -- Tweet's author
   [Tweet]      TEXT                NOT NULL, -- Tweet's text (actual tweet)
-  [ToDisplay]  INTEGER DEFAULT 0   NOT NULL,   -- 'Boolean value' determining whether to display the tweet or not
+  [ToDisplay]  INTEGER DEFAULT 1   NOT NULL,   -- 'Boolean value' determining whether to display the tweet or not
   [TweetOrder] INTEGER DEFAULT -1  NOT NULL   -- Order in main page presentation
 );
 
