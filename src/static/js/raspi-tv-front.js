@@ -64,7 +64,7 @@ $(document).ready(function(){
 			$("#content_frame").height(height_frame);
 			//console.log("height");
 			//console.log(height_frame);
-		}, 100);
+		}, 11000);
 
 		// then call the changes
 		setTimeout(function(){
