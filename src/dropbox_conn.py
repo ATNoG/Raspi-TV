@@ -22,6 +22,7 @@ def list_files(path):
 
 
 def save_file(path, f, file_type, message):
+    print os.path.join(BASE_DIR, 'src/static/dropbox_files', path[1:])
     out = open(os.path.join(BASE_DIR, 'src/static/dropbox_files', path[1:]), 'w')
     out.write(f.read())
     out.close()
