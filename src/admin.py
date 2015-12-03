@@ -229,7 +229,7 @@ class Update:
     def tweets(self, tweetlist):
         for tweet in json.loads(tweetlist):
             try:
-                print tweet['todisplay']
+                print tweet
                 conn.execute('UPDATE Tweets SET ToDisplay=?, TweetOrder=? WHERE TweetId=?',
                              (tweet['todisplay'], tweet['order'], tweet['tweetid'],))
                 conn.commit()
