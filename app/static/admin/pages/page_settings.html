@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Raspi-TV | Profile</title>
+    <title>Raspi-TV | Page information</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -94,7 +94,7 @@ desired effect
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                    <a href="profile.html" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="/auth/logout" class="btn btn-default btn-flat">Sign out</a>
@@ -187,12 +187,12 @@ desired effect
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Profile
-                <small>Edit here your account</small>
+                Page information
+                <small>Change settings related to how the main dashboard should look and feel</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="../index.html"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active">Profile</li>
+                <li class="active">Page information</li>
             </ol>
         </section>
 
@@ -201,130 +201,64 @@ desired effect
             <div class="alert alert-warning alert-dismissable hide error_box">
                 <i class="fa fa-warning"></i>
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <b>Error!</b> <span class="error_message"></span>.
+                <b>Warning!</b> <span class="error_message"></span>.
+            </div>
+            <div class="alert alert-success alert-dismissable hide success_box ">
+                <span>The Changes Have Been Successfully Made</span>.
             </div>
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-body table-responsive no-padding">
-                            <table id="dropbox-table" class="table table-hover">
+                            <table id="changes-table" class="table table-hover">
                                 <tr>
-                                    <th>Username</th>
-                                    <td class="UserId"></td>
-                                </tr>
-                                <tr>
-                                    <th>Password</th>
+                                    <th>Location</th>
                                     <td>
-                                        <a href="#" id="popover_password">**********</a>
-
-                                        <div id="pop_password-content" class="hide">
-                                            <form action="/admin/update/user" method="post">
-                                                <div class="body">
-                                                    <div class="form-group">
-                                                        <input type="password" name="current_password"
-                                                               class="form-control"
-                                                               placeholder="Current Password"/>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <input id="new_password" type="password" name="new_password"
-                                                               class="form-control"
-                                                               placeholder="New Password" onkeyup="check_passwords()"/>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <input id="new_password_repeat" type="password"
-                                                               class="form-control"
-                                                               placeholder="Repeat New Password"
-                                                               onkeyup="check_passwords()"/>
-                                                    </div>
-                                                </div>
-                                                <div class="footer">
-                                                    <button id="password_btn" type="submit"
-                                                            class="btn bg-light-blue btn-block disabled">Change password
-                                                    </button>
-                                                </div>
-                                            </form>
+                                        <div class="input-group">
+                                            <input type="text" size="80" class="form-control"
+                                                   aria-describedby="basic-addon1" id="location">
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>First Name</th>
+                                    <th>Location Description</th>
                                     <td>
-                                        <a href="#" id="popover_first" class="FirstName"></a>
-
-                                        <div id="pop_first-content" class="hide">
-                                            <form action="/admin/update/user" method="post">
-                                                <div class="body">
-                                                    <div class="form-group">
-                                                        <input type="text" name="first_name"
-                                                               class="form-control"
-                                                               placeholder="New First Name"/>
-                                                    </div>
-                                                </div>
-                                                <div class="footer">
-                                                    <button id="first_btn" type="submit"
-                                                            class="btn bg-light-blue btn-block">Change first name
-                                                    </button>
-                                                </div>
-                                            </form>
+                                        <div class="input-group ">
+                                            <input type="text" size="80" class="form-control"
+                                                   aria-describedby="basic-addon1" id="location_description">
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Last Name</th>
+                                    <th>Weather Location</th>
                                     <td>
-                                        <a href="#" id="popover_last" class="LastName"></a>
-
-                                        <div id="pop_last-content" class="hide">
-                                            <form action="/admin/update/user" method="post">
-                                                <div class="body">
-                                                    <div class="form-group">
-                                                        <input type="text" name="last_name"
-                                                               class="form-control"
-                                                               placeholder="New Last Name"/>
-                                                    </div>
-                                                </div>
-                                                <div class="footer">
-                                                    <button id="last_btn" type="submit"
-                                                            class="btn bg-light-blue btn-block">Change last name
-                                                    </button>
-                                                </div>
-                                            </form>
+                                        <div class="input-group">
+                                            <input type="text" size="80" class="form-control"
+                                                   aria-describedby="basic-addon1" id="weatherR">
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Email</th>
+                                    <th>Feed Source</th>
                                     <td>
-                                        <a href="#" id="popover_email" class="Email"></a>
-
-                                        <div id="pop_email-content" class="hide">
-                                            <form action="/admin/update/user" method="post">
-                                                <div class="body">
-                                                    <div class="form-group">
-                                                        <input type="text" name="email"
-                                                               class="form-control"
-                                                               placeholder="New Email"/>
-                                                    </div>
-                                                </div>
-                                                <div class="footer">
-                                                    <button id="email_btn" type="submit"
-                                                            class="btn bg-light-blue btn-block">Change email
-                                                    </button>
-                                                </div>
-                                            </form>
+                                        <div class="input-group">
+                                            <input type="text" size="80" class="form-control"
+                                                   aria-describedby="basic-addon1" id="feed">
                                         </div>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <th>Date</th>
-                                    <td class="Date"></td>
                                 </tr>
                             </table>
+                            <div>
+                                <button id="save_btn" type="submit"
+                                        class="btn-lg bg-light-blue btn-block">Save Changes
+                                </button>
+                            </div>
                         </div>
                         <!-- /.box-body -->
                     </div>
                     <!-- /.box -->
                 </div>
+
             </div>
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
@@ -354,6 +288,6 @@ desired effect
 <script src="../dist/js/app.min.js"></script>
 <!-- Specific functions for Raspi-TV -->
 <script src="../js/raspi-tv.js"></script>
-<script src="../js/profile.js"></script>
+<script src="../js/page_settings.js"></script>
 </body>
 </html>
