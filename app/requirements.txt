@@ -4,3 +4,4 @@ requests-oauthlib>=0.6.0
 wget>=3.2
 feedparser>=5.2.1
 netifaces>=0.10.4
+pytube>=6.1.5

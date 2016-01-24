@@ -19,7 +19,7 @@ def deti_news():
 
         # delete all the images
 
-        files = glob.glob(os.path.join(ROOT_DIR, 'public/img/feed_imgs/') + '*')
+        files = glob.glob(os.path.join(ROOT_DIR, 'static/public/data/feed_imgs/') + '*')
         for f in files:
             os.remove(f)
 
@@ -103,7 +103,7 @@ def download_photo(tmp):
 
             print name
 
-            filename = wget.download(url, os.path.join(ROOT_DIR, 'public/img/feed_imgs/') + name + '.jpg')
+            filename = wget.download(url, os.path.join(ROOT_DIR, 'static/public/data/feed_imgs/') + name + '.jpg')
 
             new_path_url = [filename, url]
             img_idx = new_path_url[0].find('img')
