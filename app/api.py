@@ -10,28 +10,33 @@ from constants import conn
 
 class Api:
     def __init__(self):
+        self.get = Get()
+
+
+class Get:
+    def __init__(self):
         pass
 
     @cherrypy.expose
-    def get_all_info(self):
+    def all_info(self):
         cherrypy.response.headers['Content-Type'] = 'application/json'
         array_info = []
-        services_order = self.get_front_order()
+        services_order = self.front_order()
         for service in services_order:
             print service['name']
             if service['name'] == 'News':
                 array_info.append({'name': 'News', 'content': deti_news()})
             elif service['name'] == 'Youtube':
-                array_info.append({'name': 'Youtube', 'content': self.get_youtube()})
+                array_info.append({'name': 'Youtube', 'content': self.youtube()})
             elif service['name'] == 'Dropbox Photos':
-                array_info.append({'name': 'Dropbox Photos', 'content': self.get_dropbox_files('image')})
+                array_info.append({'name': 'Dropbox Photos', 'content': self.dropbox_files('image')})
             else:
-                array_info.append({'name': 'Dropbox Videos', 'content': self.get_dropbox_files('video')})
+                array_info.append({'name': 'Dropbox Videos', 'content': self.dropbox_files('video')})
 
         return json.dumps(array_info)
 
     @staticmethod
-    def get_front_order():
+    def front_order():
         all_services = []
         for service in conn.execute('SELECT * FROM FrontEndOrder WHERE ToDisplay=? ORDER BY ServicesOrder ASC',
                                     ('1',)).fetchall():
@@ -40,7 +45,7 @@ class Api:
         return all_services
 
     @staticmethod
-    def get_youtube():
+    def youtube():
         all_videos = []
         for video in conn.execute('SELECT * FROM YouTube').fetchall():
             print video
@@ -48,12 +53,8 @@ class Api:
 
         return all_videos
 
-    # @cherrypy.expose
-    # def get_weather(self):
-    #     return json.dumps({'content': get_w()})
-
     @staticmethod
-    def get_dropbox_files(file_type):
+    def dropbox_files(file_type):
         all_files = []
         for f in conn.execute('SELECT * FROM Files WHERE Type=? AND ToDisplay=? ORDER BY FileOrder ASC',
                               (file_type, '1',)).fetchall():
@@ -63,7 +64,7 @@ class Api:
 
     @cherrypy.expose
     @cherrypy.tools.allow(methods=['GET'])
-    def get_HTMLChanges(self):
+    def HTMLChanges(self):
         cherrypy.response.headers['Content-Type'] = 'text/json'
         response = []
 
@@ -89,17 +90,7 @@ class Api:
         return json.dumps(response)
 
     @cherrypy.expose
-    @cherrypy.tools.allow(methods=['GET'])
-    def list_of_links(self):
-        ids = conn.execute('SELECT * FROM YouTube;')
-        ids = ids.fetchall()
-        list_to_return = []
-        for i in ids:
-            list_to_return.append(i[0])
-        return json.dumps({'status': 200, 'content': list_to_return})
-
-    @cherrypy.expose
-    def get_tweets(self):
+    def tweets(self):
         all_tweets = []
 
         for tweet in conn.execute('SELECT * FROM Tweets ORDER BY TweetOrder ASC').fetchall():
@@ -112,3 +103,17 @@ class Api:
             all_tweets.append({'tweetid': tweet[0], 'author': tweet[1], 'tweet': tweet[2], 'order': tweet[4]})
 
         return json.dumps(all_tweets, separators=(',', ':'))
+
+    # @cherrypy.expose
+    # def weather(self):
+    #     return json.dumps({'content': get_w()})
+
+    @cherrypy.expose
+    @cherrypy.tools.allow(methods=['GET'])
+    def list_of_links(self):
+        ids = conn.execute('SELECT * FROM YouTube;')
+        ids = ids.fetchall()
+        list_to_return = []
+        for i in ids:
+            list_to_return.append(i[0])
+        return json.dumps({'status': 200, 'content': list_to_return})
