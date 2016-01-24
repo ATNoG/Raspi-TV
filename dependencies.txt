@@ -2,3 +2,4 @@
 
 xautomation
 sqlite3
+python-dev

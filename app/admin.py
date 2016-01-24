@@ -160,7 +160,7 @@ class Update:
     @cherrypy.expose
     def user(self, current_password=None, new_password=None, first_name=None, last_name=None, email=None):
         if not ((current_password and new_password) or first_name or last_name or email):
-            raise cherrypy.HTTPRedirect('/admin/profile.html#error=No parameters received')
+            raise cherrypy.HTTPRedirect('/admin/pages/profile.html#error=No parameters received')
         username = cherrypy.session[SESSION_USER]['UserId']
         date = datetime.datetime.now().strftime('%B %d, %Y')
         if current_password and new_password:
@@ -168,7 +168,7 @@ class Update:
                 conn.execute('UPDATE Users SET Password=?, Date=? WHERE UserId=?',
                              (new_password, date, username))
             else:
-                raise cherrypy.HTTPRedirect('/admin/profile.html#error=Wrong password')
+                raise cherrypy.HTTPRedirect('/admin/pages/profile.html#error=Wrong password')
         if first_name:
             conn.execute('UPDATE Users SET FirstName=?, Date=? WHERE UserId=?', (first_name, date, username))
             cherrypy.session[SESSION_USER]['FirstName'] = first_name
@@ -179,7 +179,7 @@ class Update:
             conn.execute('UPDATE Users SET Email=?, Date=? WHERE UserId=?', (email, date, username))
             cherrypy.session[SESSION_USER]['Email'] = email
         conn.commit()
-        raise cherrypy.HTTPRedirect('/admin/profile.html')
+        raise cherrypy.HTTPRedirect('/admin/pages/profile.html')
 
     @staticmethod
     def dropbox_db(files):
