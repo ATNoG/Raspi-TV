@@ -1,5 +1,5 @@
 import cherrypy
-from __init__ import conn
+from constants import conn
 
 SESSION_USER = '_cp_user'
 SESSION_LOGIN = '_cp_login'

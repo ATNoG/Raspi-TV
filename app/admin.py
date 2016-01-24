@@ -2,7 +2,7 @@ import datetime
 import sqlite3 as sql
 
 import cherrypy
-from __init__ import conn
+from constants import conn
 from auth import SESSION_USER, SESSION_LOGIN
 from dropbox.client import *
 from requests_oauthlib import OAuth1Session

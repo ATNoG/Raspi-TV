@@ -2,7 +2,7 @@ import admin
 import auth
 import cherrypy
 import os
-from __init__ import ROOT_DIR
+from constants import ROOT_DIR
 
 
 class Root(object):
