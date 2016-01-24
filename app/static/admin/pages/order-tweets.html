@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Raspi-TV | Dashboard</title>
+    <title>Raspi-TV | Sorting</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -16,6 +16,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Data Tables -->
+    <link href="../plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css"/>
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
@@ -187,19 +189,46 @@ desired effect
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Page Header
-                <small>Optional description</small>
+                Order Tweets
+                <small>Set the order the tweets should follow</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="../index.html"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active">Dashboard</li>
+                <li><a href="#">Sorting</a></li>
+                <li class="active">Tweets</li>
             </ol>
         </section>
 
         <!-- Main content -->
         <section class="content">
-            <!-- Your Page Content Here -->
-            Something should definitely go in here...
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul class="list-group" id="tweets-table">
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12" style="text-align: center;" id="col-btn">
+                    <div class="btn btn-lg btn-success" id="btn-update">Update</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="alert alert-success alert-dismissible" role="alert" id="alert-success-created"
+                     style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <strong>Updated with success!</strong>
+                </div>
+                <div class="alert alert-danger alert-dismissible" role="alert" id="alert-error-created"
+                     style="display: none;">
+                    <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>An error ocurred! Please, try again.</strong>
+                </div>
+                <div class="loading-gif-container" style="display: none;">
+                    <i class='fa fa-spinner'></i>
+                </div>
+            </div>
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
 
@@ -228,5 +257,7 @@ desired effect
 <script src="../dist/js/app.min.js"></script>
 <!-- Specific functions for Raspi-TV -->
 <script src="../js/raspi-tv.js"></script>
+<script src="../plugins/jQueryUI/jquery-ui.min.js"></script>
+<script src="../js/order-tweets.js"></script>
 </body>
 </html>
