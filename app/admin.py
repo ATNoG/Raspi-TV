@@ -76,7 +76,7 @@ class Create:
                 self.resp = oauth_client.fetch_request_token(self.REQUEST_TOKEN_URL)
             except ValueError, e:
                 raise cherrypy.HTTPRedirect(
-                        '/admin/accounts.html#error=Invalid response from Twitter requesting temp token: %s' % e)
+                        '/admin/pages/accounts.html#error=Invalid response from Twitter requesting temp token: %s' % e)
 
         if not pincode:  # Else pin code is already known
             # URL to the pin code page (used to obtain an Authentication Token)
@@ -94,7 +94,7 @@ class Create:
             conn.commit()
         except ValueError, e:
             raise cherrypy.HTTPRedirect(
-                    '/admin/accounts.html#error=Invalid respond from Twitter requesting access token: %s' % e)
+                    '/admin/pages/accounts.html#error=Invalid respond from Twitter requesting access token: %s' % e)
 
         return 'Successful'
 
