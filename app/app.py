@@ -1,7 +1,9 @@
 import admin
+import api
 import auth
 import cherrypy
 import os
+import youtube
 from constants import ROOT_DIR
 
 
@@ -9,6 +11,8 @@ class Root(object):
     def __init__(self):
         self.admin = admin.Admin()
         self.auth = auth
+        self.api = api.Api()
+        self.youtube = youtube.Youtube()
 
     @cherrypy.expose
     def index(self):
