@@ -1,0 +1,4 @@
+### Besides a default installation of Raspbian Jessie, the following dependencies are needed
+
+xautomation
+sqlite3

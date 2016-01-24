@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Raspi-T.v2</title>
+    <meta name="description" content="description">
+    <meta name="author" content="DevOOPS">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="plugins/bootstrap/bootstrap.css" rel="stylesheet">
+    <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href='css/Righteous/css/fonts.css' rel='stylesheet' type='text/css'>
+    <link href="css/style.css" rel="stylesheet">
+    <!-- Specific stylesheets for Raspi-TV -->
+    <link href="css/raspi-tv.css" rel="stylesheet">
+</head>
+<body>
+<!--Start Header-->
+<header class="navbar">
+    <div class="container-fluid expanded-panel">
+        <div class="row">
+            <div id="logo" class="col-xs-12 col-sm-2">
+                <a href="index.html">Raspi-T.v2</a>
+            </div>
+            <div id="top-panel" class="col-xs-12 col-sm-10">
+                <div class="row">
+                    <div class="col-xs-8 col-sm-8">
+                        <div style="font-family: Righteous,cursive; font-size: 20px">
+                            <!--When this title gets an id (I guess it will for settings reasons at least), consider
+                            moving the above inline style to raspi-tv.css-->
+                            DETI, Universidade de Aveiro
+                        </div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 top-panel-right">
+                        <ul class="nav navbar-nav pull-right panel-menu">
+                            <li class="dropdown">
+                                <a href="#" class="account">
+                                    <div class="user-mini pull-right">
+                                        <span id="date" class="welcome">Date,</span>
+                                        <span id="time">Time</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!--End Header-->
+<!--Start Container-->
+<div id="main" class="container-fluid">
+    <div class="row">
+        <!--Start Content-->
+        <div id="content" class="col-xs-12 col-sm-10">
+            <!--Start Dashboard Tab-->
+            <div id="raspi-frame">
+                <p>Could this space house the old frame?<br>Give ideas.</p>
+                <img src="img/8962691008_7f489395c9_m.jpg" alt="some_text">
+            </div>
+            <!--End Dashboard Tab-->
+            <!--Start Breadcrumb-->
+            <div id="footer" class="row">
+                <div id="breadcrumb" class="col-xs-12">
+                    <ol class="breadcrumb pull-left">
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Tweet</a></li>
+                    </ol>
+                    <div id="social" class="pull-right">
+                        <a href="#"><i class="fa fa-google-plus"></i></a>
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-linkedin"></i></a>
+                        <a href="#"><i class="fa fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!--End Breadcrumb-->
+        </div>
+        <!--End Content-->
+        <!--Start Sidebar-->
+        <div id="sidebar-left" class="col-xs-2 col-sm-2">
+            <ul class="nav main-menu">
+                <li>
+                    <a href="#" class="ajax-link">
+                        <i class="fa fa-dashboard"></i>
+                        <span class="hidden-xs">Dashboard</span>
+                    </a>
+                </li>
+                <!--Edited original bootstrap.css because of these. Line 3133-->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fa fa-bar-chart-o"></i>
+                        <span class="hidden-xs">Meals/weather here</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="ajax-link" href="">Long item with meals' info</a></li>
+                        <li><a class="ajax-link" href="">Other item example 1</a></li>
+                        <li><a class="ajax-link" href="">Other item example 2</a></li>
+                        <li><a class="ajax-link" href="">Other item example 3</a></li>
+                        <li><a class="ajax-link" href="">Other item example 4</a></li>
+                        <li><a class="ajax-link" href="">Other item example 5</a></li>
+                        <li><a class="ajax-link" href="">Other item example 6</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fa fa-table"></i>
+                        <span class="hidden-xs">Tables</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="ajax-link" href="">Simple Tables</a></li>
+                        <li><a class="ajax-link" href="">Data Tables</a></li>
+                        <li><a class="ajax-link" href="">Beauty Tables</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="fa fa-pencil-square-o"></i>
+                        <span class="hidden-xs">Forms</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="ajax-link" href="">Elements</a></li>
+                        <li><a class="ajax-link" href="">Layouts</a></li>
+                        <li><a class="ajax-link" href="">File Uploader</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!--End Sidebar-->
+    </div>
+</div>
+<!--End Container-->
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="plugins/bootstrap/bootstrap.min.js"></script>
+<!-- All functions for this theme + document.ready processing -->
+<script src="js/devoops.js"></script>
+<!-- Specific functions for Raspi-TV -->
+<script src="js/raspi-tv.js"></script>
+</body>
+</html>

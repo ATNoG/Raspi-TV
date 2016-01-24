@@ -1,0 +1,14 @@
+@font-face {
+    font-family: 'Righteous';
+    font-weight: 400;
+    font-style: normal;
+    src: url('../fonts/Righteous-regular/Righteous-regular.eot');
+    src: url('../fonts/Righteous-regular/Righteous-regular.eot?#iefix') format('embedded-opentype'),
+    local('Righteous'),
+    local('Righteous-regular'),
+    url('../fonts/Righteous-regular/Righteous-regular.woff2') format('woff2'),
+    url('../fonts/Righteous-regular/Righteous-regular.woff') format('woff'),
+    url('../fonts/Righteous-regular/Righteous-regular.ttf') format('truetype'),
+    url('../fonts/Righteous-regular/Righteous-regular.svg#Righteous') format('svg');
+}
+
