@@ -1,0 +1,9 @@
+.hover_this {
+    visibility: hidden;
+    opacity: 0;
+}
+
+.hover_wrapper:hover .hover_this {
+    visibility: visible;
+    opacity: 1;
+}
