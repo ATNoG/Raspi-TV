@@ -1,6 +1,5 @@
 # encoding: utf-8
 import json
-
 import cherrypy
 from ua_news import deti_news
 import requests
