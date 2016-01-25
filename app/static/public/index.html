@@ -24,10 +24,10 @@
             <div id="top-panel" class="col-xs-12 col-sm-10">
                 <div class="row">
                     <div class="col-xs-8 col-sm-8">
-                        <div style="font-family: Righteous,cursive; font-size: 20px">
-                            <!--When this title gets an id (I guess it will for settings reasons at least), consider
-                            moving the above inline style to raspi-tv.css-->
-                            DETI, Universidade de Aveiro
+                        <div id="title">
+                            <span id="location">DETI</span>
+                            -
+                            <span id="location_description">Universidade de Aveiro</span>
                         </div>
                     </div>
                     <div class="col-xs-4 col-sm-4 top-panel-right">
@@ -35,7 +35,7 @@
                             <li class="dropdown">
                                 <a href="#" class="account">
                                     <div class="user-mini pull-right">
-                                        <span id="date" class="welcome">Date,</span>
+                                        <span id="date" class="welcome">Date</span>
                                         <span id="time">Time</span>
                                     </div>
                                 </a>
@@ -50,13 +50,15 @@
 <!--End Header-->
 <!--Start Container-->
 <div id="main" class="container-fluid">
-    <div class="row">
+    <div id="main-row" class="row">
         <!--Start Content-->
         <div id="content" class="col-xs-12 col-sm-10">
             <!--Start Dashboard Tab-->
             <div id="raspi-frame">
-                <p>Could this space house the old frame?<br>Give ideas.</p>
-                <img src="img/8962691008_7f489395c9_m.jpg" alt="some_text">
+
+                <iframe id="content_frame" frameborder="0" scrolling="no"></iframe>
+                <!--<p>Could this space house the old frame?<br>Give ideas.</p>
+                <img src="img/8962691008_7f489395c9_m.jpg" alt="some_text">-->
             </div>
             <!--End Dashboard Tab-->
             <!--Start Breadcrumb-->
@@ -64,14 +66,13 @@
                 <div id="breadcrumb" class="col-xs-12">
                     <ol class="breadcrumb pull-left">
                         <li><a href="#">Twitter</a></li>
-                        <li><a href="#">Tweet</a></li>
+                        <!--<span id="tweets-table">
+
+					</span>-->
+                        <li><a id="tweet" href="#">Tweet</a></li>
                     </ol>
                     <div id="social" class="pull-right">
-                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                        <a href="#"><i class="fa fa-facebook"></i></a>
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-linkedin"></i></a>
-                        <a href="#"><i class="fa fa-youtube"></i></a>
+                        <a href="#"><i class="fa fa-cloud"></i> <span id="ip">IP</span></a>
                     </div>
                 </div>
             </div>
