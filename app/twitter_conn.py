@@ -10,7 +10,7 @@ api = twitter.Api(consumer_key=consumer_key,
                   access_token_secret=access_token_secret)
 
 
-def populate_db(query='@detiuaveiro', count=100):
+def populate_db(query='from:detiuaveiro', count=100):
     try:
         tweets = api.GetSearch(term=query, count=count)
         for tweet in tweets:
