@@ -80,14 +80,15 @@ $(document).ready(function () {
     function slider() {
         var $tweet = $("#tweet");
         $tweet.html(info[counter++]);
-        $tweet.fadeIn();
+        $tweet.fadeIn("slow");
 
         if (counter == data_length)
             counter = 0;
 
         setTimeout(function () {
-            $tweet.fadeOut();
-            slider();
+            $tweet.fadeOut("slow", function () {
+                slider();
+            });
         }, 10000);
 
 
