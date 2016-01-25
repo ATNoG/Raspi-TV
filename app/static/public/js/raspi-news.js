@@ -53,6 +53,7 @@ $(document).ready(function () {
         var time_to_wait = 20000;
 
         if (queue[i].type == "video") {
+            console.log(queue[i]);
             $("#content").hide().html('<video width="100%" controls autoplay> <source src="' + queue[i].content.filepath + '" type="video/ogg"> Your browser does not support HTML5 video. </video>').fadeIn('slow');
             var time = function () {
                 setTimeout(function () {
