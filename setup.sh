@@ -41,8 +41,7 @@ python setup.py create user
 EOF
 popd
 
-echo "Cleaning up and scheduling a reboot in 1 minute"
-echo "If you've got unsaved work execute (as root):"
+echo "Rebooting in 1 minute"
+echo "If you've got unsaved work either save it or execute (as root):"
 echo "killall shutdown"
 shutdown -r +1
-rm -- "$0"
