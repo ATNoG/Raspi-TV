@@ -227,14 +227,14 @@ class Update:
 
     @cherrypy.expose
     @cherrypy.tools.allow(methods=['POST'])
-    def updateDB(self, location=None, locationDescription=None, background=None, twitter_query=None, feed=None):
+    def updateDB(self, location=None, locationDescription=None, background=None, twitterQuery=None, feed=None):
         if location:
             conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ', (location, 'location',))
         if locationDescription:
             conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ',
                          (locationDescription, 'locationDescription',))
-        if twitter_query:
-            conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ', (twitter_query, 'twitterQuery'))
+        if twitterQuery:
+            conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ', (twitterQuery, 'twitterQuery'))
         if feed:
             conn.execute('UPDATE HTMLSettings SET content=? WHERE idName=? ', (feed, 'feed',))
         conn.commit()
