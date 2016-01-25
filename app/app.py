@@ -14,6 +14,9 @@ class Root(object):
         self.api = api.Api()
         self.youtube = youtube.Youtube()
 
+    def cors(self):
+        cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
+
     @cherrypy.expose
     def index(self):
         """
@@ -29,6 +32,7 @@ if __name__ == '__main__':
             'server.socket_port': 8080
         },
         '/': {
+            'tools.CORS.on': True,
             'tools.sessions.on': True,
             # 'tools.sessions.storage_type': "file",
             # 'tools.sessions.storage_path': os.path.join(ROOT_DIR, 'sessions'),
@@ -49,4 +53,5 @@ if __name__ == '__main__':
             'tools.staticdir.index': 'index.html'
         }
     }
+    cherrypy.tools.CORS = cherrypy.Tool('before_handler', Root().cors)
     cherrypy.quickstart(Root(), '/', config)

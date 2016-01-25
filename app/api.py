@@ -1,8 +1,10 @@
+# encoding: utf-8
 import json
 
 import cherrypy
 from ua_news import deti_news
-
+import requests
+import datetime
 # from weather import get_weather as get_w
 from netifaces import ifaddresses, AF_INET
 from constants import conn
@@ -60,6 +62,29 @@ class Get:
             all_files.append({'filepath': f[0], 'todisplay': f[1], 'order': f[2], 'type': f[3]})
 
         return all_files
+
+    @cherrypy.expose
+    @cherrypy.tools.allow(methods=['GET'])
+    def cantina_menus(self):
+        cherrypy.response.headers['Content-Type'] = 'application/json'
+        menus = json.loads(requests.get('http://services.web.ua.pt/sas/ementas?format=json').content)
+        parsed_menus = []
+        now = datetime.datetime.now()
+
+        for menu in menus['menus']['menu']:
+            info = ""
+            if menu['@attributes']['disabled'] == "0":
+                info = {"info": {"canteen": menu['@attributes']['canteen'], "extrainfo": menu['@attributes']['meal']},
+                        "meal": menu['items']['item']}
+            #else:
+            #    info = {"info": {"canteen": menu['@attributes']['canteen'], "extrainfo": menu['@attributes']['disabled']}, "meal": []}
+
+            if (now.hour < 15 and menu['@attributes']['meal'] == "Almoço") \
+                    or (now.hour >= 15 and menu['@attributes']['meal'] == "Jantar"):
+                parsed_menus.append(info)
+
+        return json.dumps(parsed_menus)
+
 
     @cherrypy.expose
     @cherrypy.tools.allow(methods=['GET'])

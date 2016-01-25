@@ -28,8 +28,28 @@ $(document).ready(function () {
             $content_frame.height(height_frame);
         }, 5000);
 
-        // then call the changes
+        // then call cantina menus
         setTimeout(function () {
+            cantina_menus();
+        }, 500);
+    }
+
+    // Menus
+    function cantina_menus() {
+        $.get("/api/get/cantina_menus", function(data) {
+            for (var i = 0; i < data.length; i++) {
+                var htmlcode = "<li><strong>" + data[i]['info']['canteen'] + "</strong><br />(" + data[i]['info']['extrainfo'] + ")<br /><ul class='meals'>";
+                for (var j = 0; j < data[i]['meal'].length; j++) {
+                    if (typeof data[i]['meal'][j] == 'string')
+                        htmlcode += "<li>" + data[i]['meal'][j] + "</li>";
+                }
+                htmlcode += "</ul></li><br />";
+                $('#meals-container').append(htmlcode);
+            }
+        });
+
+        // then call changes
+        setTimeout(function() {
             changes();
         }, 500);
     }

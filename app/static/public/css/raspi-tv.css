@@ -14,3 +14,14 @@
     text-align: center;
     padding: 3%;
 }
+
+#meals-container {
+    color:white;
+    text-align: center;
+
+}
+
+.meals {
+    text-align: left;
+    font-size: 85%;
+}
