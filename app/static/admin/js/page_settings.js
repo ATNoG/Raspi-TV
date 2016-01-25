@@ -35,7 +35,7 @@ $("#save_btn").click(function () {
 
 function get_Updates() {
 
-    $.get('/api/get_HTMLChanges', function (data) {
+    $.get('/api/get/HTMLChanges', function (data) {
         for (var i = 0; i < data.length; i++) {
             if (!data[i].type.localeCompare('text')) {
                 $("#" + data[i].id).val(data[i].content);

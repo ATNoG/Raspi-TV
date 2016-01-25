@@ -4,6 +4,7 @@ import cherrypy
 from ua_news import deti_news
 
 # from weather import get_weather as get_w
+import netifaces
 from netifaces import ifaddresses, AF_INET
 from constants import conn
 
@@ -83,9 +84,22 @@ class Get:
         feed = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('feed',)).fetchone()[1]
         response.append({'id': 'feed', 'type': 'text', 'content': feed})
 
-        addresses = [i['addr'] + ':8080' for i in ifaddresses('eth0').setdefault(AF_INET, [{'addr': 'No IP address'}])]
-        response.append({'id': 'ip', 'type': 'text', 'content': addresses[0]})
+        socket_port = cherrypy.config.get('server.socket_port')
 
+        addresses = 'No IP address'
+        ifaces = ['eth0', 'wlan0']
+        for iface in ifaces:
+            print(iface)
+            try:
+                addresses = netifaces.ifaddresses(iface)[netifaces.AF_INET][0]['addr'] + ':' + str(socket_port)
+            except (ValueError, KeyError):
+                continue
+            break
+        response.append({'id': 'ip', 'type': 'text', 'content': addresses})
+
+        print("#######################################################################################################")
+        print(repr(addresses))
+        print("#######################################################################################################")
         return json.dumps(response)
 
     @cherrypy.expose
