@@ -64,7 +64,7 @@ $(document).ready(function () {
             data_length = data.length;
 
             for (var i = 0; i < data.length; i++) {
-                info.push('<strong style="color:#003399;">' + data[i]['author'] + '</strong>:' + '<span style="color:#003399;">' + data[i]['tweet'] + '</span>');
+                info.push('@<strong>' + data[i]['author'] + '</strong> ' + '<span>' + data[i]['tweet'] + '</span>');
             }
             slider();
 
