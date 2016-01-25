@@ -93,15 +93,6 @@ CREATE TABLE [FrontEndOrder] (
   [ServicesOrder] INTEGER DEFAULT 0 NOT NULL
 );
 
-INSERT INTO [Users] VALUES (
-  'pi',
-  'raspberry',
-  'Raspberry',
-  'Pi',
-  'pi@raspberry.org',
-  'January 1, 2016'
-);
-
 INSERT INTO [Dropbox] VALUES (
   'rbfnah947b3iobb',
   'l4r9iivgz4onshk',
