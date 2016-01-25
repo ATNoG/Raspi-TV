@@ -1,12 +1,13 @@
 # encoding: utf-8
-import json
-import cherrypy
-from ua_news import deti_news
-import requests
 import datetime
-# from weather import get_weather as get_w
+import json
+
 import netifaces
+
+import cherrypy
+import requests
 from constants import conn
+from ua_news import deti_news
 
 
 class Api:
@@ -75,7 +76,7 @@ class Get:
             if menu['@attributes']['disabled'] == "0":
                 info = {"info": {"canteen": menu['@attributes']['canteen'], "extrainfo": menu['@attributes']['meal']},
                         "meal": menu['items']['item']}
-            #else:
+            # else:
             #    info = {"info": {"canteen": menu['@attributes']['canteen'], "extrainfo": menu['@attributes']['disabled']}, "meal": []}
 
             if (now.hour < 15 and menu['@attributes']['meal'] == "Almoço") \
@@ -83,7 +84,6 @@ class Get:
                 parsed_menus.append(info)
 
         return json.dumps(parsed_menus)
-
 
     @cherrypy.expose
     @cherrypy.tools.allow(methods=['GET'])

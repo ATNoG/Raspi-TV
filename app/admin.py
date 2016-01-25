@@ -21,7 +21,7 @@ class Admin:
 
     @cherrypy.expose
     def reload(self):
-        os.system('xte "key F5"')
+        os.system('xte "key F5" -x:0')
 
 class Create:
     def __init__(self):

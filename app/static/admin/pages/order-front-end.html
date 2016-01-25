@@ -104,6 +104,10 @@ desired effect
                             </li>
                         </ul>
                     </li>
+                    <!-- Reload Button -->
+                    <li>
+                        <a id="reload-btn" href="/admin/reload" title="Click this if you want to reload the main page!"><i class="fa fa-refresh"></i></a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -259,5 +263,8 @@ desired effect
 <script src="../js/raspi-tv.js"></script>
 <script src="../plugins/jQueryUI/jquery-ui.min.js"></script>
 <script src="../js/order-front-end.js"></script>
+<script>
+    $("#reload-btn").unbind('mousedown');
+</script>
 </body>
 </html>
