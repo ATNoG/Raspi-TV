@@ -8,7 +8,6 @@ $(document).ready(function () {
 
     function get_ordered(data) {
         for (var j = 0; j < data.length; j++) {
-            console.log(data[j]['name']);
             switch (data[j]['name']) {
                 case 'News':
                     queue_process_news(data[j]);

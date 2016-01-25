@@ -101,13 +101,11 @@ def download_photo(tmp):
         else:
             name = ''.join(random.choice(string.ascii_uppercase) for i in range(12))
 
-            print name
-
             filename = wget.download(url, os.path.join(ROOT_DIR, 'static/public/data/feed_imgs/') + name + '.jpg')
 
             new_path_url = [filename, url]
-            img_idx = new_path_url[0].find('img')
-            tmp = tmp.replace(new_path_url[1], new_path_url[0][img_idx:])
+            img_idx = new_path_url[0].find('imgs')
+            tmp = tmp.replace(new_path_url[1], '../data/feed_' + new_path_url[0][img_idx:])
     return tmp
 
 
