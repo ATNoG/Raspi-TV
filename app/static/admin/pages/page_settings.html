@@ -24,7 +24,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     -->
     <link rel="stylesheet" href="../dist/css/skins/skin-blue.min.css">
     <!-- Specific stylesheets for Raspi-TV -->
-    <!--<link href="css/raspi-tv.css" rel="stylesheet">-->
+    <link href="../css/raspi-tv.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -229,12 +229,12 @@ desired effect
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th>Weather Location</th>
+                                <tr style="">
+                                    <th>Twitter Query <span class="hover_wrapper"><i class="fa fa-info-circle"></i> <span class="hover_this">Please visit <a href="https://dev.twitter.com/rest/public/search">twitter</a> for valid queries</span></span></th>
                                     <td>
                                         <div class="input-group">
                                             <input type="text" size="80" class="form-control"
-                                                   aria-describedby="basic-addon1" id="weatherR">
+                                                   aria-describedby="basic-addon1" id="twitter_query">
                                         </div>
                                     </td>
                                 </tr>

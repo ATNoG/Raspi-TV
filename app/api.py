@@ -6,7 +6,7 @@ from ua_news import deti_news
 import requests
 import datetime
 # from weather import get_weather as get_w
-from netifaces import ifaddresses, AF_INET
+import netifaces
 from constants import conn
 
 
@@ -92,9 +92,6 @@ class Get:
         cherrypy.response.headers['Content-Type'] = 'text/json'
         response = []
 
-        # background = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('background',)).fetchone()[1]
-        # response.append({'id': 'background', 'type': 'image', 'content': background})
-
         location = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('location',)).fetchone()[1]
         response.append({'id': 'location', 'type': 'text', 'content': location})
 
@@ -102,15 +99,23 @@ class Get:
                                            ('locationDescription',)).fetchone()[1]
         response.append({'id': 'location_description', 'type': 'text', 'content': locationDescription})
 
-        weather = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('weather',)).fetchone()[1]
-        response.append({'id': 'weatherR', 'type': 'text', 'content': weather})
+        twitter_query = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('twitterQuery',)).fetchone()[1]
+        response.append({'id': 'twitter_query', 'type': 'text', 'content': twitter_query})
 
         feed = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('feed',)).fetchone()[1]
         response.append({'id': 'feed', 'type': 'text', 'content': feed})
 
-        addresses = [i['addr'] + ':8080' for i in ifaddresses('eth0').setdefault(AF_INET, [{'addr': 'No IP address'}])]
-        response.append({'id': 'ip', 'type': 'text', 'content': addresses[0]})
+        socket_port = cherrypy.config.get('server.socket_port')
 
+        addresses = 'No IP address'
+        ifaces = ['eth0', 'wlan0']
+        for iface in ifaces:
+            try:
+                addresses = netifaces.ifaddresses(iface)[netifaces.AF_INET][0]['addr'] + ':' + str(socket_port)
+            except (ValueError, KeyError):
+                continue
+            break
+        response.append({'id': 'ip', 'type': 'text', 'content': addresses})
         return json.dumps(response)
 
     @cherrypy.expose

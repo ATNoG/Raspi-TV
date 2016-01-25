@@ -84,7 +84,7 @@ $(document).ready(function () {
             data_length = data.length;
 
             for (var i = 0; i < data.length; i++) {
-                info.push('<strong style="color:#003399;">' + data[i]['author'] + '</strong>:' + '<span style="color:#003399;">' + data[i]['tweet'] + '</span>');
+                info.push('@<strong>' + data[i]['author'] + '</strong> ' + '<span>' + data[i]['tweet'] + '</span>');
             }
             slider();
 
@@ -100,14 +100,15 @@ $(document).ready(function () {
     function slider() {
         var $tweet = $("#tweet");
         $tweet.html(info[counter++]);
-        $tweet.fadeIn();
+        $tweet.fadeIn("slow");
 
         if (counter == data_length)
             counter = 0;
 
         setTimeout(function () {
-            $tweet.fadeOut();
-            slider();
+            $tweet.fadeOut("slow", function () {
+                slider();
+            });
         }, 10000);
 
 
