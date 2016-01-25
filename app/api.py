@@ -67,9 +67,6 @@ class Get:
         cherrypy.response.headers['Content-Type'] = 'text/json'
         response = []
 
-        # background = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('background',)).fetchone()[1]
-        # response.append({'id': 'background', 'type': 'image', 'content': background})
-
         location = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('location',)).fetchone()[1]
         response.append({'id': 'location', 'type': 'text', 'content': location})
 
@@ -77,8 +74,8 @@ class Get:
                                            ('locationDescription',)).fetchone()[1]
         response.append({'id': 'location_description', 'type': 'text', 'content': locationDescription})
 
-        weather = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('weather',)).fetchone()[1]
-        response.append({'id': 'weatherR', 'type': 'text', 'content': weather})
+        twitter_query = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('twitterQuery',)).fetchone()[1]
+        response.append({'id': 'twitterQuery', 'type': 'text', 'content': twitter_query})
 
         feed = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('feed',)).fetchone()[1]
         response.append({'id': 'feed', 'type': 'text', 'content': feed})
