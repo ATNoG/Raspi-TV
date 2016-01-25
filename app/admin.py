@@ -2,8 +2,8 @@ import datetime
 import sqlite3 as sql
 
 import cherrypy
-from constants import conn
 from auth import SESSION_USER, SESSION_LOGIN
+from constants import conn
 from dropbox.client import *
 from requests_oauthlib import OAuth1Session
 
@@ -22,6 +22,8 @@ class Admin:
     @cherrypy.expose
     def reload(self):
         os.system('xte "key F5" -x:0')
+        raise cherrypy.HTTPRedirect(cherrypy.request.headers.get('Referer'))
+
 
 class Create:
     def __init__(self):
