@@ -138,6 +138,7 @@ INSERT INTO [HTMLSettings] VALUES (
   'twitterQuery',
   'from:detiuaveiro'
 );
+
 INSERT INTO [HTMLSettings] VALUES (
   'feed',
   'http://deti-cdn.clients.ua.pt/'

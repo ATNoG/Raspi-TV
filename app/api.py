@@ -75,7 +75,7 @@ class Get:
         response.append({'id': 'location_description', 'type': 'text', 'content': locationDescription})
 
         twitter_query = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('twitterQuery',)).fetchone()[1]
-        response.append({'id': 'twitterQuery', 'type': 'text', 'content': twitter_query})
+        response.append({'id': 'twitter_query', 'type': 'text', 'content': twitter_query})
 
         feed = conn.execute('SELECT * FROM HTMLSettings WHERE idName=?', ('feed',)).fetchone()[1]
         response.append({'id': 'feed', 'type': 'text', 'content': feed})
