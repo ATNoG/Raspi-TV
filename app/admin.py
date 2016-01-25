@@ -19,6 +19,9 @@ class Admin:
         if cherrypy.session[SESSION_LOGIN]:
             return json.dumps(cherrypy.session[SESSION_USER], separators=(',', ':'))
 
+    @cherrypy.expose
+    def reload(self):
+        os.system('xte "key F5"')
 
 class Create:
     def __init__(self):
