@@ -3,7 +3,6 @@ import datetime
 import json
 
 import netifaces
-
 import cherrypy
 import requests
 from constants import conn
@@ -76,12 +75,10 @@ class Get:
             if menu['@attributes']['disabled'] == "0":
                 info = {"info": {"canteen": menu['@attributes']['canteen'], "extrainfo": menu['@attributes']['meal']},
                         "meal": menu['items']['item']}
-            # else:
-            #    info = {"info": {"canteen": menu['@attributes']['canteen'], "extrainfo": menu['@attributes']['disabled']}, "meal": []}
 
-            if (now.hour < 15 and menu['@attributes']['meal'] == "Almoço") \
-                    or (now.hour >= 15 and menu['@attributes']['meal'] == "Jantar"):
-                parsed_menus.append(info)
+                if (now.hour < 15 and menu['@attributes']['meal'] == u"Almoço") \
+                        or (now.hour >= 15 and menu['@attributes']['meal'] == u"Jantar"):
+                    parsed_menus.append(info)
 
         return json.dumps(parsed_menus)
 
