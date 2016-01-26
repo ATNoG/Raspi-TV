@@ -64,7 +64,7 @@ class Get:
 
     @cherrypy.expose
     @cherrypy.tools.allow(methods=['GET'])
-    def cantina_menus(self):
+    def canteen_menus(self):
         cherrypy.response.headers['Content-Type'] = 'application/json'
         menus = json.loads(requests.get('http://services.web.ua.pt/sas/ementas?format=json').content)
         parsed_menus = []
@@ -127,10 +127,6 @@ class Get:
             all_tweets.append({'tweetid': tweet[0], 'author': tweet[1], 'tweet': tweet[2], 'order': tweet[4]})
 
         return json.dumps(all_tweets, separators=(',', ':'))
-
-    # @cherrypy.expose
-    # def weather(self):
-    #     return json.dumps({'content': get_w()})
 
     @cherrypy.expose
     @cherrypy.tools.allow(methods=['GET'])

@@ -36,7 +36,7 @@ $(document).ready(function () {
 
     // Menus
     function cantina_menus() {
-        $.get("/api/get/cantina_menus", function (data) {
+        $.get("/api/get/canteen_menus", function (data) {
             for (var i = 0; i < data.length; i++) {
                 var htmlCode = '<li class="dropdown"><a href="#" class="dropdown-toggle"><i class="fa fa-angle-double-right"></i><span class="hidden-xs">' + data[i]['info']['canteen'] + '</span></a></li><ul class="dropdown-menu">';
                 for (var j = 0; j < data[i]['meal'].length; j++) {
