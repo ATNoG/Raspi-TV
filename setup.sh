@@ -4,7 +4,10 @@
 # This file should fully setup Raspi-TV on a new Raspberry.
 # For more information visit https://github.com/ATNoG/Raspi-TV.git
 
-# Clone Raspi-TV repository
+echo "If you haven't yet don't forget to run raspi-config and update/upgrade or distribution"
+
+# Cloning Raspi-TV repository
+echo "Cloning Raspi-TV repository"
 git clone https://github.com/ATNoG/Raspi-TV.git
 
 # Installing distribution dependencies
