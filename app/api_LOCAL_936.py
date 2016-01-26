@@ -76,8 +76,8 @@ class Get:
                 info = {"info": {"canteen": menu['@attributes']['canteen'], "extrainfo": menu['@attributes']['meal']},
                         "meal": menu['items']['item']}
 
-                if (now.hour < 15 and menu['@attributes']['meal'] == u'Almoço') \
-                        or (now.hour >= 15 and menu['@attributes']['meal'] == u'Jantar'):
+                if (now.hour < 15 and menu['@attributes']['meal'] == u"Almoço") \
+                        or (now.hour >= 15 and menu['@attributes']['meal'] == u"Jantar"):
                     parsed_menus.append(info)
 
         return json.dumps(parsed_menus)

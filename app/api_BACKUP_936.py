@@ -3,6 +3,7 @@ import datetime
 import json
 
 import netifaces
+
 import cherrypy
 import requests
 from constants import conn
@@ -71,10 +72,16 @@ class Get:
         now = datetime.datetime.now()
 
         for menu in menus['menus']['menu']:
+<<<<<<< HEAD
             info = ""
             if menu['@attributes']['disabled'] == "0" and not menu['@attributes']['canteen'] == u"Snack-Bar/Self":
                 info = {"info": {"canteen": menu['@attributes']['canteen'], "extrainfo": menu['@attributes']['meal']},
                         "meal": menu['items']['item']}
+=======
+            if menu['@attributes']['disabled'] == '0':
+                info = {'info': {'canteen': menu['@attributes']['canteen'], 'extrainfo': menu['@attributes']['meal']},
+                        'meal': menu['items']['item']}
+>>>>>>> f278afffe10a019640ac67dd9812812036daaa75
 
                 if (now.hour < 15 and menu['@attributes']['meal'] == u'Almoço') \
                         or (now.hour >= 15 and menu['@attributes']['meal'] == u'Jantar'):
