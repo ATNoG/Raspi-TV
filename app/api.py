@@ -71,10 +71,9 @@ class Get:
         now = datetime.datetime.now()
 
         for menu in menus['menus']['menu']:
-            info = ""
-            if menu['@attributes']['disabled'] == "0" and not menu['@attributes']['canteen'] == u"Snack-Bar/Self":
-                info = {"info": {"canteen": menu['@attributes']['canteen'], "extrainfo": menu['@attributes']['meal']},
-                        "meal": menu['items']['item']}
+            if menu['@attributes']['disabled'] == '0' and not menu['@attributes']['canteen'] == u'Snack-Bar/Self':
+                info = {'info': dict(canteen=menu['@attributes']['canteen'], extrainfo=menu['@attributes']['meal']),
+                        'meal': menu['items']['item']}
 
                 if (now.hour < 15 and menu['@attributes']['meal'] == u'Almoço') \
                         or (now.hour >= 15 and menu['@attributes']['meal'] == u'Jantar'):
