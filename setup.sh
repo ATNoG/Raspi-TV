@@ -6,7 +6,7 @@
 
 echo "If you haven't yet don't forget to run raspi-config and update/upgrade or distribution"
 echo "Continuing in 10 seconds..."
-sleep 10
+sleep 10s
 
 # Cloning Raspi-TV repository
 echo "Cloning Raspi-TV repository"
