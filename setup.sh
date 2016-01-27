@@ -12,13 +12,13 @@ sleep 10s
 echo "Cloning Raspi-TV repository"
 git clone https://github.com/ATNoG/Raspi-TV.git
 
-# Installing distribution dependencies
-echo "Installing dependencies (this requires root privileges)"
-apt-get install "$(grep -vE "^\s*#" dependencies.txt | tr "\n" " ")"
-
 # Set pi as the owner of Raspi-TV and cd to this directory
 chown -R pi:pi Raspi-TV
 pushd Raspi-TV/
+
+# Installing distribution dependencies
+echo "Installing dependencies (this requires root privileges)"
+apt-get install "$(grep -vE "^\s*#" dependencies.txt | tr "\n" " ")"
 
 # Add reboot job as root
 echo "Adding root cronjobs"
