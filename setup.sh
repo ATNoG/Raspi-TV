@@ -18,7 +18,7 @@ pushd Raspi-TV/
 
 # Installing distribution dependencies
 echo "Installing dependencies (this requires root privileges)"
-apt-get install $(cat dependencies.txt | grep -v "^#")
+apt-get -y install $(cat dependencies.txt | grep -v "^#")
 
 # Add reboot job as root
 echo "Adding root cronjobs"
