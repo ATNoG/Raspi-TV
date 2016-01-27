@@ -5,7 +5,8 @@
 # For more information visit https://github.com/ATNoG/Raspi-TV.git
 
 echo "If you haven't yet don't forget to run raspi-config and update/upgrade or distribution"
-read -rsp $'Press any key to continue...\n' -n1 key
+echo "Continuing in 10 seconds..."
+sleep 10
 
 # Cloning Raspi-TV repository
 echo "Cloning Raspi-TV repository"
