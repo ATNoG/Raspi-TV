@@ -20,6 +20,10 @@ pushd Raspi-TV/
 echo "Installing dependencies (this requires root privileges)"
 apt-get -y install $(cat dependencies.txt | grep -v "^#")
 
+# Installing Python dependencies
+echo "Installing Python requirements to user pi"
+pip install -r app/requirements.txt
+
 # Add reboot job as root
 echo "Adding root cronjobs"
 (crontab -l; echo "@reboot 0 0 * * * /sbin/reboot")| crontab -          # Reboot at midnight
@@ -33,15 +37,11 @@ echo "Adding pi cronjobs"
 (crontab -l; echo "@reboot $(pwd)/fullscreen.sh")| crontab -            # At every reboot start epiphany (web browser)
 (crontab -l; echo "* * * * * python $(pwd)/app/cron.py")| crontab -     # Update Tweets + Dropbox files every minute
 
-# Installing Python dependencies
-echo "Installing Python requirements to user pi"
-pip install -r app/requirements.txt
-
 # Create database + user
-echo "Creating database"
-python setup.py create database
-echo "Creating user"
-python setup.py create user
+echo "Please create a new database:"
+echo "python setup.py create database"
+echo "And then add a new admin user:"
+echo "python setup.py create user"
 
 EOF
 popd
