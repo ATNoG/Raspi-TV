@@ -78,6 +78,7 @@ $(document).ready(function () {
 
     var data_length = 0;
     var info = [];
+    var tweets_counter = 0;
 
     function get_tweets() {
         $.getJSON('/api/get/tweets', function (data) {
@@ -107,7 +108,10 @@ $(document).ready(function () {
 
         setTimeout(function () {
             $tweet.fadeOut("slow", function () {
-                slider();
+                if (counter++ == 30)
+                    get_tweets();
+                else
+                    slider();
             });
         }, 10000);
 
