@@ -110,7 +110,7 @@ $(document).ready(function () {
 
         setTimeout(function () {
             $tweet.fadeOut("slow", function () {
-                if (counter++ == 30)
+                if (tweets_counter++ == 30)
                     get_tweets();
                 else
                     slider();
