@@ -69,6 +69,11 @@ $(document).ready(function () {
                 }
             }
 
+            // then load the iframe
+            setTimeout(function () {
+                $("#content_frame").attr("src", "pages/news.html");
+            }, 500);
+
             // then call get tweets
             setTimeout(function () {
                 get_tweets();
@@ -87,12 +92,9 @@ $(document).ready(function () {
             for (var i = 0; i < data.length; i++) {
                 info.push('@<strong>' + data[i]['author'] + '</strong> ' + '<span>' + data[i]['tweet'] + '</span>');
             }
-            slider();
 
-            // then load the iframe
-            setTimeout(function () {
-                $("#content_frame").attr("src", "pages/news.html");
-            }, 500);
+            tweets_counter = 0;
+            slider();
         });
     }
 
