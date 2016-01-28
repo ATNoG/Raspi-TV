@@ -3,3 +3,5 @@
 xautomation
 sqlite3
 python-dev
+x11-xserver-utils
+unclutter

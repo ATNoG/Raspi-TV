@@ -12,7 +12,7 @@ echo "Done."
 
 # Cloning Raspi-TV repository
 echo -n "Cloning Raspi-TV repository... "
-git clone https://github.com/ATNoG/Raspi-TV.git >> setup.log
+git clone https://github.com/ATNoG/Raspi-TV.git &> setup.log
 echo "Done."
 
 # Set pi as the owner of Raspi-TV and cd to this directory
@@ -21,17 +21,24 @@ pushd Raspi-TV/
 
 # Installing distribution dependencies
 echo -n "Installing dependencies... "
-apt-get -y install $(cat dependencies.txt | grep -v "^#") >> setup.log
+apt-get -y install $(cat dependencies.txt | grep -v "^#") &>> setup.log
 echo "Done."
 
 # Installing Python dependencies
 echo -n "Installing Python requirements... "
-pip install -r app/requirements.txt
+pip install -r app/requirements.txt &>> setup.log
 echo "Done."
 
 # Add reboot job as root
 echo "Adding root cronjobs."
 (crontab -l; echo "@reboot 0 0 * * * /sbin/reboot")| crontab -          # Reboot at midnight
+
+# Stop the screen from going blank + hide the mouse
+echo "Editing '/etc/xdg/lxsession/LXDE-pi/autostart'."
+echo "@xset s off" >> /etc/xdg/lxsession/LXDE-pi/autostart
+echo "@xset -dpms" >> /etc/xdg/lxsession/LXDE-pi/autostart
+echo "@xset s noblank" >> /etc/xdg/lxsession/LXDE-pi/autostart
+echo "@unclutter -idle 0.1 -root" >> /etc/xdg/lxsession/LXDE-pi/autostart
 
 # Change user (don't need root for now)
 sudo -u pi bash << EOF
@@ -40,7 +47,10 @@ sudo -u pi bash << EOF
 echo "Adding pi cronjobs."
 (crontab -l; echo "@reboot python $(pwd)/app/app.py &")| crontab -      # At every reboot start the server
 (crontab -l; echo "@reboot $(pwd)/fullscreen.sh &")| crontab -          # At every reboot start epiphany (web browser)
-(crontab -l; echo "* * * * * python $(pwd)/app/cron.py")| crontab -     # Update Tweets + Dropbox files every minute
+(crontab -l; echo "* * * * * python $(pwd)/app/cron.py &")| crontab -   # Update Tweets + Dropbox files every minute
+
+EOF
+popd
 
 # Create database + user
 echo "Please change directory to $(pwd)/Raspi-TV and:"
@@ -49,7 +59,4 @@ echo "  python setup.py create database"
 echo "Add a new admin user"
 echo "  python setup.py create user"
 
-EOF
-popd
-
-echo "Reboot after you've done the above, please reboot."
+echo "Reboot after you've done the above."
