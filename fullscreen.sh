@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sleep 30s;
 mkdir -p ~/.config
 sudo -u pi epiphany-browser -a -i --profile ~/.config http://localhost:8080/public/ --display=:0 &
 sleep 30s;
