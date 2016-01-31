@@ -10,17 +10,18 @@ $(document).ready(function () {
 
 function get_info_tweets() {
     $.get('/admin/get/tweets', function (data) {
+        var $tweetTable = $("#tweets-table");
         for (var i = 0; i < data.length; i++) {
-            var code = "<li class='list-group-item'><strong><span class='tweetid' style='display:none;'>" + data[i]['tweetid'] + "</span><span class='author'>" + data[i]['author'] + "</span></strong><br /><span class='tweet'>" + data[i]['tweet'] + "</span>";
-            if (data[i]['todisplay'] != 0) {
-                code += "<span class='to-display' style='float:right;'><input type='checkbox' checked></span></li>";
+            var tweet = "<li class='list-group-item'><strong><span class='tweetid' style='display:none;'>" + data[i]['tweetid'] + "</span><span class='author'>" + data[i]['author'] + "</span></strong><br /><span class='tweet'>" + data[i]['tweet'] + "</span>";
+            if (data[i]['todisplay']) {
+                tweet += "<span class='to-display' style='float:right;'><input type='checkbox' checked></span></li>";
             } else {
-                code += "<span class='to-display' style='float:right;'><input type='checkbox'></span></li>";
+                tweet += "<span class='to-display' style='float:right;'><input type='checkbox'></span></li>";
             }
-            $('#tweets-table').append(code);
+            $tweetTable.append(tweet);
         }
 
-        $("#tweets-table").sortable({
+        $tweetTable.sortable({
             revert: true
         });
         $("ul, li").disableSelection();
@@ -58,7 +59,7 @@ function get_tweets_table() {
             todisplay = 1;
             order = i;
             i++;
-        } else console.log("not selected");
+        } else console.log("Tweet skipped since it was not selected.");
 
         var elem_data = {
             'tweetid': tweetid,

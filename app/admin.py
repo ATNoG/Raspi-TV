@@ -143,8 +143,8 @@ class Get:
         cherrypy.response.headers['Content-Type'] = "application/json"
         all_tweets = []
         for tweet in conn.execute('SELECT * FROM Tweets ORDER BY TweetOrder ASC').fetchall():
-            all_tweets.append({'tweetid': tweet[0], 'author': tweet[1],
-                               'tweet': tweet[2], 'todisplay': tweet[3], 'order': tweet[4]})
+            all_tweets.append({'tweetid': str(tweet[0]), 'author': tweet[1], 'tweet': tweet[2], 'todisplay': tweet[3],
+                               'order': tweet[4]})
 
         return json.dumps(all_tweets, separators=(',', ':'))
 
@@ -209,7 +209,6 @@ class Update:
     def tweets(self, tweetlist):
         for tweet in json.loads(tweetlist):
             try:
-                print tweet
                 conn.execute('UPDATE Tweets SET ToDisplay=?, TweetOrder=? WHERE TweetId=?',
                              (tweet['todisplay'], tweet['order'], tweet['tweetid'],))
                 conn.commit()
