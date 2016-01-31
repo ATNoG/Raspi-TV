@@ -53,8 +53,8 @@ CREATE TABLE [Tweets] (
 );
 
 CREATE TABLE [Files] (
-  [FilePath]  TEXT PRIMARY KEY    NOT NULL, -- Absolute path to file
-  [ToDisplay] INTEGER DEFAULT 0   NOT NULL, -- 'Boolean value' determining whether to use the file or not
+  [FilePath]  TEXT PRIMARY KEY    NOT NULL UNIQUE, -- Absolute path to file
+  [ToDisplay] INTEGER DEFAULT 0   NOT NULL,        -- 'Boolean value' determining whether to use the file or not
   [FileOrder] INTEGER DEFAULT -1  NOT NULL,
   [Type]      TEXT                NOT NULL
 );
