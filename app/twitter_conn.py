@@ -16,7 +16,7 @@ def populate_db(count=100):
         tweets = api.GetSearch(term=query, count=count)
         for tweet in tweets:
             conn.execute('INSERT OR REPLACE INTO Tweets (TweetId, Author, Tweet, ToDisplay) VALUES '
-                         '(?, ?, ?, COALESCE((SELECT ToDisplay FROM Tweets WHERE TweetId=?), 0))',
+                         '(?, ?, ?, COALESCE((SELECT ToDisplay FROM Tweets WHERE TweetId=?), 1))',
                          (tweet.id, tweet.user.name, tweet.text, tweet.id))
             conn.commit()
     except twitter.TwitterError, e:

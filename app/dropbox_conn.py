@@ -8,7 +8,7 @@ try:
     access_token = conn.execute('SELECT AuthToken FROM Dropbox').fetchone()[0]
     client = dropbox.client.DropboxClient(access_token)
 except ValueError:
-    print 'No account added'
+    print('Dropbox account not added.')
     client = None
 
 updated_files = []

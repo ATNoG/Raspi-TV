@@ -142,7 +142,7 @@ class Get:
     def tweets(self):
         cherrypy.response.headers['Content-Type'] = "application/json"
         all_tweets = []
-        for tweet in conn.execute('SELECT * FROM Tweets ORDER BY TweetOrder ASC').fetchall():
+        for tweet in conn.execute('SELECT * FROM Tweets ORDER BY TweetOrder ASC'):
             all_tweets.append({'tweetid': str(tweet[0]), 'author': tweet[1], 'tweet': tweet[2], 'todisplay': tweet[3],
                                'order': tweet[4]})
 
