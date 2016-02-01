@@ -35,7 +35,7 @@ echo "Adding root cronjobs."
 (crontab -l; echo "@reboot 0 0 * * * /sbin/reboot")| crontab -          # Reboot at midnight
 
 # Stop the screen from going blank + hide the mouse
-echo "Configuring other settings."z
+echo "Configuring other settings."
 sed '/\[SeatDefaults\]/a xserver-command=X -s 0 -dpms' -i.old /etc/lightdm/lightdm.conf
 sed '/@xscreensaver -no-splash/d' -i.old /etc/xdg/lxsession/LXDE/autostart
 echo "@unclutter -idle 0.1 -root" >> /etc/xdg/lxsession/LXDE-pi/autostart
