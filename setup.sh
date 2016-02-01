@@ -4,7 +4,8 @@
 # This file should fully setup Raspi-TV on a new Raspberry.
 # For more information visit https://github.com/ATNoG/Raspi-TV.git
 
-echo "If you haven't done it yet don't forget to run raspi-config and update/upgrade your distribution."
+echo "If you haven't done it yet don't forget to run raspi-config and update/upgrade"
+echo "your distribution."
 echo "If you encounter any problems during this setup please look at 'setup.log'."
 echo -n "Continuing in 10 seconds... "
 sleep 10s
