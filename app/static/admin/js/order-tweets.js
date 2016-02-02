@@ -53,7 +53,7 @@ function get_tweets_table() {
         var author = $(this).find('.author').html();
         var tweet = $(this).find('.tweet').html();
         var todisplay = 0;
-        var order = -1;
+        var order = 129;
 
         if ($(this).find('.to-display').children().is(':checked')) {
             todisplay = 1;

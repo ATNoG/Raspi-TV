@@ -188,15 +188,15 @@ class Update:
 
     @staticmethod
     def dropbox_db(files):
-        for f in json.loads(files):
-            try:
+        try:
+            for f in json.loads(files):
                 conn.execute('UPDATE Files SET ToDisplay=?, FileOrder=? WHERE FilePath=?',
                              (f['todisplay'], f['order'], f['filepath'],))
-                conn.commit()
-            except sql.Error:
+            conn.commit()
+            return 'Successful.'
+        except sql.Error:
                 return 'Unsuccessful.'
 
-        return 'Successful.'
 
     @cherrypy.expose
     def dropbox_files(self, images, videos):
@@ -207,27 +207,26 @@ class Update:
 
     @cherrypy.expose
     def tweets(self, tweetlist):
-        for tweet in json.loads(tweetlist):
-            try:
+        try:
+            for tweet in json.loads(tweetlist):
                 conn.execute('UPDATE Tweets SET ToDisplay=?, TweetOrder=? WHERE TweetId=?',
                              (tweet['todisplay'], tweet['order'], tweet['tweetid'],))
-                conn.commit()
-            except sql.Error:
-                return 'Unsuccessful.'
-
-        return 'Successful.'
+            conn.commit()
+            return 'Successful.'
+        except sql.Error:
+            return 'Unsuccessful.'
 
     @cherrypy.expose
     def services(self, servicelist):
-        for service in json.loads(servicelist):
-            try:
+        try:
+            for service in json.loads(servicelist):
                 conn.execute('UPDATE FrontEndOrder SET ToDisplay=?, ServicesOrder=? WHERE Service=?',
                              (service['todisplay'], service['order'], service['name'],))
-                conn.commit()
-            except sql.Error:
-                return 'Unsuccessful.'
+            conn.commit()
+            return 'Successful.'
+        except sql.Error:
+            return 'Unsuccessful.'
 
-        return 'Successful.'
 
     @cherrypy.expose
     @cherrypy.tools.allow(methods=['POST'])
