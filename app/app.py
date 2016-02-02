@@ -34,9 +34,6 @@ if __name__ == '__main__':
         '/': {
             'tools.CORS.on': True,
             'tools.sessions.on': True,
-            # 'tools.sessions.storage_type': "file",
-            # 'tools.sessions.storage_path': os.path.join(ROOT_DIR, 'sessions'),
-            # 'tools.sessions.timeout': 60,
             'tools.staticdir.root': os.path.join(ROOT_DIR, 'static'),
         },
         '/public': {
