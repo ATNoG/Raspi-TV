@@ -131,6 +131,11 @@ INSERT INTO [HTMLSettings] VALUES (
 );
 
 INSERT INTO [HTMLSettings] VALUES (
+  'twitterMessage',
+  '#detiua'
+);
+
+INSERT INTO [HTMLSettings] VALUES (
   'feed',
   'http://deti-cdn.clients.ua.pt/'
 );
