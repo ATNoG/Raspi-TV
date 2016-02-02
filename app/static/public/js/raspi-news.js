@@ -78,7 +78,7 @@ $(document).ready(function () {
                 setTimeout(explode, 1000);
             }, 5000);
         } else {
-            $("#content").hide().html('<h2 style="color:#33B3D1">' + queue[i].content.title + '</h2>' + '<span style="color:#003399">' + queue[i].content.date + '</span>' + '<br>' + '<span style="color:#003399">' + queue[i].content.author + '</span>' + queue[i].content.summary).fadeIn('slow');
+            $("#content").hide().html('<h2 style="color:#00904B">' + queue[i].content.title + '</h2>' + '<span style="color:#003399">' + queue[i].content.date + '</span>' + '<br>' + '<span style="color:#003399">' + queue[i].content.author + '</span>' + queue[i].content.summary).fadeIn('slow');
             i = (i + 1);
 
             var pieces_of_page = Math.ceil($(document).height() / $(window).height());

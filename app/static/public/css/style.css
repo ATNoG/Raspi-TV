@@ -89,7 +89,7 @@ a.show-sidebar:hover {
     z-index: inherit;
     padding-bottom: 3000px !important;
     margin-bottom: -3000px !important;
-    background: #436E90;
+    background: #60B94F;
     -webkit-transition: 0.1s;
     -moz-transition: 0.1s;
     -o-transition: 0.1s;
@@ -322,7 +322,7 @@ a.show-sidebar:hover {
 .user-mini > span {
     display: block;
     font-size: 12px;
-    color: #436E90;
+    color: #00904B;
     margin-bottom: -4px;
 }
 
@@ -698,7 +698,7 @@ ul.DTTT_dropdown.dropdown-menu > li:hover > a {
 #breadcrumb {
     padding: 0;
     line-height: 40px;
-    background: #436E90;
+    background: #60B94F;
 }
 
 .breadcrumb {
@@ -711,7 +711,7 @@ ul.DTTT_dropdown.dropdown-menu > li:hover > a {
 }
 
 .breadcrumb > li > a {
-    color: #d8d8d8;
+    color: #f8f8f8;
 }
 
 .breadcrumb > li > a:hover, .breadcrumb > li:last-child > a {
