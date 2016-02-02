@@ -12,7 +12,7 @@ echo "Done."
 
 # Cloning Raspi-TV repository
 echo -n "Cloning Raspi-TV repository... "
-git clone https://github.com/ATNoG/Raspi-TV.git > /dev/null
+git clone https://github.com/ATNoG/Raspi-TV.git &> /dev/null
 echo "Done."
 
 # Set pi as the owner of Raspi-TV and cd to this directory
@@ -21,12 +21,12 @@ pushd Raspi-TV/ > /dev/null
 
 # Installing distribution dependencies
 echo -n "Installing dependencies... "
-apt-get -y install $(cat dependencies.txt | grep -v "^#") > /dev/null
+apt-get -y install $(cat dependencies.txt | grep -v "^#") &> /dev/null
 echo "Done."
 
 # Installing Python dependencies
 echo -n "Installing Python requirements... "
-pip install -r app/requirements.txt > /dev/null
+pip install -r app/requirements.txt &> /dev/null
 echo "Done."
 
 # Add reboot job as root
