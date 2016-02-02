@@ -51,7 +51,7 @@ echo "Adding pi cronjobs."
 (crontab -l; echo "* * * * * python $(pwd)/app/cron.py &")| crontab -   # Update Tweets + Dropbox files every minute
 
 EOF
-popd
+popd > /dev/null
 
 # Create database + user
 echo "Please change directory to $(pwd)/Raspi-TV and:"
