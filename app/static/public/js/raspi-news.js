@@ -35,7 +35,7 @@ function get_ordered(data) {
                 break;
         }
     }
-    
+
     explode();
 }
 
@@ -57,7 +57,7 @@ function queue_process_images(data) {
     }
 }
 
-function explode () {
+function explode() {
     if (i == queue.length)
         get_all_info();
 
@@ -65,13 +65,14 @@ function explode () {
         $('#content').hide().html('<video width="100%" controls autoplay> <source src="' + queue[i].content.filepath + '" type="video/ogg">Your browser does not support HTML5 video.</video>').fadeIn('slow');
 
         function time() {
-            var $video = $('video');
+            var $video = $('video')[0];
 
-            if (!$.isNumeric($video[0]['duration']))
+            if (!$.isNumeric($video['duration']))
                 setTimeout(time, 500);
-
-            i++;
-            setTimeout(explode, $video[0]['duration'] * 1000 + 1500);
+            else {
+                i++;
+                setTimeout(explode, $video['duration'] * 1000 + 1500);
+            }
         }
 
         time();
