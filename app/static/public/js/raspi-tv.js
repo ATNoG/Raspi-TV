@@ -48,8 +48,8 @@ function getCanteenMenus() {
         for (var i = 0; i < data.length; i++) {
             var htmlCode = '<li class="dropdown"><a href="#" class="dropdown-toggle"><i class="fa fa-angle-double-right"></i><span class="hidden-xs">' + data[i]['info']['canteen'] + '</span></a></li><ul class="dropdown-menu">';
             for (var j = 0; j < data[i]['meal'].length; j++) {
-                if (typeof data[i]['meal'][j] == 'string')
-                    htmlCode += '<li><a class="ajax-link" href="#">' + data[i]['meal'][j] + '</a></li>';
+                //if (typeof data[i]['meal'][j] == 'string')
+                htmlCode += '<li><a class="ajax-link" href="#">' + data[i]['meal'][j] + '</a></li>';
             }
             htmlCode += '</ul></li>\n';
             $('#meals-container').append(htmlCode);
