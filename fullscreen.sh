@@ -2,7 +2,7 @@
 
 sleep 45s;
 mkdir -p ~/.config
-sudo -u pi iceweasel http://127.0.0.1:8080/public/ --display=:0 &
+sudo -u pi iceweasel -private http://127.0.0.1:8080/public/ --display=:0 &
 sleep 15s;
 xte "key F11" -x:0
 xte "key F5" -x:0

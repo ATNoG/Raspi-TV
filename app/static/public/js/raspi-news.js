@@ -59,10 +59,10 @@ function queue_process_images(data) {
 
 function explode() {
     if (i == queue.length)
-        get_all_info();
+        location.reload(true);
 
     if (queue[i].type == 'video') {
-        $('#content').hide().html('<video width="100%" controls autoplay> <source src="' + queue[i].content.filepath + '" type="video/ogg">Your browser does not support HTML5 video.</video>').fadeIn('slow');
+        $('#content').hide().html('<video width="100%" controls autoplay><source src="' + queue[i].content.filepath + '" type="video/ogg">Your browser does not support HTML5 video.</video>').fadeIn('slow');
 
         function time() {
             var $video = $('video')[0];
