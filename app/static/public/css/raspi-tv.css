@@ -16,7 +16,7 @@
 }
 
 #meals-container {
-    color:white;
+    color: white;
     text-align: center;
 
 }
@@ -24,4 +24,8 @@
 .meals {
     text-align: left;
     font-size: 85%;
+}
+
+pre {
+    white-space: pre-wrap;
 }
