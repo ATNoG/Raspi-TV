@@ -4,3 +4,4 @@ xautomation
 sqlite3
 python-dev
 unclutter
+iceweasel
