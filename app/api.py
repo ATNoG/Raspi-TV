@@ -68,18 +68,26 @@ class Get:
         cherrypy.response.headers['Content-Type'] = 'application/json'
         menus = json.loads(requests.get('http://services.web.ua.pt/sas/ementas?format=json').content)
         parsed_menus = []
+        valid_indexes = range(0, 7)
         now = datetime.datetime.now()
 
         for menu in menus['menus']['menu']:
             if menu['@attributes']['disabled'] == '0' and not menu['@attributes']['canteen'] == u'Snack-Bar/Self':
                 info = {'info': {'canteen': menu['@attributes']['canteen'], 'extrainfo': menu['@attributes']['meal']},
-                        'meal': menu['items']['item']}
+                        'meal': filter(None, [menu['items']['item'][i] if not self.is_json(menu['items']['item'][i]) else None for i in valid_indexes])}
 
                 if (now.hour < 15 and menu['@attributes']['meal'] == u'Almoço') \
                         or (now.hour >= 15 and menu['@attributes']['meal'] == u'Jantar'):
                     parsed_menus.append(info)
 
         return json.dumps(parsed_menus)
+
+    def is_json(self, input):
+        try:
+            json_object = json.loads(str(input).replace("\'", '"').replace('u"', '"'))
+        except ValueError, e:
+            return "Invalid \escape: " in e.message
+        return True
 
     @cherrypy.expose
     @cherrypy.tools.allow(methods=['GET'])
@@ -131,3 +139,4 @@ class Get:
         for i in ids:
             list_to_return.append(i[0])
         return json.dumps({'status': 200, 'content': list_to_return})
+
