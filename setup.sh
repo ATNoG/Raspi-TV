@@ -30,9 +30,9 @@ echo "Done."
 
 # Add reboot job as root
 echo "Adding root cronjobs."
-(crontab -l; echo "@reboot 0 0 * * * /sbin/reboot")| crontab -          # Reboot at midnight
-(crontab -l; echo "@reboot 0 8 * * * /sbin/reboot")| crontab -          # Reboot at 8:00
-(crontab -l; echo "@reboot 0 16 * * * /sbin/reboot")| crontab -         # Reboot at 16:00
+(crontab -l; echo "0 0 * * * /sbin/reboot")| crontab -          # Reboot at midnight
+(crontab -l; echo "0 8 * * * /sbin/reboot")| crontab -          # Reboot at 8:00
+(crontab -l; echo "0 16 * * * /sbin/reboot")| crontab -         # Reboot at 16:00
 
 # Stop the screen from going blank + hide the mouse
 echo "Configuring other settings."
