@@ -1,109 +1,112 @@
-$(document).ready(function () {
-    var i = 0;
-    var queue = [];
+////////////////////////////////////////////////////////
+// Global variables
+////////////////////////////////////////////////////////
 
-    function get_all_info() {
-        $.get('/api/get/all_info').then(get_ordered);
-    }
+var i;
+var queue;
 
-    function get_ordered(data) {
-        for (var j = 0; j < data.length; j++) {
-            switch (data[j]['name']) {
-                case 'News':
-                    queue_process_news(data[j]);
-                    break;
+////////////////////////////////////////////////////////
+// Helper methods
+////////////////////////////////////////////////////////
 
-                case 'Youtube':
-                    queue_process_videos(data[j]);
-                    break;
+function get_all_info() {
+    i = 0;
+    queue = [];
+    $.get('/api/get/all_info').then(get_ordered);
+}
 
-                case 'Dropbox Videos':
-                    queue_process_videos(data[j]);
-                    break;
+function get_ordered(data) {
+    for (var j = 0; j < data.length; j++) {
+        switch (data[j]['name']) {
+            case 'News':
+                queue_process_news(data[j]);
+                break;
 
-                case 'Dropbox Photos':
-                    queue_process_images(data[j]);
-                    break;
-            }
-        }
-        console.log(queue);
-        explode();
-    }
+            case 'Youtube':
+                queue_process_videos(data[j]);
+                break;
 
-    function queue_process_news(data) {
-        for (var j = 0; j < data.content.length; j++) {
-            queue.push({'type': 'noticia', 'content': data.content[j]});
-        }
-    }
+            case 'Dropbox Videos':
+                queue_process_videos(data[j]);
+                break;
 
-    function queue_process_videos(data) {
-        for (var j = 0; j < data.content.length; j++) {
-            queue.push({'type': 'video', 'content': data.content[j]});
+            case 'Dropbox Photos':
+                queue_process_images(data[j]);
+                break;
         }
     }
+    
+    explode();
+}
 
-    function queue_process_images(data) {
-        for (var j = 0; j < data.content.length; j++) {
-            queue.push({'type': 'image', 'content': data.content[j]});
-        }
+function queue_process_news(data) {
+    for (var j = 0; j < data.content.length; j++) {
+        queue.push({'type': 'noticia', 'content': data.content[j]});
     }
+}
 
-    var explode = function () {
-        var time_to_wait = 20000;
+function queue_process_videos(data) {
+    for (var j = 0; j < data.content.length; j++) {
+        queue.push({'type': 'video', 'content': data.content[j]});
+    }
+}
 
-        if (queue[i].type == "video") {
-            console.log(queue[i]);
-            $("#content").hide().html('<video width="100%" controls autoplay> <source src="' + queue[i].content.filepath + '" type="video/ogg"> Your browser does not support HTML5 video. </video>').fadeIn('slow');
-            var time = function () {
-                setTimeout(function () {
-                    var $video = $("video");
-                    if (!$.isNumeric($video[0]["duration"])) {
-                        time();
-                    } else {
-                        time_to_wait = $video[0]["duration"] * 1000 + 1500;
-                        i = (i + 1);
-                        if (i == queue.length) {
-                            i = 0;
-                        }
-                        setTimeout(explode, time_to_wait);
-                    }
-                }, 100);
-            };
-            time();
+function queue_process_images(data) {
+    for (var j = 0; j < data.content.length; j++) {
+        queue.push({'type': 'image', 'content': data.content[j]});
+    }
+}
 
-        } else if (queue[i].type == 'image') {
-            $("#content").hide().html("<img src='../data/dropbox_files" + queue[i].content.filepath + "'/>").fadeIn('slow');
+function explode () {
+    if (i == queue.length)
+        get_all_info();
+
+    if (queue[i].type == 'video') {
+        $('#content').hide().html('<video width="100%" controls autoplay> <source src="' + queue[i].content.filepath + '" type="video/ogg">Your browser does not support HTML5 video.</video>').fadeIn('slow');
+
+        function time() {
+            var $video = $('video');
+
+            if (!$.isNumeric($video[0]['duration']))
+                setTimeout(time, 500);
+
+            i++;
+            setTimeout(explode, $video[0]['duration'] * 1000 + 1500);
+        }
+
+        time();
+    } else if (queue[i].type == 'image') {
+        $('#content').hide().html('<img src="../data/dropbox_files' + queue[i].content.filepath + '"/>').fadeIn('slow');
+
+        i++;
+        setTimeout(explode, 5000);
+    } else {
+        $('#content').hide().html('<h2 style="color:#00904B">' + queue[i].content.title + '</h2>' + '<span style="color:#003399">' + queue[i].content.date + '</span>' + '<br>' + '<span style="color:#003399">' + queue[i].content.author + '</span>' + queue[i].content.summary).fadeIn('slow');
+        i = (i + 1);
+
+        var pieces_of_page = Math.ceil($(document).height() / $(window).height());
+        var count = 0;
+
+        var scroll = function () {
             setTimeout(function () {
-                i++;
-                setTimeout(explode, 1000);
-            }, 5000);
-        } else {
-            $("#content").hide().html('<h2 style="color:#00904B">' + queue[i].content.title + '</h2>' + '<span style="color:#003399">' + queue[i].content.date + '</span>' + '<br>' + '<span style="color:#003399">' + queue[i].content.author + '</span>' + queue[i].content.summary).fadeIn('slow');
-            i = (i + 1);
+                $(document).scrollTop(count * $(window).height());
 
-            var pieces_of_page = Math.ceil($(document).height() / $(window).height());
-            var count = 0;
+                count++;
+                if (count < pieces_of_page)
+                    scroll();
+            }, 10000);
+        };
 
-            var scroll = function () {
-                setTimeout(function () {
-                    $(document).scrollTop(count * $(window).height());
+        scroll();
+        i++;
+        setTimeout(explode, pieces_of_page * 20000);
+    }
+}
 
-                    count++;
+////////////////////////////////////////////////////////
+// Main 'when ready' method
+////////////////////////////////////////////////////////
 
-                    if (count < pieces_of_page) {
-                        scroll();
-                    }
-                }, 10000);
-            };
-
-            scroll();
-            setTimeout(explode, pieces_of_page * time_to_wait);
-        }
-        if (i == queue.length) {
-            i = 0;
-        }
-
-    };
-
+$(document).ready(function () {
     get_all_info();
 });
