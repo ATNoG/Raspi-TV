@@ -99,25 +99,25 @@ def download(link):
     # <Video: H.264 (.mp4) - 720p>
 
     # you can also get all videos for a given resolution
-    mp4_videos = yt.filter(extension='mp4')
+    videos = yt.filter(extension='mp4') or yt.filter(extension='webm')
 
-    if not len(mp4_videos):
-        webm_videos = yt.filter(extension='webm')
-        if not len(webm_videos):
-            return json.dumps({'status': 400})
-            # error message to the user, can't get the video, missing mp4 videos
-        else:
-            best_video = webm_videos[len(webm_videos) - 1]
-    else:
-        best_video = mp4_videos[len(mp4_videos) - 1]
+    if not len(videos):
+        return json.dumps({'status': 400})
+
+    video = None
+    for v in videos:
+        if v.resolution >= '360p':
+            video = v
+            break
+
+    if video is None:
+        video = videos[-1]
 
     # [<Video: H.264 (.flv) - 480p>,
     # <Video: VP8 (.webm) - 480p>]
 
     # to select a video by a specific resolution and filetype you can use the get
     # method.
-
-    video = yt.get(best_video.extension, best_video.resolution, best_video.profile)
 
     # NOTE: get() can only be used if and only if one object matches your criteria.
     # for example:
